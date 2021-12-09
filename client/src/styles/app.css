@@ -1,0 +1,62 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	font-size: calc(10px + (20 - 10) * ((100vw - 300px) / (2560 - 320)));
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+    background-color: #161616;
+}
+
+.home-page {	
+    min-height: 100vh;
+    background-color: #282828;
+    margin: -4rem auto -4rem auto;
+    padding-top: 4rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.portfolio-page {
+    display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	background-color: #282828;
+	min-height: 100vh;
+}
+
+.browse-page {
+    min-height: 100vh;
+    background-color: #161616;
+    margin: -4rem auto -4rem auto;
+    padding-top: 4rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;;
+}
+
+.detail-page {
+    min-height: 100vh;
+    background-color: #161616;
+    margin: -4rem auto -4rem auto;
+    padding-top: 4rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}

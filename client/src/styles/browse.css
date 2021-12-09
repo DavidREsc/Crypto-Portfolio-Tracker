@@ -1,0 +1,71 @@
+table {
+    width: 70%;
+    border-collapse: collapse;
+    margin: auto;
+}
+
+th {
+    background-color: #101010;
+    color: orange;
+    padding: 0.4rem 0.4rem 0.4rem 1rem;
+    font-size: 1rem;
+    text-align: left;
+    cursor: auto;
+}
+
+td {
+    text-align: left;
+    padding: 1rem;
+    font-size: 0.9rem;
+    max-height: 2rem;
+    border-top: 1px solid black;
+    font-family: 'Lucida Sans';
+    font-size: 0.8rem;    
+}
+
+.coin-price-header {
+    text-align: right;
+}
+
+.coin-price {
+    text-align: right;
+}
+
+tr:hover {
+    background-color: black;
+    cursor: pointer;
+}
+
+
+.coin-list {
+    width: 100%;
+    overflow: auto;
+    margin-top: 12%;  
+    margin-bottom: 1%; 
+}
+
+.coin-img {
+    width: 1rem;
+    margin-right: 1rem;
+}
+
+.load-more-btn-div {
+    display: flex;
+    justify-content: center;
+}
+
+.back-to-top-btn-div {
+    display: flex;
+    justify-content: right;
+    width: 75%;
+}
+
+.load-more-btn {
+    margin-bottom: 1%;
+    cursor: pointer
+}
+
+.back-to-top-btn {
+    margin-bottom: 5%;
+    cursor: pointer;
+}
