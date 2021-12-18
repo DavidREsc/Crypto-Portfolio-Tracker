@@ -31,7 +31,7 @@ app.get('/api/v1/browse/:page', (req, res) => {
      });
 })
 
-app.get('/api/v1/browse/details/:id', (req, res) => {
+app.get('/api/v1/browse/price-details/:id', (req, res) => {
     const id = req.params.id;
     fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=cad&days=1`)
      .then(response => response.json())
@@ -44,8 +44,25 @@ app.get('/api/v1/browse/details/:id', (req, res) => {
      })
      .catch((err) => {
           console.log(err);
-          res.end("Error Loading Coins");
-     });
+          res.end("Error Loading Coin Prices");
+     });   
+})
+
+app.get('/api/v1/browse/coin-details/:id', (req, res) => {
+    const id = req.params.id;
+    fetch(`https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`)
+     .then(response => response.json())
+     .then((data) => {
+         res.status(200).json({
+             status: "success",
+             results: data.length,
+             data
+         });
+     })
+     .catch((err) => {
+          console.log(err);
+          res.end("Error Loading Coin Details");
+     });   
 })
 
 app.listen(PORT, () => {

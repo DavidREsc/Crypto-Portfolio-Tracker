@@ -1,5 +1,5 @@
 table {
-    width: 70%;
+    width: 75%;
     border-collapse: collapse;
     margin: auto;
 }
@@ -47,6 +47,11 @@ tr:hover {
 .coin-img {
     width: 1rem;
     margin-right: 1rem;
+}
+
+.coin-name {
+    width: 30%;
+    
 }
 
 .load-more-btn-div {

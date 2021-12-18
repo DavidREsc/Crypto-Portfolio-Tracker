@@ -2,22 +2,27 @@ import React, { useEffect, useState } from 'react';
 import BrowseCoins from '../apis/BrowseCoins';
 import { useParams } from 'react-router-dom';
 import Chart from '../components/coindetails/Chart';
+import Titles from '../components/coindetails/Titles';
 import '../styles/coindetails.css';
 
 
 const CoinDetails = () => {
 
     const {id} = useParams();
-    const [price, setPrice] = useState([]);
+    const [intervalPrices, setIntervalPrices] = useState([]);
     const [time, setTime] = useState([]);
+    const [coinDetails, setCoinDetails] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await BrowseCoins.get(`/details/${id}`);
-                const priceData = response.data.data.prices.map(el => el[1]);
-                const timeData = response.data.data.prices.map(el => el[0]);
-                setPrice(priceData);
+                const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
+                setCoinDetails(coinDetails.data.data);
+
+                const priceDetails = await BrowseCoins.get(`/price-details/${id}`);
+                const priceData = priceDetails.data.data.prices.map(el => el[1]);
+                const timeData = priceDetails.data.data.prices.map(el => el[0]);
+                setIntervalPrices(priceData);
                 setTime(timeData);
             } catch (err) {
                 console.log(err);
@@ -28,9 +33,8 @@ const CoinDetails = () => {
 
     return (
         <div className='detail-page'>
-            <div>
-                <Chart price={price} time={time}/>
-            </div>
+            <Titles coinDetails={coinDetails}/>
+            <Chart price={intervalPrices} time={time}/>
         </div>
     )
 }

@@ -1,6 +1,9 @@
-.chart-container {
+.chart-container {   
     position: relative;
-    margin: auto;
     height: 50vh;
     width: 90vw;
 }
+
+.titles {
+}
+
