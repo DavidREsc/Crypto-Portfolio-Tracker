@@ -5,7 +5,6 @@ import '../../styles/browse.css';
 const CoinList = (props) => {
 
     const {coins, onClick} = props;
-    console.log(coins)
 
     return (
         <div className='coin-list'>
@@ -21,6 +20,11 @@ const CoinList = (props) => {
                 </thead>
                 <tbody>
                     {coins && coins.map(coin => {
+                        let price = coin.current_price;
+                        if (price > 1 ) price = price.toLocaleString();
+                        else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
+                        else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
+
                         return (
                             <tr onClick={() => onClick(coin.id)} key={coin.market_cap_rank}>
                                 <td>{coin.market_cap_rank}</td>
@@ -30,7 +34,7 @@ const CoinList = (props) => {
                                     {Math.abs(coin.price_change_percentage_24h).toFixed(2) + "%"}
                                 </td>
                                 <td className='coin-price' style={coin.price_change_percentage_24h < 0 ? {color:'red'} : {color:'green'}}>
-                                    {"$" + coin.current_price.toFixed(2)}
+                                    {'$' + price}
                                 </td>
                             </tr>
                         )

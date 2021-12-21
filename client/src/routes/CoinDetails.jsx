@@ -19,7 +19,7 @@ const CoinDetails = () => {
                 const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
                 setCoinDetails(coinDetails.data.data);
 
-                const priceDetails = await BrowseCoins.get(`/price-details/${id}`);
+                const priceDetails = await BrowseCoins.get(`/price-details/${id}/1`);
                 const priceData = priceDetails.data.data.prices.map(el => el[1]);
                 const timeData = priceDetails.data.data.prices.map(el => el[0]);
                 setIntervalPrices(priceData);
@@ -35,6 +35,7 @@ const CoinDetails = () => {
         <div className='detail-page'>
             <Titles coinDetails={coinDetails}/>
             <Chart price={intervalPrices} time={time}/>
+
         </div>
     )
 }

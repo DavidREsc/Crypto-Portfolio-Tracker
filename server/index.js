@@ -31,9 +31,10 @@ app.get('/api/v1/browse/:page', (req, res) => {
      });
 })
 
-app.get('/api/v1/browse/price-details/:id', (req, res) => {
+app.get('/api/v1/browse/price-details/:id/:days', (req, res) => {
     const id = req.params.id;
-    fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=cad&days=1`)
+    const days = req.params.days;
+    fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=cad&days=${days}`)
      .then(response => response.json())
      .then((data) => {
          res.status(200).json({

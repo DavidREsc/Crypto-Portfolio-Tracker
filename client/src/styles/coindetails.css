@@ -2,8 +2,23 @@
     position: relative;
     height: 50vh;
     width: 90vw;
+    margin-bottom: 5%;
 }
 
-.titles {
+.name-symbol {
+    display: flex;
+    margin-bottom: 5%;
+    margin-top: 10%;
+    justify-content: center;
+    width: 100vw;
 }
+
+.price-percentage {
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+    margin-bottom: 5%;
+
+}
+
 

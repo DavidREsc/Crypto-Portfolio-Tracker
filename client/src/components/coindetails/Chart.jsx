@@ -21,7 +21,7 @@ const Chart = (props) => {
         let d = new Date(el);
         return d.toLocaleTimeString(navigator.language, {
             hour: '2-digit',
-            minute: '2-digit'
+            minute: '2-digit',
         })
     });
 
@@ -41,6 +41,14 @@ const Chart = (props) => {
       
       const options = {  
           maintainAspectRatio: false,
+          scales: {
+            xAxes: {
+              ticks: {
+                autoskip: true,
+                maxTicksLimit: 20
+              }
+            }
+          },
           animation: {
             onComplete: () => {
               delayed = true;
@@ -62,6 +70,7 @@ const Chart = (props) => {
 
     return (
         <div className='chart-container'>
+            <button>30</button>
             <Line data={data} options={options}/>
         </div>
     )
