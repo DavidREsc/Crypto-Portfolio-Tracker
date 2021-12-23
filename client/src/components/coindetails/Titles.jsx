@@ -2,14 +2,7 @@ import React from 'react'
 
 const Titles = (props) => {
 
-   const {coinDetails} = props; 
-   let price;
-   if (coinDetails.length !== 0) {
-       price = coinDetails.market_data.current_price.cad;
-       if (price > 1 ) price = price.toLocaleString();
-       else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
-       else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
-   }
+   const {price, coinDetails} = props; 
 
     return (
         coinDetails.length !== 0 &&  
