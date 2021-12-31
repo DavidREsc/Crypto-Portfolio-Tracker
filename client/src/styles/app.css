@@ -16,12 +16,12 @@ body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-    background-color: #161616;
+    background-color: #101522
 }
 
 .home-page {	
     min-height: 100vh;
-    background-color: #282828;
+    background-color: #101522;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
     color: white;
@@ -35,13 +35,13 @@ body {
 	flex-flow: row wrap;
 	justify-content: center;
 	align-items: center;
-	background-color: #282828;
+	background-color: #101522;
 	min-height: 100vh;
 }
 
 .browse-page {
     min-height: 100vh;
-    background-color: #161616;
+    background-color: #101522;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
     color: white;
@@ -53,12 +53,12 @@ body {
 
 .detail-page {
     min-height: 100vh;
-    background-color: #161616;
+    background-color: #101522;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
     color: white;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
+    flex-direction: column;
 }

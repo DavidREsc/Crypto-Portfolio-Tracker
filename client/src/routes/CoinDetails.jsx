@@ -68,14 +68,16 @@ const CoinDetails = () => {
     return (
         <div className='detail-page'>
             <Titles price={currentPrice} coinDetails={coinDetails}/>
-            <Chart price={intervalPrices} time={time} changeInterval={handleIntervalChange}/>
-            <Details price={currentPrice}
+            <div className='details'>
+              <Chart price={intervalPrices} time={time} changeInterval={handleIntervalChange}/>
+              <Details price={currentPrice}
                      ath={ath} atl={atl}
                      marketCap={marketCap}
                      totalVolume={totalVolume}
                      availableSupply={availableSupply}
                      totalSupply={totalSupply}
                      coinDetails={coinDetails}/>
+            </div>
         </div>
     )
 }

@@ -1,16 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react';
 import '../../styles/header.css';
+import { NavIcon, NavContainer, MobileIcon, NavLinks, NavLogoContainer, NavLogo } from '../../styles/Header.styled';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const NavBar = () => {
+
+    const [click, setClick] = useState(false);
+
+    const handleClick = () => {
+        setClick(!click);
+    }
+
     return (
-        <div className='navbar'>
-            <Link className='link' to='/'>Home</Link>
-            <Link className='link' to='/portfolio'>Portfolio</Link>
-            <Link className='link' to='/browse'>Browse</Link>
-            |
-            <Link className='source-btn' to='/source'>Source</Link>
-        </div>
+        <>   
+            <NavLogoContainer to='/'>
+                <NavLogo/>
+                CRYPORT
+            </NavLogoContainer>
+            <MobileIcon onClick={handleClick}>
+                {click ? <FaTimes/> : <FaBars/>}
+            </MobileIcon>
+            <NavContainer onClick={handleClick} click={click}>         
+                <NavLinks  to='/'>Home</NavLinks>
+                <NavLinks  to='/portfolio'>Portfolio</NavLinks>
+                <NavLinks  to='/browse'>Browse</NavLinks>
+                <NavIcon >|</NavIcon>       
+                <NavLinks to='/source'>Source</NavLinks>        
+            </NavContainer>        
+        </>
     )
 }
 

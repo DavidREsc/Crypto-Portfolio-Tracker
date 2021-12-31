@@ -1,19 +1,24 @@
 .chart-container {   
     position: relative;
     height: 50vh;
-    width: 100vw;
+    width: 50vw;
     margin-bottom: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.titles {
+    margin-top: 8%;
 }
 
 .name-symbol {
     display: flex;
-    margin-bottom: 5%;
-    margin-top: 10%;
     justify-content: center;
     width: 100vw;
 }
 
 .price-percentage {
+    margin-top: 1rem;
     display: flex;
     justify-content: space-around;
     width: 100vw;
@@ -21,17 +26,62 @@
 
 }
 
-.coin-details {
+.details {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
     margin-bottom: 10%;
-    margin-top: 3%;
+}
+
+.coin-details {
+    background-color: #0d121b;
+    border-radius: 30px;
 }
 
 li {
-    width: 75vw;
+    width: 25vw;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
+    padding: 1.5rem;
+}
+
+.chart-btns {
+    display: inline-block;
+    margin-bottom: 1rem;
     padding: 1rem;
 }
 
+.chart-btns > button {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+    .details {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .chart-container {
+        width: 100vw;
+    }
+
+    .coin-details {
+        margin-top: 25%;
+
+    }
+
+    li {
+        width: 100vw;
+    }
+
+    .titles {
+        margin-top: 20%;
+    }
+
+    .price-percentage { 
+        margin-top: 2rem;
+    }
+}
 

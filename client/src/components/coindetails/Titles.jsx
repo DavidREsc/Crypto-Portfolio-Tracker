@@ -1,4 +1,6 @@
 import React from 'react'
+import '../../styles/coindetails.css';
+import {VscTriangleDown} from 'react-icons/vsc';
 
 const Titles = (props) => {
 
@@ -6,7 +8,7 @@ const Titles = (props) => {
 
     return (
         coinDetails.length !== 0 &&  
-        <div>
+        <div className='titles'>
             <h1 className='name-symbol' >{coinDetails.name + " " +
                 coinDetails.symbol.toUpperCase()}
             </h1>
@@ -15,7 +17,7 @@ const Titles = (props) => {
                   {'$' + price}
               </h2>
               <h2>
-                  {" " + Math.abs(coinDetails.market_data.price_change_percentage_24h).toFixed(2) + "%"}
+                  <VscTriangleDown style={coinDetails.market_data.price_change_percentage_24h < 0 ? '' : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(coinDetails.market_data.price_change_percentage_24h).toFixed(2) + "%"}
               </h2>
             </div>
         </div>     

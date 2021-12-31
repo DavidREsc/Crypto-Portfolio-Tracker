@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../styles/browse.css';
+import {VscTriangleDown} from 'react-icons/vsc';
 
 
 const CoinList = (props) => {
@@ -31,6 +32,7 @@ const CoinList = (props) => {
                                 <td className='coin-name'><img className='coin-img' src={coin.image} alt={coin.name}></img>{coin.name}</td>
                                 <td>{coin.symbol.toUpperCase()}</td>
                                 <td style={coin.price_change_percentage_24h < 0 ? {color:'red'} : {color:'green'}}>
+                                    <VscTriangleDown className='icon' style={coin.price_change_percentage_24h < 0 ? '' : {transform: 'rotate(180deg)'}}/>
                                     {Math.abs(coin.price_change_percentage_24h).toFixed(2) + "%"}
                                 </td>
                                 <td className='coin-price' style={coin.price_change_percentage_24h < 0 ? {color:'red'} : {color:'green'}}>

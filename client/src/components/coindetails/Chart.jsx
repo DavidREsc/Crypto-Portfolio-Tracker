@@ -1,18 +1,21 @@
 import React from 'react';
+import '../../styles/coindetails.css';
 import { Line } from 'react-chartjs-2';
 import { 
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement
+    LineElement,
+    Tooltip
 } from 'chart.js';
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement);
+    LineElement,
+    Tooltip);
 
 const Chart = (props) => {
 
@@ -31,14 +34,16 @@ const Chart = (props) => {
     let delayed;
     
     const data = {
+        toolTipContent: 'yo',
         labels: timeLabels,
         datasets: [
           {
             label: 'Price',
             data: price,
             fill: false,          // Don't fill area under the line
-            borderColor: 'orange',  // Line color
-            borderWidth: 1.3
+            borderColor: 'orange', 
+            backgrounColor: "#FC9408", // Line color
+            borderWidth: 1.7
           }
         ]
       }
@@ -74,7 +79,7 @@ const Chart = (props) => {
 
     return (
         <div className='chart-container'>
-          <div>
+          <div className='chart-btns'>
             <button onClick={changeInterval} data-id='1'>24h</button>
             <button onClick={changeInterval} data-id='7'>7d</button>
             <button onClick={changeInterval} data-id='30'>30d</button>
