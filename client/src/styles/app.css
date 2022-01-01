@@ -16,7 +16,7 @@ body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-    background-color: #101522
+    background-color: #101522;
 }
 
 .home-page {	
@@ -48,7 +48,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;;
+    align-items: center;
 }
 
 .detail-page {

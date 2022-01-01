@@ -5,7 +5,7 @@ import {VscTriangleDown} from 'react-icons/vsc';
 
 const CoinList = (props) => {
 
-    const {coins, onClick} = props;
+    const {coins, onClick, limit} = props;
 
     return (
         <div className='coin-list'>
@@ -20,15 +20,15 @@ const CoinList = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {coins && coins.map(coin => {
+                    {coins && coins.filter((coin, idx) => idx < limit).map((coin,idx) => {
                         let price = coin.current_price;
                         if (price > 1 ) price = price.toLocaleString();
                         else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
                         else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
 
                         return (
-                            <tr onClick={() => onClick(coin.id)} key={coin.market_cap_rank}>
-                                <td>{coin.market_cap_rank}</td>
+                            <tr onClick={() => onClick(coin.id)} key={idx}>
+                                <td>{idx+1}</td>
                                 <td className='coin-name'><img className='coin-img' src={coin.image} alt={coin.name}></img>{coin.name}</td>
                                 <td>{coin.symbol.toUpperCase()}</td>
                                 <td style={coin.price_change_percentage_24h < 0 ? {color:'red'} : {color:'green'}}>

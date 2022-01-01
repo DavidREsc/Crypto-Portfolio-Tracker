@@ -5,7 +5,7 @@ const Details = (props) => {
     const {price, ath, atl, marketCap, totalVolume, availableSupply, totalSupply, coinDetails} = props;
 
     return (
-        coinDetails.length !== 0 &&
+        coinDetails.length !== 0 && coinDetails.market_cap_rank &&
         <ul className='coin-details'>
             <li>PRICE:<div>{'$' + price}</div></li>
             <li>ATH:<div>{'$' + ath}</div></li>

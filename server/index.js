@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 app.get('/api/v1/browse/:page', (req, res) => {
     const page = req.params.page;
 
-    fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=100&page=${page}&sparkline=false`)
+    fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=200&page=${page}&sparkline=false`)
      .then(response => response.json())
      .then((data) => {
          res.status(200).json({
@@ -29,6 +29,22 @@ app.get('/api/v1/browse/:page', (req, res) => {
           console.log(err);
           res.end("Error Loading Coins");
      });
+})
+
+app.get('/api/v1/browse', (req, res) => {
+    fetch('https://api.coingecko.com/api/v3/coins/list?include_platform=false')
+      .then(response => response.json())
+      .then((data) => {
+            res.status(200).json({
+            status: "success",
+            results: data.length,
+            data
+        });
+      })
+      .catch((err) => {
+          console.log(err);
+          res.end("Error Loading All Coins");
+      })
 })
 
 app.get('/api/v1/browse/price-details/:id/:days', (req, res) => {

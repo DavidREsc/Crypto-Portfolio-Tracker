@@ -16,7 +16,6 @@ th {
 td {
     text-align: left;
     padding: 1rem;
-    font-size: 0.9rem;
     max-height: 2rem;
     border-top: 1px solid black;
     font-family: 'Lucida Sans';
@@ -111,6 +110,16 @@ tr:hover {
     text-decoration: none;
     border: none;
     color: black;
+    cursor: pointer;
+}
+
+.coin-search-img {
+    width: 1rem;
+    margin-right: 1rem;
+}
+
+.search-results:hover {
+    background-color: #afafaf;
 }
 
 @media screen and (max-width: 960px) {
@@ -118,5 +127,9 @@ tr:hover {
         top: 12%;
         left: 50%;
         transform: translate(-50%, -12%);
+    }
+
+    .table {
+        width: 100%;
     }
 }

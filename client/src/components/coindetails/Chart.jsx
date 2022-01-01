@@ -1,5 +1,7 @@
 import React from 'react';
+import 'chartjs-adapter-moment';
 import '../../styles/coindetails.css';
+import {VscTriangleDown} from 'react-icons/vsc';
 import { Line } from 'react-chartjs-2';
 import { 
     Chart as ChartJS,
@@ -7,7 +9,8 @@ import {
     LinearScale,
     PointElement,
     LineElement,
-    Tooltip
+    Tooltip,
+    TimeScale
 } from 'chart.js';
 
 ChartJS.register(
@@ -15,27 +18,17 @@ ChartJS.register(
     LinearScale,
     PointElement,
     LineElement,
+    TimeScale,
     Tooltip);
 
 const Chart = (props) => {
 
-    const {price, time, changeInterval} = props;
-    const timeLabels = time.map(el => {
-        let d = new Date(el);
-        return d.toLocaleTimeString(navigator.language, {
-            hour: '2-digit',
-            minute: '2-digit',
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit'
-        })
-    });
-
+    const {coinDetails, price, time, changeInterval, percent} = props;
     let delayed;
-    
+
     const data = {
         toolTipContent: 'yo',
-        labels: timeLabels,
+        labels: time,
         datasets: [
           {
             label: 'Price',
@@ -52,10 +45,7 @@ const Chart = (props) => {
           maintainAspectRatio: false,
           scales: {
             xAxes: {
-              ticks: {
-                autoskip: true,
-                maxTicksLimit: 15
-              }
+              type: 'time',
             }
           },
           animation: {
@@ -85,6 +75,14 @@ const Chart = (props) => {
             <button onClick={changeInterval} data-id='30'>30d</button>
             <button onClick={changeInterval} data-id='60'>60d</button>
             <button onClick={changeInterval} data-id='365'>1y</button>
+          </div>
+          <div style={percent < 0 ? {color:'red'} : {color:'green'}} className='price-percentage'>
+              <h2 style={{color:'white'}}>
+                  {'$' + coinDetails.market_data.current_price.cad}
+              </h2>
+              <h2>
+                  <VscTriangleDown style={percent < 0 ? '' : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(percent).toFixed(2) + "%"}
+              </h2>
           </div>
           <Line data={data} options={options}/>
         </div>

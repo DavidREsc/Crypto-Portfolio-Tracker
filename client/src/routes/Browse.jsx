@@ -3,35 +3,40 @@ import CoinList from '../components/browse/CoinList';
 import BrowseCoins from '../apis/BrowseCoins';
 import {useNavigate} from 'react-router';
 import SearchCoins from '../components/browse/SearchCoins';
+import { LoadingSpinner } from '../styles/Loading.styled';
 
 const Browse = () => {
 
-    const [coins, setCoins] = useState([]);
-    const [page, setPage] = useState(1);
+    const [allCoins, setAllCoins] = useState([]);
+    const [limit, setLimit] = useState(100);
     const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [loading, setLoading] = useState(true);
     let navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await BrowseCoins.get('/1');
-                setCoins(response.data.data);
+                let coins = [];
+                for (let i = 0; i < 5; i++) {
+                    const response = await BrowseCoins.get(`/${i+1}`);
+                    coins = coins.concat(response.data.data);
+                }   
+                setAllCoins(prevState => [...prevState, ...coins]); 
+                setLoading(false);
             } catch (err) {
                 console.log(err);
             }
         }
         fetchData();
+        return () => {
+            setAllCoins({});
+            setLoading({});
+        };
     },[]);
 
-    const handleLoadMore = async () => {
-        try {
-            const response = await BrowseCoins.get(`/${page + 1}`);
-            setCoins(prevState => [...prevState, ...response.data.data]);
-            setPage(prevState => prevState + 1);
-        } catch (err) {
-            console.log(err);
-        }
+    const handleLoadMore = () => {
+        setLimit(prevState => prevState + 100);
     }
 
     const handleCoinSelect = (id) => {
@@ -45,17 +50,22 @@ const Browse = () => {
             setSearchResults([]);
             return;
         }
-        const search = coins.filter(coin => coin.id.startsWith(value.toLowerCase()));
+        const search = allCoins.filter(coin => {
+            return coin.name.toLowerCase().startsWith(value.toLowerCase()) || coin.symbol.toLowerCase().startsWith(value.toLowerCase());
+        })
         setSearchResults(search);
     }
 
     return (
-        coins && coins.length !== 0 &&
-        <div className='browse-page'>   
-              <SearchCoins handleSearch={handleSearch} value={searchInput} searchResults={searchResults}/>   
-              <CoinList onClick={handleCoinSelect} coins={coins}/>
+        <div className='browse-page'>  
+            {loading ? <LoadingSpinner /> : 
+              <>
+              <SearchCoins onClick={handleCoinSelect}handleSearch={handleSearch} value={searchInput} searchResults={searchResults}/>   
+              <CoinList onClick={handleCoinSelect} coins={allCoins} limit={limit}/>
               <div className='load-more-btn-div'><button onClick={handleLoadMore} className='load-more-btn'>Load More</button></div>
               <div className='back-to-top-btn-div'><button onClick={() => window.location.reload()} className='back-to-top-btn'>Back to Top</button></div>
+              </>
+            }
         </div>
     )
 }

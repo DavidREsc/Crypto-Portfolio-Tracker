@@ -10,7 +10,6 @@ export const NavLogoContainer = styled(Link)`
     font-size: 1.6rem;
     display: flex;
     align-items: center;
-    margin-top: 0.8rem;
 `
 
 export const NavLogo = styled(AiOutlineApartment)`
@@ -20,7 +19,6 @@ export const NavLogo = styled(AiOutlineApartment)`
 
 export const NavContainer = styled.div`
     display: flex;
-	margin-top: 1.3rem;
 	margin-right: 5%;
 	color: white;
     background-color: #101522;
@@ -31,10 +29,14 @@ export const NavContainer = styled.div`
         width: 100%;
         height: 100vh;
         position: absolute;
-        top: 2rem;
+        top: 3rem;
         left: ${({click}) => (click ? 0 : '-100%')};
         opacity: 1;
         transition: all 0.5s ease;
+
+        & body {
+            overflow: ${({click}) => (click ? 'none' : 'auto')};
+        }
     }
 `
 
@@ -57,7 +59,7 @@ export const MobileIcon = styled.div`
         position: absolute;
         top: 0;
         right: 0;
-        transform: translate(-100%, 60%);
+        transform: translate(-100%, 30%);
         font-size: 1.8rem;
         cursor: pointer;
     }
