@@ -36,7 +36,7 @@ const Chart = (props) => {
             fill: false,          // Don't fill area under the line
             borderColor: 'orange', 
             backgrounColor: "#FC9408", // Line color
-            borderWidth: 1.7
+            borderWidth: 1.5
           }
         ]
       }
@@ -46,6 +46,11 @@ const Chart = (props) => {
           scales: {
             xAxes: {
               type: 'time',
+            },
+            yAxes: {
+              ticks: {
+                display: true
+              }
             }
           },
           animation: {
@@ -62,7 +67,7 @@ const Chart = (props) => {
           },
           elements: {
             point: {
-                radius: 0
+                radius: 1.2
             },
         },
       };

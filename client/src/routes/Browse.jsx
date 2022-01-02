@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CoinList from '../components/browse/CoinList';
 import BrowseCoins from '../apis/BrowseCoins';
 import {useNavigate} from 'react-router';
@@ -12,7 +12,15 @@ const Browse = () => {
     const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(true);
+    const mountedRef = useRef(false);
     let navigate = useNavigate();
+
+    useEffect(() => {
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,18 +29,16 @@ const Browse = () => {
                 for (let i = 0; i < 5; i++) {
                     const response = await BrowseCoins.get(`/${i+1}`);
                     coins = coins.concat(response.data.data);
-                }   
-                setAllCoins(prevState => [...prevState, ...coins]); 
-                setLoading(false);
+                }  
+                if (mountedRef.current) {
+                    setAllCoins(prevState => [...prevState, ...coins]); 
+                    setLoading(false);
+                }
             } catch (err) {
                 console.log(err);
             }
         }
         fetchData();
-        return () => {
-            setAllCoins({});
-            setLoading({});
-        };
     },[]);
 
     const handleLoadMore = () => {

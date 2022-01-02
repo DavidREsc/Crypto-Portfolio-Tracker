@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import BrowseCoins from '../apis/BrowseCoins';
 import { useParams } from 'react-router-dom';
 import Chart from '../components/coindetails/Chart';
@@ -22,50 +22,58 @@ const CoinDetails = () => {
     const [availableSupply, setAvailableSupply] = useState("");
     const [totalSupply, setTotalSupply] = useState("");
     const [loading, setLoading] = useState(true);
+    const mountedRef = useRef(false);
+
+    useEffect(() => {
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
-                const priceDetails = await BrowseCoins.get(`/price-details/${id}/1`);
-
-                setCoinDetails(coinDetails.data.data);
-                setCurrentPrice(formatNumber(coinDetails.data.data.market_data.current_price.cad));
-                setAth(formatNumber(coinDetails.data.data.market_data.ath.cad));
-                setAtl(formatNumber(coinDetails.data.data.market_data.atl.cad));
-                setMarketCap(formatNumber(coinDetails.data.data.market_data.market_cap.cad))
-                setAvailableSupply(formatNumber(coinDetails.data.data.market_data.circulating_supply));
-                setTotalSupply(formatNumber(coinDetails.data.data.market_data.max_supply));
-                setTotalVolume(formatNumber(coinDetails.data.data.market_data.total_volume.cad));
-
+                const priceDetails = await BrowseCoins.get(`/price-details/${id}/1/hourly`);
                 const priceData = priceDetails.data.data.prices.map(el => el[1]);
                 const timeData = priceDetails.data.data.prices.map(el => el[0]);
-                setIntervalPrices(priceData);
-                setTime(timeData);
-                setPercent(coinDetails.data.data.market_data.price_change_percentage_24h);
-                setLoading(false);
+
+                if (mountedRef.current) {
+                    setCoinDetails(coinDetails.data.data);
+                    setCurrentPrice(formatNumber(coinDetails.data.data.market_data.current_price.cad));
+                    setAth(formatNumber(coinDetails.data.data.market_data.ath.cad));
+                    setAtl(formatNumber(coinDetails.data.data.market_data.atl.cad));
+                    setMarketCap(formatNumber(coinDetails.data.data.market_data.market_cap.cad))
+                    setAvailableSupply(formatNumber(coinDetails.data.data.market_data.circulating_supply));
+                    setTotalSupply(formatNumber(coinDetails.data.data.market_data.max_supply));
+                    setTotalVolume(formatNumber(coinDetails.data.data.market_data.total_volume.cad));
+                    setIntervalPrices(priceData);
+                    setTime(timeData);
+                    setPercent(coinDetails.data.data.market_data.price_change_percentage_24h);
+                    setLoading(false);
+                }
             } catch (err) {
                 console.log(err);
             }
         }
         fetchData();
-        return () => {
-            setCoinDetails({});
-            setCurrentPrice({});
-            setAth({});
-            setAtl({});
-            setMarketCap({});
-            setAvailableSupply({});
-            setTotalSupply({});
-            setTotalVolume({});
-            setIntervalPrices({});
-            setTime({});
-          };
     },[id])
 
     const handleIntervalChange = async (e) => {
         const days = e.target.dataset.id;
-        const priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}`);
+        let priceDetails;
+        if (days === '1') {
+            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/minutely`);
+        } else if (days === '7') {
+            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/hourly`);
+        } else if (days === '30') {
+            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/daily`);
+        } else if (days === '60') {
+            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/daily`);
+        } else if (days === '365') {
+            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/daily`);
+        }
         const priceData = priceDetails.data.data.prices.map(el => el[1]);
         const timeData = priceDetails.data.data.prices.map(el => el[0]);
         setIntervalPrices(priceData);

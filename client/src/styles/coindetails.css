@@ -86,3 +86,9 @@ li {
     }
 }
 
+@media screen and (max-height: 500px) {
+    .chart-container {
+        height: 90vh;
+    }
+}
+

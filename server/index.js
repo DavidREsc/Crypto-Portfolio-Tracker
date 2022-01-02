@@ -47,10 +47,11 @@ app.get('/api/v1/browse', (req, res) => {
       })
 })
 
-app.get('/api/v1/browse/price-details/:id/:days', (req, res) => {
+app.get('/api/v1/browse/price-details/:id/:days/:interval', (req, res) => {
     const id = req.params.id;
     const days = req.params.days;
-    fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=cad&days=${days}`)
+    const interval = req.params.interval;
+    fetch(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=cad&days=${days}&interval=${interval}`)
      .then(response => response.json())
      .then((data) => {
          res.status(200).json({

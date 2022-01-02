@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import '../../styles/header.css';
 import { NavIcon, NavContainer, MobileIcon, NavLinks, NavLogoContainer, NavLogo } from '../../styles/Header.styled';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { GlobalStyle } from '../../styles/Global.styled';
 
 const NavBar = () => {
 
@@ -13,6 +14,7 @@ const NavBar = () => {
 
     return (
         <>   
+            <GlobalStyle click={click}/>
             <NavLogoContainer to='/'>
                 <NavLogo/>
                 CRYPORT

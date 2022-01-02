@@ -33,10 +33,6 @@ export const NavContainer = styled.div`
         left: ${({click}) => (click ? 0 : '-100%')};
         opacity: 1;
         transition: all 0.5s ease;
-
-        & body {
-            overflow: ${({click}) => (click ? 'none' : 'auto')};
-        }
     }
 `
 
