@@ -7,6 +7,7 @@ const Details = (props) => {
     return (
         coinDetails.length !== 0 && coinDetails.market_cap_rank &&
         <ul className='coin-details'>
+            <h2 className='details-title'>Statistics</h2>
             <li>PRICE:<div>{'$' + price}</div></li>
             <li>ATH:<div>{'$' + ath}</div></li>
             <li>ATL:<div>{'$' + atl}</div></li>

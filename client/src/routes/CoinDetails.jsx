@@ -35,7 +35,7 @@ const CoinDetails = () => {
         const fetchData = async () => {
             try {
                 const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
-                const priceDetails = await BrowseCoins.get(`/price-details/${id}/1/hourly`);
+                const priceDetails = await BrowseCoins.get(`/price-details/${id}/1/minutely`);
                 const priceData = priceDetails.data.data.prices.map(el => el[1]);
                 const timeData = priceDetails.data.data.prices.map(el => el[0]);
 
@@ -82,7 +82,6 @@ const CoinDetails = () => {
     }
 
     const changePercentChange = (days) => {
-        console.log(days);
         if (days === '1') {
             setPercent(coinDetails.market_data.price_change_percentage_24h);
         } else if (days === '7') {
@@ -112,7 +111,13 @@ const CoinDetails = () => {
               <>
               <Titles price={currentPrice} coinDetails={coinDetails}/>
               <div className='details'>
-                <Chart coinDetails={coinDetails} price={intervalPrices} time={time} changeInterval={handleIntervalChange} percent={percent}/>
+                <Chart coinDetails={coinDetails}
+                       price={intervalPrices}
+                       currentPrice={currentPrice} 
+                       time={time}
+                       changeInterval={handleIntervalChange}
+                       percent={percent}
+                />
                 <Details price={currentPrice}
                      ath={ath} atl={atl}
                      marketCap={marketCap}

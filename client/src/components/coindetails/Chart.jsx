@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import 'chartjs-adapter-moment';
 import '../../styles/coindetails.css';
 import {VscTriangleDown} from 'react-icons/vsc';
@@ -23,8 +23,19 @@ ChartJS.register(
 
 const Chart = (props) => {
 
-    const {coinDetails, price, time, changeInterval, percent} = props;
+    const {price, currentPrice, time, changeInterval, percent} = props;
+    const prevBtn = useRef();
     let delayed;
+
+    useEffect(() => {
+      prevBtn.current.className = 'chart-btn-active'
+    })
+
+    const handleIntervalChange = (e) => {
+      prevBtn.current.className = 'chart-btn-inactive'
+      prevBtn.current = e.target;
+      changeInterval(e);
+    }
 
     const data = {
         toolTipContent: 'yo',
@@ -60,7 +71,7 @@ const Chart = (props) => {
             delay: (context) => {
               let delay = 0;
               if (context.type === 'data' && context.mode === 'default' && !delayed) {
-                delay = context.dataIndex * 1 + context.datasetIndex * 100;
+                delay = context.dataIndex * 3 + context.datasetIndex * 100;
               }
               return delay;
             },
@@ -75,15 +86,15 @@ const Chart = (props) => {
     return (
         <div className='chart-container'>
           <div className='chart-btns'>
-            <button onClick={changeInterval} data-id='1'>24h</button>
-            <button onClick={changeInterval} data-id='7'>7d</button>
-            <button onClick={changeInterval} data-id='30'>30d</button>
-            <button onClick={changeInterval} data-id='60'>60d</button>
-            <button onClick={changeInterval} data-id='365'>1y</button>
+            <button ref={prevBtn} onClick={handleIntervalChange} data-id='1'>24h</button>
+            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='7'>7d</button>
+            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='30'>30d</button>
+            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='60'>60d</button>
+            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='365'>1y</button>
           </div>
           <div style={percent < 0 ? {color:'red'} : {color:'green'}} className='price-percentage'>
               <h2 style={{color:'white'}}>
-                  {'$' + coinDetails.market_data.current_price.cad}
+                  {'$' + currentPrice}
               </h2>
               <h2>
                   <VscTriangleDown style={percent < 0 ? '' : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(percent).toFixed(2) + "%"}

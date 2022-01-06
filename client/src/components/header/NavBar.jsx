@@ -17,7 +17,7 @@ const NavBar = () => {
             <GlobalStyle click={click}/>
             <NavLogoContainer to='/'>
                 <NavLogo/>
-                CRYPORT
+                CRYPTO MANAGER
             </NavLogoContainer>
             <MobileIcon onClick={handleClick}>
                 {click ? <FaTimes/> : <FaBars/>}

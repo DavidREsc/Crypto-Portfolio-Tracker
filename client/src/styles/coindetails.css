@@ -7,8 +7,7 @@
 }
 
 .titles {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 6%;
 }
 
 .name-symbol {
@@ -44,18 +43,38 @@ li {
 }
 
 .chart-btns {
-    display: inline-block;
     margin-bottom: 1rem;
 }
 
-.chart-btns > button {
-    padding: 0.5rem;
+.chart-btn-inactive {
+    padding: 0.7rem;
     cursor: pointer;
+    background: none;
+    color: white;
+    border: 1px solid white;
+    margin-left: 0.5rem;
+}
+
+.chart-btn-active {
+    padding: 0.7rem;
+    cursor: pointer;
+    background: none;
+    color: white;
+    border: 1px solid white;
+    background-color: #3d3939;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .coin-title-img {
     width: 2.2rem;
     margin-left: 0.7rem;
+}
+
+.details-title {
+    padding: 1rem;
+    border-bottom: 1px solid white;
+    margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 960px) {
@@ -69,7 +88,7 @@ li {
     }
 
     .coin-details {
-        margin-top: 25%;
+        margin-top: 32%;
 
     }
 
