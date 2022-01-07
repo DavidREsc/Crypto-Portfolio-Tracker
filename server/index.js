@@ -16,7 +16,6 @@ app.use('/api/v1/browse', require('./routes/browse'));
 //Auth routes
 app.use('/api/v1/auth', require('./routes/auth'));
 
-
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 })
