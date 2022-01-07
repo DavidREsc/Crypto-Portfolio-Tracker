@@ -1,5 +1,4 @@
 import React from 'react'
-import '../../styles/authenticate.css'
 
 const Signup = (props) => {
 
@@ -22,6 +21,7 @@ const Signup = (props) => {
 		      Sign Up
 		    </button>
 		  </div>
+		  <div className='input-container'>
 		  <label className='authenticate-label'>
 		    Email
 		    <input
@@ -33,17 +33,8 @@ const Signup = (props) => {
 		      value={inputs.email}
 		    />
 		  </label>
-		  <label className='authenticate-label'>
-		    Username
-		    <input
-		      className='authenticate-input'
-		      autoComplete='off'
-		      type='text'
-		      name='username'
-		      onChange={onChange}
-		      value={inputs.username}
-		    />
-		  </label>
+		  </div>
+		  <div className='input-container'>
 		  <label className='authenticate-label'>
 		    Password
 		    <input
@@ -55,6 +46,8 @@ const Signup = (props) => {
 		      value={inputs.password}
 		    />
 		  </label>
+		  </div>
+		  <div className='input-container'>
 		  <label className='authenticate-label'>
 		    Confirm Password
 		    <input
@@ -66,6 +59,7 @@ const Signup = (props) => {
 		      value={inputs.confirmPassword}
 		    />
 		  </label>
+		  </div>
 		  <input className='authenticate-btn' type='submit' value='Register'/>
 		</form>
     )

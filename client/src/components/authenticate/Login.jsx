@@ -21,8 +21,9 @@ const Login = (props) => {
 		      Sign Up
 		    </button>
 		  </div>
+		  <div className='input-container'>
 		  <label className='authenticate-label'>
-		    Username / Email
+		    Email
 		    <input 
 		      className='authenticate-input'
 		      autoComplete='off'
@@ -32,6 +33,8 @@ const Login = (props) => {
 		      onChange={onChange}
 		    />
 		  </label>
+		  </div>
+		  <div className='input-container'>
 		  <label className='authenticate-label'>
 		    Password
 		    <input 
@@ -43,6 +46,7 @@ const Login = (props) => {
 		      onChange={onChange}
 		    />
 		  </label>
+		  </div>
 		  <div className='remember-me-div'>
 		    <label className='remember-me-label'>
 		      <input

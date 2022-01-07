@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Login from './Login';
-import Signup from './Signup';
+import Login from '../components/authenticate/Login';
+import Signup from '../components/authenticate/Signup';
+import '../styles/authenticate.css'
 
 const Authenticate = () => {
     const [form, setForm] = useState(0);
@@ -59,7 +60,7 @@ const Authenticate = () => {
 
 	return (
 
-        <div>
+        <div className='sign-in-page'>
 		  {form ?
 		    <Signup
 		      changeForm={handleChangeForm}

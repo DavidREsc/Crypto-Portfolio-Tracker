@@ -25,7 +25,7 @@ const Browse = () => {
             try {
                 let coins = [];
                 for (let i = 0; i < 5; i++) {
-                    const response = await BrowseCoins.get(`/${i+1}`);
+                    const response = await BrowseCoins.get(`/coinlist/${i+1}`);
                     coins = coins.concat(response.data.data);
                 }  
                if (mountedRef.current) {
@@ -33,7 +33,7 @@ const Browse = () => {
                     setLoading(false);
                 }
             } catch (err) {
-                console.log(err);
+                console.log(err, 'yo');
             }
         }
         fetchData();

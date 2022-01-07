@@ -35,7 +35,7 @@ const CoinDetails = () => {
         const fetchData = async () => {
             try {
                 const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
-                const priceDetails = await BrowseCoins.get(`/price-details/${id}/1/minutely`);
+                const priceDetails = await BrowseCoins.get(`/market-details/${id}/1/minutely`);
                 const priceData = priceDetails.data.data.prices.map(el => el[1]);
                 const timeData = priceDetails.data.data.prices.map(el => el[0]);
 
@@ -64,15 +64,15 @@ const CoinDetails = () => {
         const days = e.target.dataset.id;
         let priceDetails;
         if (days === '1') {
-            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/minutely`);
+            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/minutely`);
         } else if (days === '7') {
-            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/hourly`);
+            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/hourly`);
         } else if (days === '30') {
-            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/daily`);
+            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/daily`);
         } else if (days === '60') {
-            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/daily`);
+            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/daily`);
         } else if (days === '365') {
-            priceDetails = await BrowseCoins.get(`/price-details/${id}/${days}/daily`);
+            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/daily`);
         }
         const priceData = priceDetails.data.data.prices.map(el => el[1]);
         const timeData = priceDetails.data.data.prices.map(el => el[0]);

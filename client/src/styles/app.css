@@ -30,6 +30,15 @@ body {
     align-items: center;
 }
 
+.sign-in-page {
+    display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	background-color: #101522;
+	min-height: 100vh;
+}
+
 .portfolio-page {
     display: flex;
 	flex-flow: row wrap;
