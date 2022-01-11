@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import Login from '../components/authenticate/Login';
 import Signup from '../components/authenticate/Signup';
+import { useAuth } from '../contexts/AuthContext';
 import '../styles/authenticate.css'
 
 const Authenticate = () => {
+
+	const {login, signup} = useAuth();
     const [form, setForm] = useState(0);
     const [remember, setRemember] = useState(false);
     const [loginInfo, setLoginInfo] = useState({
-    	username: "",
+    	email: "",
         password: "",
     });
     const [signupInfo, setSignupInfo] = useState({
     	email: "",
-    	username: "",
     	password: "",
     	confirmPassword: ""
     })
@@ -32,7 +34,7 @@ const Authenticate = () => {
 		} else {
 			const value = e.target.value;
 			setLoginInfo(prevInfo => ({
-			    ...loginInfo,
+			    ...prevInfo,
 			    [key]: value
 		    }));
 		}
@@ -43,19 +45,19 @@ const Authenticate = () => {
 		const value = e.target.value;
 
 		setSignupInfo(prevInfo => ({
-			...signupInfo,
+			...prevInfo,
 			[key]: value
 		}));
 	}
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		console.log("Login submitted");
+		login();
 	}
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
-		console.log("Signup submitted");
+		signup(signupInfo);
 	}
 
 	return (

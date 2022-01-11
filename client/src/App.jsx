@@ -1,24 +1,28 @@
 import React from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Home from './routes/Home';
 import Portfolio from './routes/Portfolio';
 import Browse from './routes/Browse';
 import CoinDetails from './routes/CoinDetails';
 import Header from './components/header/Header';
 import Authenticate from "./routes/Authenticate";
+import PrivateRoute from "./components/PrivateRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 import './styles/app.css';
 
 const App = () => {
     return (
         <Router>
             <Header />
-            <Routes>
-                <Route path='/' element={<Home/>}/>
-                <Route path='/sign-in' element={<Authenticate/>}/>
-                <Route path='/Portfolio' element={<Portfolio/>}/>
-                <Route path='/Browse' element={<Browse/>}/>
-                <Route path='/Browse/:id' element={<CoinDetails/>}/>
-            </Routes>
+            <AuthProvider>
+                <Switch>
+                    <Route exact path='/' component={Home}/>
+                    <Route path='/sign-in' component={Authenticate}/>
+                    <PrivateRoute path='/portfolio' component={Portfolio}/>
+                    <Route exact path='/browse' component={Browse}/>
+                    <Route path='/browse/:id' component={CoinDetails}/>
+                </Switch>
+            </AuthProvider>
         </Router>
     )
 }

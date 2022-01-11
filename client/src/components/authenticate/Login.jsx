@@ -28,8 +28,8 @@ const Login = (props) => {
 		      className='authenticate-input'
 		      autoComplete='off'
 		      type='text'
-		      name='username'
-		      value={inputs.username}
+		      name='email'
+		      value={inputs.email}
 		      onChange={onChange}
 		    />
 		  </label>

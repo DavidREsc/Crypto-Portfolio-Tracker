@@ -11,11 +11,13 @@ router.post('/register',
     async (req, res) => {
 
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({errors: errors.mapped()});
+    if (!errors.isEmpty()) {
+        res.status(422).json({errors: errors.array()});
+        return;
+    }
 
     try {
         const {email, password} = req.body;
-        console.log(password);
 
         //Check if email is already in use
         const user = await db.query('SELECT * FROM users WHERE user_email = $1', [email]);
