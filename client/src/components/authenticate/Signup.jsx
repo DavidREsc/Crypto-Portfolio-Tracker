@@ -2,7 +2,7 @@ import React from 'react'
 
 const Signup = (props) => {
 
-    const {changeForm, onSubmit, onChange, inputs} = props;
+    const {changeForm, onSubmit, onChange, inputs, error} = props;
 
     return (
         <form className='authenticate-form' onSubmit={onSubmit}>
@@ -20,6 +20,9 @@ const Signup = (props) => {
 		      type='button'>
 		      Sign Up
 		    </button>
+		  </div>
+		  <div className='error-div'>
+			  {error}
 		  </div>
 		  <div className='input-container'>
 		  <label className='authenticate-label'>
@@ -40,7 +43,6 @@ const Signup = (props) => {
 		    <input
 		      className='authenticate-input'
 		      type='password'
-		      minLength='8'
 		      name='password'
 		      onChange={onChange}
 		      value={inputs.password}
@@ -53,7 +55,6 @@ const Signup = (props) => {
 		    <input
 		      className='authenticate-input'
 		      type='password'
-		      minLength='8'
 		      name='confirmPassword'
 		      onChange={onChange}
 		      value={inputs.confirmPassword}

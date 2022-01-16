@@ -24,7 +24,7 @@ const Browse = () => {
         const fetchData = async () => {
             try {
                 let coins = [];
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 4; i++) {
                     const response = await BrowseCoins.get(`/coinlist/${i+1}`);
                     coins = coins.concat(response.data.data);
                 }  

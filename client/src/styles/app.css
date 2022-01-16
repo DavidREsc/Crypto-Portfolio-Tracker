@@ -42,10 +42,11 @@ body {
 .portfolio-page {
     display: flex;
 	flex-flow: row wrap;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	background-color: #101522;
 	min-height: 100vh;
+    color: white;
 }
 
 .browse-page {
@@ -70,4 +71,17 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.error-page {
+    display: flex;
+    color: white;
+}
+
+.error {
+    display: flex;
+    margin-top: 4.5rem;
+    margin-left: 2%;
+    align-items: center;;
+
 }

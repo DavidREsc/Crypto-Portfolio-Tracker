@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import Login from '../components/authenticate/Login';
 import Signup from '../components/authenticate/Signup';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,36 +9,45 @@ const Authenticate = () => {
 
 	const {login, signup} = useAuth();
     const [form, setForm] = useState(0);
-    const [remember, setRemember] = useState(false);
+	const [loginError, setLoginError] = useState("");
     const [loginInfo, setLoginInfo] = useState({
     	email: "",
         password: "",
     });
+	const [signupError, setSignupError] = useState("");
     const [signupInfo, setSignupInfo] = useState({
     	email: "",
     	password: "",
     	confirmPassword: ""
     })
+	const history = useHistory();
 
 	const handleChangeForm = () => {
 		if (!form) {
+			setLoginInfo({
+				email: "",
+				password: ""
+			});
+			setLoginError("");
 			setForm(1);
-		} else setForm(0);
+		} else {
+			setSignupInfo({
+				email: "",
+				password: "",
+				confirmPassword: ""
+			});
+			setSignupError("");
+			setForm(0);
+		}
 	}
 
 	const handleLoginInput = (e) => {
 		const key = e.target.name;
-
-		if (key === "remember") {
-			const value = e.target.checked;
-			setRemember(value);
-		} else {
-			const value = e.target.value;
-			setLoginInfo(prevInfo => ({
-			    ...prevInfo,
-			    [key]: value
-		    }));
-		}
+		const value = e.target.value;
+		setLoginInfo(prevInfo => ({
+			...prevInfo,
+			[key]: value
+		}));
 	}
 
 	const handleSignupInput = (e) => {
@@ -52,12 +62,36 @@ const Authenticate = () => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		login();
+		const response = await login(loginInfo)
+		handleLoginResponse(response);
 	}
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
-		signup(signupInfo);
+		const response = await signup(signupInfo);
+		handleSignupResponse(response);
+	}
+
+	const handleLoginResponse = (res) => {
+		if (res.status === 422 || res.status === 500) {
+			setLoginError(res.data.errors[0].msg);
+		} else if (res.status === 200) {
+			if (res.data.error) {
+				setLoginError(res.data.error);
+			}
+			else history.push('/portfolio');
+		}
+	}
+
+	const handleSignupResponse = (res) => {
+		if (res.status === 422 || res.status === 500) {
+			setSignupError(res.data.errors[0].msg);
+		} else if (res.status === 200) {
+			if (res.data.error) {
+				setSignupError(res.data.error)
+			}
+			else history.push('./portfolio');
+		}
 	}
 
 	return (
@@ -65,17 +99,18 @@ const Authenticate = () => {
         <div className='sign-in-page'>
 		  {form ?
 		    <Signup
+			  error={signupError}
 		      changeForm={handleChangeForm}
 		      onSubmit={handleSignup}
 		      onChange={handleSignupInput}
 		      inputs={signupInfo}
 		    /> :
 		    <Login 
+			  error={loginError}
 		      changeForm={handleChangeForm}
 		      onSubmit={handleLogin}
 		      onChange={handleLoginInput}
 		      inputs={loginInfo}
-		      remember={remember}
 		    />
 	      }
 		</div>

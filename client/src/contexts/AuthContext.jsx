@@ -1,6 +1,5 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import Auth from '../apis/Auth';
-import { useHistory } from 'react-router-dom';
 
 const AuthContext = React.createContext();
 
@@ -10,44 +9,66 @@ export const useAuth = () => {
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState();
-    const history = useHistory();
+    const [loading, setLoading] = useState(true)
 
-    const login = () => {
-        console.log("Login")
+    useEffect(() => {
+        const isAuthenticated = async () => {
+            try {
+                const response = await Auth.post('/verify');
+                if (response.data.error) setUser(false);
+                else setUser(true);
+            } catch (error) {
+                setUser(false);
+            }
+            setLoading(false);
+        }
+        isAuthenticated();
+    },[])
+
+    const login = async (data) => {
+        const {email, password} = data;
+
+        try {
+            const response = await Auth.post('/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                email,
+                password
+            });
+            setUser(true);
+            return response;
+        } catch (error) {
+            return error.response;          
+        }
     }
 
     const signup = async (data) => {
-        const {email, password} = data;
+        const {email, password, confirmPassword} = data;
         
         try {
             const response = await Auth.post('/register', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 email,
-                password
-            })
+                password,
+                confirmPassword
+            });
             setUser(true);
-            history.push('/portfolio');
-            console.log(response)
+            return response;
         } catch (error) {
-            console.error(error.response.data.errors[0].msg);
+            return error.response;
         }
-    }
-
-    const validateJWT = () => {
-        console.log("Validating JWT")
     }
 
     const value = {
         login,
         signup,
-        validateJWT,
         user
     }
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     )
 }

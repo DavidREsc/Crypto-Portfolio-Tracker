@@ -14,15 +14,15 @@ const App = () => {
     return (
         <Router>
             <Header />
-            <AuthProvider>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route path='/sign-in' component={Authenticate}/>
-                    <PrivateRoute path='/portfolio' component={Portfolio}/>
                     <Route exact path='/browse' component={Browse}/>
-                    <Route path='/browse/:id' component={CoinDetails}/>
+                    <Route exact path='/browse/:id' component={CoinDetails}/>
+                    <AuthProvider>
+                        <Route path='/sign-in' component={Authenticate}/>
+                        <PrivateRoute path='/portfolio' component={Portfolio}/>
+                    </AuthProvider>
                 </Switch>
-            </AuthProvider>
         </Router>
     )
 }

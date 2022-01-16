@@ -4,10 +4,10 @@
 	flex-direction: column;
 	align-items: center;
 	padding: 1rem;
-	width: 23rem;
+	width: 25rem;
 	color: white;
 	border-radius: 1rem;
-	height: 37rem;
+	height: 39rem;
 	background-color: #0d121b;
 	margin-top: 10%;
 	margin-bottom: 10%;
@@ -47,7 +47,7 @@
 
 .authenticate-titles {
 
-	margin: 1rem 0 4rem 0;
+	margin: 1rem 0 3rem 0;
 	width: 15rem
 }
 
@@ -74,7 +74,7 @@
 .remember-me-div {
 
 	align-self: start;
-	margin-left: 1.5rem;
+	margin-left: 3rem;
 	margin-bottom: 2rem;
 }
 
@@ -93,4 +93,10 @@
 
 .input-container {
 	margin-bottom: 1.5rem;
+}
+
+.error-div {
+	min-height: 2rem;
+	margin-bottom: 1.5rem;
+	color: red;
 }

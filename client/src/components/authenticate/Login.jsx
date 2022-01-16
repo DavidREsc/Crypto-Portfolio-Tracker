@@ -2,7 +2,7 @@ import React from 'react'
 
 const Login = (props) => {
 
-    const {changeForm, onSubmit, onChange, inputs, remember} = props;
+    const {changeForm, onSubmit, onChange, inputs, error} = props;
 
     return (
         <form className='authenticate-form' onSubmit={onSubmit}>
@@ -20,6 +20,9 @@ const Login = (props) => {
 		      onClick={changeForm}>
 		      Sign Up
 		    </button>
+		  </div>
+		  <div className='error-div'>
+			{error}
 		  </div>
 		  <div className='input-container'>
 		  <label className='authenticate-label'>
@@ -40,24 +43,11 @@ const Login = (props) => {
 		    <input 
 		      className='authenticate-input'
 		      type='password'
-		      minLength='8'
 		      name='password'
 		      value={inputs.password}
 		      onChange={onChange}
 		    />
 		  </label>
-		  </div>
-		  <div className='remember-me-div'>
-		    <label className='remember-me-label'>
-		      <input
-		        onChange={onChange}
-		        className='remember-me-checkbox'
-		        type='checkbox'
-		        name='remember'
-		        checked={remember}
-		      />
-		      Remember me
-		    </label>
 		  </div>
 		  <input className='authenticate-btn' type='submit' value='Continue'/>
 		</form>
