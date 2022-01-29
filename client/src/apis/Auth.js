@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'api/v1/auth'
+    baseURL: '/api/v1/auth'
 });

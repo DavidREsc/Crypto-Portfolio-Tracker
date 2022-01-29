@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import '../styles/portfolio.css';
 import PortfolioRoute from '../apis/PortfolioRoute';
 import Sidebar from '../components/portfolio/Sidebar';
 import Content from '../components/portfolio/Content';
@@ -19,8 +20,10 @@ const Portfolio = () => {
 
     return (
         <div className='portfolio-page'>
-            <Sidebar/>
-            <Content/>
+            <div className='portfolio-page-content'>
+                <Sidebar/>
+                <Content/>
+            </div>
         </div>
     )
 }

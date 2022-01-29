@@ -29,7 +29,7 @@ td {
     text-align: right;
 }
 
-tr:hover {
+.browse-page tr:hover {
     background-color: #0d121b;
 }
 
@@ -60,23 +60,46 @@ tr:hover {
 .load-more-btn-div {
     display: flex;
     justify-content: center;
+    margin-bottom: 5%;
+    margin-top: 1%;
 }
 
 .back-to-top-btn-div {
     display: flex;
     justify-content: right;
     width: 75%;
+    margin-bottom: 5%;
 }
 
 .load-more-btn {
-    margin-bottom: 1%;
-    cursor: pointer
+    cursor: pointer;
+    background: none;
+    color: white;
+    border: 1px solid white;
+    padding: 0.5rem;
 }
 
 .back-to-top-btn {
-    margin-bottom: 5%;
     cursor: pointer;
+    background: none;
+    color: white;
+    border: 1px solid white;
+    padding: 0.5rem;
 }
+
+.load-more-btn:hover {
+    background: #303030;
+}
+
+.load-more-btn:active {
+    top: 10px;
+}
+
+.back-to-top-btn:hover {
+    background: #303030;
+}
+
+
 
 .icon {
     margin-right: 5px;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useHistory} from 'react-router-dom';
 import Login from '../components/authenticate/Login';
 import Signup from '../components/authenticate/Signup';
@@ -21,6 +21,13 @@ const Authenticate = () => {
     	confirmPassword: ""
     })
 	const history = useHistory();
+	const {isSignedIn} = useAuth();
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		if (isSignedIn()) history.push('/portfolio')
+		setLoading(false);
+	},[history, isSignedIn])
 
 	const handleChangeForm = () => {
 		if (!form) {
@@ -95,7 +102,7 @@ const Authenticate = () => {
 	}
 
 	return (
-
+	  !loading &&
         <div className='sign-in-page'>
 		  {form ?
 		    <Signup

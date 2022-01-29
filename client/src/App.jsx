@@ -13,16 +13,16 @@ import './styles/app.css';
 const App = () => {
     return (
         <Router>
+          <AuthProvider>
             <Header />
                 <Switch>
                     <Route exact path='/' component={Home}/>
                     <Route exact path='/browse' component={Browse}/>
                     <Route exact path='/browse/:id' component={CoinDetails}/>
-                    <AuthProvider>
-                        <Route path='/sign-in' component={Authenticate}/>
-                        <PrivateRoute path='/portfolio' component={Portfolio}/>
-                    </AuthProvider>
+                    <Route exact path='/sign-in' component={Authenticate}/>
+                    <PrivateRoute path='/portfolio' component={Portfolio}/>
                 </Switch>
+          </AuthProvider>
         </Router>
     )
 }

@@ -6,6 +6,7 @@ import Titles from '../components/coindetails/Titles';
 import Details from '../components/coindetails/Details';
 import '../styles/coindetails.css';
 import { LoadingSpinner } from '../styles/Loading.styled';
+import Error from '../components/Error';
 
 const CoinDetails = () => {
 
@@ -22,6 +23,8 @@ const CoinDetails = () => {
     const [availableSupply, setAvailableSupply] = useState("");
     const [totalSupply, setTotalSupply] = useState("");
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
     const mountedRef = useRef(false);
 
     useEffect(() => {
@@ -54,7 +57,9 @@ const CoinDetails = () => {
                     setLoading(false);
                 }
             } catch (err) {
-                console.log(err);
+                setError(true);
+                setErrorMsg(err.response.data);
+                setLoading(false);
             }
         }
         fetchData();
@@ -105,30 +110,34 @@ const CoinDetails = () => {
     }
 
     return (
-
-        <div className='detail-page'>
-            {loading ? <LoadingSpinner/> :
-              <>
-              <Titles price={currentPrice} coinDetails={coinDetails}/>
-              <div className='details'>
-                <Chart coinDetails={coinDetails}
-                       price={intervalPrices}
-                       currentPrice={currentPrice} 
-                       time={time}
-                       changeInterval={handleIntervalChange}
-                       percent={percent}
-                />
-                <Details price={currentPrice}
-                     ath={ath} atl={atl}
-                     marketCap={marketCap}
-                     totalVolume={totalVolume}
-                     availableSupply={availableSupply}
-                     totalSupply={totalSupply}
-                     coinDetails={coinDetails}/>
-              </div>
-              </>
+        <>
+            {loading ? <div className='loading-page'><LoadingSpinner/> </div> :
+                <>
+                {error ? <Error error={errorMsg}/> : 
+                <div className='detail-page'>
+                    <Titles price={currentPrice} coinDetails={coinDetails}/>
+                    <div className='details'>
+                        <Chart coinDetails={coinDetails}
+                               price={intervalPrices}
+                               currentPrice={currentPrice} 
+                               time={time}
+                               changeInterval={handleIntervalChange}
+                               percent={percent}
+                        />
+                        <Details price={currentPrice}
+                                 ath={ath} atl={atl}
+                                 marketCap={marketCap}
+                                 totalVolume={totalVolume}
+                                 availableSupply={availableSupply}
+                                 totalSupply={totalSupply}
+                                 coinDetails={coinDetails}
+                        />
+                    </div>
+                </div>
+                }
+                </>
             }
-        </div>
+        </>
     )
 }
 

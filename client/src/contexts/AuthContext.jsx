@@ -35,7 +35,7 @@ export const AuthProvider = ({children}) => {
                 email,
                 password
             });
-            setUser(true);
+            if (!response.data.error) setUser(true);
             return response;
         } catch (error) {
             return error.response;          
@@ -53,16 +53,34 @@ export const AuthProvider = ({children}) => {
                 password,
                 confirmPassword
             });
-            setUser(true);
+            if (!response.data.error) setUser(true);
             return response;
         } catch (error) {
             return error.response;
         }
     }
 
+    const logout = async () => {
+        try {
+            await Auth.get('/logout', {
+                credentials: 'include'
+            });
+            window.location.reload();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    const isSignedIn = () => {
+        if (user) return true;
+        else return false;
+    }
+
     const value = {
         login,
         signup,
+        logout,
+        isSignedIn,
         user
     }
 

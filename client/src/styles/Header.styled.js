@@ -82,3 +82,28 @@ export const NavLinks = styled(Link)`
         }
     }
 `
+
+export const NavBtn = styled.button`
+    color: rgba(255, 255, 255, 0.9);
+	background: none;
+    border: none;
+    cursor: pointer;
+	margin-right: 2rem;
+    font-size: 1rem;
+
+    &:hover {
+        text-decoration: underline;
+	    color: rgba(255, 255, 255, 1);
+    }
+
+    @media screen and (max-width: 960px) {
+        text-align: center;
+        padding:2rem;
+        width: 100%;
+        font-size: 1.5rem;
+        
+        &:hover {
+            transition: all 0.3 ease;
+        }
+    }
+`

@@ -15,7 +15,7 @@ router.get('/coin-details/:id', (req, res) => {
      })
      .catch((err) => {
          console.error(err.message);
-         res.status(503).send("Server Error");
+         res.status(503).json("Server Error. Failed to retrieve data");
      });   
 });
 
@@ -34,7 +34,7 @@ router.get('/coinlist/:page', (req, res) => {
      })
      .catch((err) => {
           console.error(err.message);
-          res.status(503).send("Server Error");
+          res.status(503).json("Server Error. Failed to retrieve data");
      });
 });
 
@@ -54,7 +54,7 @@ router.get('/market-details/:id/:days/:interval', (req, res) => {
      })
      .catch((err) => {
          console.error(err.message);
-         res.status(503).send("Server Error");
+         res.status(503).json("Server Error. Failed to retrieve data");
      });   
 });
 
