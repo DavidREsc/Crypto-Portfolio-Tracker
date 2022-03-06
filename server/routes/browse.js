@@ -20,22 +20,21 @@ router.get('/coin-details/:id', (req, res) => {
 });
 
 //Get coin list
-router.get('/coinlist/:page', (req, res) => {
+router.get('/coinlist/:page', async(req, res) => {
     const page = req.params.page;
+    try {
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=250&page=${page}&sparkline=false`)
+        const data = await response.json();
+        res.status(200).json({
+            status: "success",
+            results: data.length,
+            data
+        });
 
-    fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=250&page=${page}&sparkline=false`)
-     .then(response => response.json())
-     .then((data) => {
-         res.status(200).json({
-             status: "success",
-             results: data.length,
-             data
-         });
-     })
-     .catch((err) => {
-          console.error(err.message);
-          res.status(503).json("Server Error. Failed to retrieve data");
-     });
+    } catch (err) {
+        console.error(err.message);
+        res.status(503).json("Server Error. Failed to retrieve data");
+     };
 });
 
 //Get coin market details
