@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import Login from '../components/authenticate/Login';
 import Signup from '../components/authenticate/Signup';
 import { useAuth } from '../contexts/AuthContext';
+import PortfolioRoute from '../apis/PortfolioRoute';
 import '../styles/authenticate.css'
 
 const Authenticate = () => {
@@ -21,13 +22,13 @@ const Authenticate = () => {
     	confirmPassword: ""
     })
 	const history = useHistory();
-	const {isSignedIn} = useAuth();
 	const [loading, setLoading] = useState(true);
+	const {user} = useAuth();
 
 	useEffect(() => {
-		if (isSignedIn()) history.push('/portfolio')
+		if (user) history.push('/portfolio');
 		setLoading(false);
-	},[history, isSignedIn])
+	}, [user, history]);
 
 	const handleChangeForm = () => {
 		if (!form) {
@@ -97,12 +98,28 @@ const Authenticate = () => {
 			if (res.data.error) {
 				setSignupError(res.data.error)
 			}
-			else history.push('./portfolio');
+			else { 		
+				createDefaultPortfolio();
+				history.push('./portfolio');
+			}
+		}
+	}
+
+	const createDefaultPortfolio = async () => {
+		try {
+			const response = await PortfolioRoute.post('/create-portfolio', {
+				method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+				name: 'Main'
+			});
+			console.log(response);
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
 	return (
-	  !loading &&
+		!loading &&
         <div className='sign-in-page'>
 		  {form ?
 		    <Signup

@@ -12,18 +12,19 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const isAuthenticated = async () => {
-            try {
-                const response = await Auth.post('/verify');
-                if (response.data.error) setUser(false);
-                else setUser(true);
-            } catch (error) {
-                setUser(false);
-            }
-            setLoading(false);
-        }
         isAuthenticated();
     },[])
+
+    const isAuthenticated = async () => {
+        try {
+            const response = await Auth.post('/verify');
+            if (response.data.error) setUser(false);
+            else setUser(true);
+        } catch (error) {
+            setUser(false);
+        }
+        setLoading(false);
+    }
 
     const login = async (data) => {
         const {email, password} = data;
@@ -71,16 +72,13 @@ export const AuthProvider = ({children}) => {
         }
     }
 
-    const isSignedIn = () => {
-        if (user) return true;
-        else return false;
-    }
+ 
 
     const value = {
         login,
         signup,
         logout,
-        isSignedIn,
+        isAuthenticated,
         user
     }
 

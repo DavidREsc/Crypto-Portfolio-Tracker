@@ -19,6 +19,7 @@ td {
     border-top: 1px solid black;
     font-family: 'Lucida Sans';
     font-size: 0.8rem;    
+    border-bottom: none;
 }
 
 .coin-price-header {
@@ -98,8 +99,6 @@ td {
 .back-to-top-btn:hover {
     background: #303030;
 }
-
-
 
 .icon {
     margin-right: 5px;

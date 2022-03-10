@@ -1,6 +1,8 @@
 import React from 'react'
 
-const Content = () => {
+const Content = (props) => {
+    const {handleAddAsset} = props;
+
     return (
         <div className='portfolio-content'>
             <div className='total-asset-worth-container'>Total Worth</div>
@@ -30,7 +32,7 @@ const Content = () => {
                 </table>
             </div>
             <div className='add-asset-container'>
-                <button className='add-asset-btn'>Add Cryptocurrency</button>
+                <button onClick={handleAddAsset} className='add-asset-btn'>Add Cryptocurrency</button>
             </div>
         </div>
     )

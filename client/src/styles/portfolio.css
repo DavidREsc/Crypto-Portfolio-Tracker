@@ -1,12 +1,13 @@
 .portfolio-page-content {
     display: flex;
     width: 100%;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 18vh;
 }
 .side-bar {
     width: 20%;
     height: 50vh;
+
 }
 
 .all-portfolios-container {
@@ -44,10 +45,9 @@
 }
 
 .portfolio-content {
-    width: 50%;
+    width: 52%;
     height: 50vh;
     padding: 1rem;
-
 }
 
 .total-asset-worth-container {
@@ -69,15 +69,23 @@
     margin: auto;
 }
 
+.asset-table td {
+    font-size: 0.71rem;
+}
+
 .portfolio-page th {
     color: white;
     font-size: 0.7rem;
 }
 
+.portfolio-page tr {
+    border: none;
+}
+
 .first-td {
-    width: 20rem;
+    width: 17rem;
     max-width: 20rem;
-    min-width: 20rem;
+    min-width: 17rem;
 }
 
 .last-header {
@@ -96,5 +104,155 @@
     cursor: pointer;
 }
 
+.browse-form-container-parent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    background-color: white;
+    height: 50%;
+    padding: 2rem;
+    border-radius: 1rem;
+    height: 27rem;
+    width: 25rem;
+}
 
+.browse-form-searchbar {
+    width: 100%;
+    height: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #E9E9E9;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #E9E9E9;
+    outline-color: gray;
+}
 
+.browse-form-searchbar:hover {
+    border: 1px solid gray;
+}
+
+.browse-form-container {
+    height: 20rem;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.browse-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: -20px;
+    right: -20px; 
+    overflow: scroll;
+}
+
+.browse-form-btn {
+    width: 95%;  
+    background: none;
+    height: 2rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    z-index: 5;
+}
+
+.browse-form-btn > * {
+    pointer-events: none;
+}
+
+.browse-form-btn-div {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    font-weight: bold;
+}
+
+.browse-form-btn-div-symbol {
+    margin-left: 0.5rem;
+    font-weight: bold;
+    color: #707070;
+}
+
+.browse-form-btn:hover {
+    background-color: #E9E9E9;
+    border-radius: 0.5rem;
+}
+
+.transaction-form-container-parent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    background-color: white;
+    height: 50%;
+    padding: 2rem;
+    border-radius: 1rem;
+    height: 27rem;
+    width: 25rem;
+}
+
+.transaction-form-container{
+    height: 20rem;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    position: absolute;
+}
+
+.transaction-form {
+    height: 100%;
+    margin-top: 15%;
+    color: black;
+}
+
+.trns-form-asset-name-input {
+    width: 80%;
+    height: 3rem;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid black;
+    color: black;
+}
+
+.trns-form-asset-details-input {
+    width: 45%;
+    height: 2rem;
+    margin: auto;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid black;
+}
+
+.trns-form-details-input-container {
+    display: flex;
+    justify-content: center;
+}
+
+.trns-form-details-label-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30%;
+}
+
+.trns-form-asset-details-label {
+    margin-right: 0.4rem;
+    margin-left: 0.8rem;
+    margin-bottom: 0.5rem;
+    min-width: 45%;
+    font-weight: bold;
+}

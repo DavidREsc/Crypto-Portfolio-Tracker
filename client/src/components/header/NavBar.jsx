@@ -19,13 +19,12 @@ const NavBar = () => {
             <GlobalStyle click={click}/>
             <NavLogoContainer to='/'>
                 <NavLogo/>
-                CRYPTO MANAGER
+                Crypto Portfolio Manager
             </NavLogoContainer>
             <MobileIcon onClick={handleClick}>
                 {click ? <FaTimes/> : <FaBars/>}
             </MobileIcon>
             <NavContainer onClick={handleClick} click={click}>         
-                <NavLinks  to='/'>Home</NavLinks>
                 <NavLinks  to='/portfolio'>Portfolio</NavLinks>
                 <NavLinks  to='/browse'>Browse</NavLinks>
                 <NavIcon >|</NavIcon>       

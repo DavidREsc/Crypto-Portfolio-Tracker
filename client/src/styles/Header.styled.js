@@ -7,7 +7,7 @@ export const NavLogoContainer = styled(Link)`
     justify-self: flex-start;
     cursor: pointer;
     text-decoration: none;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
 `
