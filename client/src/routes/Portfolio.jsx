@@ -49,7 +49,6 @@ const Portfolio = () => {
                     if (mountedRef.current) {
                         setData(response.data.portfolios);
                     }
-                    else return null;
                 }
             } catch (error) {
                 console.log(error.response)
@@ -92,6 +91,7 @@ const Portfolio = () => {
         }*/
     }
 
+    // 
     const handleAddAssetSubmit = async (e) => {
         e.preventDefault();
         let value = e.target.dataset.asset;
