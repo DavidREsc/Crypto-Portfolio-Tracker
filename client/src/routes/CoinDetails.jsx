@@ -13,13 +13,11 @@ const CoinDetails = () => {
     const {id} = useParams();
     const [intervalPrices, setIntervalPrices] = useState([]);
     const [time, setTime] = useState([]);
-    const [coinDetails, setCoinDetails] = useState([]);
+    const [coinDetails, setCoinDetails] = useState();
     const [currentPrice, setCurrentPrice] = useState("");
     const [percent, setPercent] = useState();
     const [ath, setAth] = useState("");
-    const [atl, setAtl] = useState("");
     const [marketCap, setMarketCap] = useState("");
-    const [totalVolume, setTotalVolume] = useState("");
     const [availableSupply, setAvailableSupply] = useState("");
     const [totalSupply, setTotalSupply] = useState("");
     const [loading, setLoading] = useState(true);
@@ -38,27 +36,30 @@ const CoinDetails = () => {
         const fetchData = async () => {
             try {
                 const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
-                const priceDetails = await BrowseCoins.get(`/market-details/${id}/1/minutely`);
-                const priceData = priceDetails.data.data.prices.map(el => el[1]);
-                const timeData = priceDetails.data.data.prices.map(el => el[0]);
+                console.log(coinDetails)
+                const priceHistory = await BrowseCoins.get(`/price-history/${id}/24h`);
+                console.log(priceHistory)
+                const timeData = priceHistory.data.data.history.map(el => el.timestamp * 1000);
+                const priceData = priceHistory.data.data.history.map(el => el.price);
 
                 if (mountedRef.current) {
-                    setCoinDetails(coinDetails.data.data);
-                    setCurrentPrice(formatNumber(coinDetails.data.data.market_data.current_price.cad));
-                    setAth(formatNumber(coinDetails.data.data.market_data.ath.cad));
-                    setAtl(formatNumber(coinDetails.data.data.market_data.atl.cad));
-                    setMarketCap(formatNumber(coinDetails.data.data.market_data.market_cap.cad))
-                    setAvailableSupply(formatNumber(coinDetails.data.data.market_data.circulating_supply));
-                    setTotalSupply(formatNumber(coinDetails.data.data.market_data.max_supply));
-                    setTotalVolume(formatNumber(coinDetails.data.data.market_data.total_volume.cad));
+                    console.log(timeData)
+                
+                    setCoinDetails(coinDetails.data.data.coin);
+                    setCurrentPrice(formatNumber(coinDetails.data.data.coin.price));
+                    setAth(formatNumber(coinDetails.data.data.coin.allTimeHigh.price));
+                    setMarketCap(formatNumber(coinDetails.data.data.coin.marketCap))
+                    setAvailableSupply(formatNumber(coinDetails.data.data.coin.supply.circulating));
+                    setTotalSupply(formatNumber(coinDetails.data.data.coin.supply.total));
                     setIntervalPrices(priceData);
                     setTime(timeData);
-                    setPercent(coinDetails.data.data.market_data.price_change_percentage_24h);
+                    setPercent(priceHistory.data.data.change);
                     setLoading(false);
                 }
             } catch (err) {
                 setError(true);
-                setErrorMsg(err.response.data);
+                console.log(err)
+                setErrorMsg(err);
                 setLoading(false);
             }
         }
@@ -66,38 +67,16 @@ const CoinDetails = () => {
     },[id])
 
     const handleIntervalChange = async (e) => {
-        const days = e.target.dataset.id;
-        let priceDetails;
-        if (days === '1') {
-            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/minutely`);
-        } else if (days === '7') {
-            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/hourly`);
-        } else if (days === '30') {
-            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/daily`);
-        } else if (days === '60') {
-            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/daily`);
-        } else if (days === '365') {
-            priceDetails = await BrowseCoins.get(`/market-details/${id}/${days}/daily`);
-        }
-        const priceData = priceDetails.data.data.prices.map(el => el[1]);
-        const timeData = priceDetails.data.data.prices.map(el => el[0]);
+        const period = e.target.dataset.id;
+        const priceDetails = await BrowseCoins.get(`/price-history/${id}/${period}`);
+        const timeData = priceDetails.data.data.history.map(el => el.timestamp * 1000);
+        const priceData = priceDetails.data.data.history.map(el => el.price);
         setIntervalPrices(priceData);
         setTime(timeData);
-        changePercentChange(days);
     }
 
     const changePercentChange = (days) => {
-        if (days === '1') {
-            setPercent(coinDetails.market_data.price_change_percentage_24h);
-        } else if (days === '7') {
-            setPercent(coinDetails.market_data.price_change_percentage_7d);
-        } else if (days === '30') {
-            setPercent(coinDetails.market_data.price_change_percentage_30d);
-        } else if (days === '60') {
-            setPercent(coinDetails.market_data.price_change_percentage_60d);
-        } else if (days === '365') {
-            setPercent(coinDetails.market_data.price_change_percentage_1y);
-        }
+
     }
 
     const formatNumber = (price) => {
@@ -125,9 +104,8 @@ const CoinDetails = () => {
                                percent={percent}
                         />
                         <Details price={currentPrice}
-                                 ath={ath} atl={atl}
+                                 ath={ath}
                                  marketCap={marketCap}
-                                 totalVolume={totalVolume}
                                  availableSupply={availableSupply}
                                  totalSupply={totalSupply}
                                  coinDetails={coinDetails}

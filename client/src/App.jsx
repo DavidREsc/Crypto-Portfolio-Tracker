@@ -2,6 +2,7 @@ import React from "react";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Portfolio from './routes/Portfolio';
 import Browse from './routes/Browse';
+import Home from './routes/Home';
 import CoinDetails from './routes/CoinDetails';
 import Header from './components/header/Header';
 import Authenticate from "./routes/Authenticate";
@@ -14,15 +15,16 @@ const App = () => {
     return (
         <Router>
           <AuthProvider>
+          <AssetsProvider> 
             <Header />
                 <Switch>
-                    <AssetsProvider>  
+                    <Route exact path='/' component={Home}/>         
+                      <Route exact path='/sign-in' component={Authenticate}/>
+                      <Route exact path='/browse/:id' component={CoinDetails}/>            
+                      <PrivateRoute exact path='/portfolio' component={Portfolio}/>
                       <Route exact path='/browse' component={Browse}/>
-                      <Route exact path='/browse/:id' component={CoinDetails}/>
-                      <Route exact path='/sign-in' component={Authenticate}/>             
-                      <PrivateRoute path='/portfolio' component={Portfolio}/>
-                    </AssetsProvider>
                 </Switch>
+                </AssetsProvider>
           </AuthProvider>
         </Router>
     )

@@ -10,7 +10,7 @@ router.get('/', authorize, async (req, res) => {
             'WHERE users.user_id = $1', [req.user]
         );
         const assets = await db.query(
-            'SELECT portfolios.portfolio_name, assets.asset_coin_id, assets.asset_amount, assets.initial_price FROM users ' +
+            'SELECT portfolios.portfolio_id, assets.asset_coin_id, assets.asset_amount, assets.initial_price FROM users ' +
             'LEFT JOIN portfolios ON users.user_id = portfolios.user_id ' +
             'INNER JOIN assets ON portfolios.portfolio_id = assets.portfolio_id ' +
             'WHERE users.user_id = $1', [req.user]
@@ -19,7 +19,8 @@ router.get('/', authorize, async (req, res) => {
         res.status(200).json({"portfolios": portfolios.rows, "assets": assets.rows});
 
     } catch (error) {
-        console.log("error")      
+        console.log("error")  
+        res.status(500).json({"errors":[{"msg": "Server Error. Please try again later"}]});    
     }
 });
 
@@ -36,12 +37,12 @@ router.post('/create-portfolio', authorize, async (req, res) => {
     }
 });
 
-router.post('/add-asset', authorize, async (req, res) => {
-    const {coin_id, amount, portfolio_id, initial_price} = req.body;
+router.post('/add-transaction', authorize, async (req, res) => {
+    const {coin_id, quantity, portfolio_id, pricePerCoin} = req.body;
     try {
         const asset = await db.query(
             'INSERT INTO assets (portfolio_id, asset_coin_id, asset_amount, initial_price) ' +
-            'VALUES ($1, $2, $3, $4) RETURNING *', [portfolio_id, coin_id, amount, initial_price]
+            'VALUES ($1, $2, $3, $4) RETURNING *', [portfolio_id, coin_id, quantity, pricePerCoin]
         );
         res.status(200).json(asset);
     } catch (error) {

@@ -7,7 +7,7 @@ const Sidebar = (props) => {
             <div className='all-portfolios-container'>All Portfolios</div>
             <div className='portfolio-list-container'>
                 <ul className='portfolio-list'>
-                    {data.map((p, idx) => {
+                    {data.portfolios.map((p, idx) => {
                         return (
                             <li key={idx} className='portfolio-list-item'>{p.portfolio_name}</li>
                         )

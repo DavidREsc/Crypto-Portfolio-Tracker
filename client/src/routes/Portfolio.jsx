@@ -11,24 +11,26 @@ import { useAuth } from '../contexts/AuthContext';
 
 const Portfolio = () => {
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
     const [loading, setLoading] = useState(true);
     const [browseFormDisplay, setBrowseFormDisplay] = useState(false);
     const [transactionFormDisplay, setTransactionFormDisplay] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
     const {assets} = useAssets();
     const history = useHistory();
     const {isAuthenticated} = useAuth();
     const [selectedAsset, setSelectedAsset] = useState("");
+    const [currentPortfolio, setCurrentPortfolio] = useState()
+    const [error, setError] = useState(false);
 
     const dropDownRef = useRef(null);
     const transactionFormRef = useRef(null);
     const mountedRef = useRef(false);
     
     useEffect(() => {
-        document.addEventListener('mousedown', closeDropDown);
+        document.addEventListener('mousedown', unmountForm);
     });
 
+    // ref that keeps track of when component unmounts
     useEffect(() => {
         mountedRef.current = true;
         return () => {
@@ -36,30 +38,38 @@ const Portfolio = () => {
         }
     }, []);
 
+    // retrieve user portfolios and assets
     useEffect(() => {
         const retrieveData = async () => {
             try {
-                console.log(assets)
                 const response = await PortfolioRoute.get('');
+                // jwt token expired
                 if (response.data.error) {
                     isAuthenticated();
                     history.push('./sign-in');
                 }
                 else {
                     if (mountedRef.current) {
-                        setData(response.data.portfolios);
+                        setData(response.data);
+                        setCurrentPortfolio(response.data.portfolios[0]);
+                        setLoading(false)
                     }
-                    else return null;
                 }
             } catch (error) {
+                if (mountedRef.current) {
+                     setLoading(false)
+                     setError(true);
+                }
                 console.log(error.response)
             }
-            setLoading(false);
         }
+        console.log(assets)
         retrieveData();
-    },[assets, history, isAuthenticated]);
+    },[history, isAuthenticated, assets]);
 
-    const closeDropDown = (e) => {
+
+    // unmounts form when user clicks outside form element
+    const unmountForm = (e) => {
         if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
             setBrowseFormDisplay(false);
         }
@@ -68,56 +78,55 @@ const Portfolio = () => {
         }
     }
 
-    const handleSearchTerm = (e) => {
-        const val = e.target.value;
-        setSearchTerm(val);
-    }
-
     const handleAddAsset = async () => {
         setBrowseFormDisplay(true);
-
-        /*try {
-            const asset = await PortfolioRoute.post('/add-asset', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                coin_id: 'bitcoin',
-                amount: 1,
-                portfolio_id: 'cc1aa605-0782-4f65-b85f-2aabc69a4551',
-                initial_price: 52300
-            });
-            console.log(asset)
-            console.log(assets);
-        } catch (error) {
-            console.log(error);
-        }*/
     }
 
-    const handleAddAssetSubmit = async (e) => {
+    const handleSelectAssetSubmit = (e) => {
         e.preventDefault();
         let value = e.target.dataset.asset;
         setSelectedAsset(value);
         setBrowseFormDisplay(false);
-        setSearchTerm("");
         setTransactionFormDisplay(true);  
     }
 
+    const addTransaction = async (quantity, pricePerCoin) => {
+        setTransactionFormDisplay(false);
+        const assetId = assets.filter(asset => asset.name === selectedAsset)[0].uuid;
+        try {
+            const asset = await PortfolioRoute.post('/add-transaction', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                coin_id: assetId,
+                quantity: quantity,
+                portfolio_id: currentPortfolio.portfolio_id,
+                pricePerCoin: pricePerCoin
+            });
+            setData(prevState => ({
+                ...prevState,
+                assets: [...prevState.assets, asset.data.rows[0]]
+            }));
+        } catch (error) {
+            console.log(error);
+        }  
+    } 
+
     return (
         <div className='portfolio-page'>
-            {!loading && data &&
+            {!loading && !error && data &&
                 <div className='portfolio-page-content'>
                     {browseFormDisplay &&
                     <BrowseForm 
-                      handleSubmit={handleAddAssetSubmit}
-                      handleSearchTerm={handleSearchTerm}
-                      searchTerm={searchTerm}
+                      handleSubmit={handleSelectAssetSubmit}
                       reference={dropDownRef}
                     />}
                     {transactionFormDisplay &&
                     <TransactionForm style={transactionFormDisplay} reference={transactionFormRef}
                       selectedAsset={selectedAsset}
+                      addTransaction={addTransaction}
                     />}
                     <Sidebar data={data}/>
-                    <Content handleAddAsset={handleAddAsset} data={data}/>          
+                    <Content handleAddAsset={handleAddAsset} data={data.assets}/>          
                 </div>
             }
         </div>

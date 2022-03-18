@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAssets } from '../../contexts/AssetsContext';
 
 const Content = (props) => {
-    const {handleAddAsset} = props;
+    const {handleAddAsset, data} = props;
+    const [userAssets, setUserAssets] = useState();
+    const {assets} = useAssets();
+
+
+   useEffect(() => {
+        for (let  i = 0; i < data.length; i++) {
+            //console.log(data[i]);
+        }
+    },[data])
+
 
     return (
         <div className='portfolio-content'>
@@ -20,14 +31,19 @@ const Content = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className='first-td'>Bitcoinin</td>
-                            <td>$54000</td>
-                            <td>2.45%</td>
-                            <td>$25000</td>
-                            <td>$5000</td>
-                            <td className='last-td'>+ -</td>
-                        </tr>
+                        {data.map((d, idx) => {
+                            return (
+                                <tr key={idx}>
+                                  <td className='first-td'>{assets.filter(asset => asset.uuid === d.asset_coin_id)[0].name}</td>
+                                  <td>{"$" + assets.filter(asset => asset.uuid === d.asset_coin_id)[0].price}</td>
+                                  <td>{parseFloat(assets.filter(asset => asset.uuid === d.asset_coin_id)[0].change).toFixed(2) + "%"}</td>
+                                  <td>{"$" + (assets.filter(asset => asset.uuid === d.asset_coin_id)[0].price * d.asset_amount).toFixed(2)}</td>
+                                  <td>{"$" + ((assets.filter(asset => asset.uuid === d.asset_coin_id)[0].price - d.initial_price) * d.asset_amount).toFixed(2)}</td>
+                                  <td className='last-td'>+ -</td>
+                                </tr>
+                            )
+                        })
+                        }
                     </tbody>
                 </table>
             </div>

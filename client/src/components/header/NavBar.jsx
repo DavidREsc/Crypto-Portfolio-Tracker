@@ -24,7 +24,8 @@ const NavBar = () => {
             <MobileIcon onClick={handleClick}>
                 {click ? <FaTimes/> : <FaBars/>}
             </MobileIcon>
-            <NavContainer onClick={handleClick} click={click}>         
+            <NavContainer onClick={handleClick} click={click}>  
+                <NavLinks to='/'>Home</NavLinks>       
                 <NavLinks  to='/portfolio'>Portfolio</NavLinks>
                 <NavLinks  to='/browse'>Browse</NavLinks>
                 <NavIcon >|</NavIcon>       

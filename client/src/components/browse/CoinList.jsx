@@ -2,11 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/browse.css';
 import {VscTriangleDown} from 'react-icons/vsc';
+import { useAssets } from '../../contexts/AssetsContext';
 
 
 const CoinList = (props) => {
 
-    const {coins, limit} = props;
+    const {limit} = props;
+    const {assets} = useAssets();
+    console.log(assets)
 
     return (
         <div className='coin-list'>
@@ -21,22 +24,23 @@ const CoinList = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {coins && coins.filter((coin, idx) => idx < limit).map((coin,idx) => {
-                        let price = coin.current_price;
-                        if (price > 1 ) price = price.toLocaleString();
-                        else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
-                        else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
+                    {assets && assets.filter((coin, idx) => idx < limit).map((coin,idx) => {
+                        let price = parseFloat(coin.price);
+                        if (price >= 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
+                        else if (price < 1 && price >= 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
+                        else if (price < 0.0001 && price > 0.0000001) price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
+                        else price = price.toLocaleString(undefined, {minimumFractionDigits: 11})
 
                         return (
                             <tr key={idx}>
                                 <td>{idx+1}</td>
-                                <td className='coin-name'> <Link className='coin-link' to={`/browse/${coin.id}`}> <img className='coin-img' src={coin.image} alt={coin.name}></img>{coin.name}</Link></td>
+                                <td className='coin-name'> <Link className='coin-link' to={`/browse/${coin.uuid}`}> <img className='coin-img' src={coin.iconUrl} alt={coin.name}></img>{coin.name}</Link></td>
                                 <td>{coin.symbol.toUpperCase()}</td>
-                                <td style={coin.price_change_percentage_24h < 0 ? {color:'red'} : {color:'green'}}>
-                                    <VscTriangleDown className='icon' style={coin.price_change_percentage_24h < 0 ? '' : {transform: 'rotate(180deg)'}}/>
-                                    {Math.abs(coin.price_change_percentage_24h).toFixed(2) + "%"}
+                                <td style={coin.change < 0 ? {color:'red'} : {color:'green'}}>
+                                    <VscTriangleDown className='icon' style={coin.change < 0 ? '' : {transform: 'rotate(180deg)'}}/>
+                                    {Math.abs(coin.change).toFixed(2) + "%"}
                                 </td>
-                                <td className='coin-price' style={coin.price_change_percentage_24h < 0 ? {color:'red'} : {color:'green'}}>
+                                <td className='coin-price' style={coin.change < 0 ? {color:'red'} : {color:'green'}}>
                                     {'$' + price}
                                 </td>
                             </tr>

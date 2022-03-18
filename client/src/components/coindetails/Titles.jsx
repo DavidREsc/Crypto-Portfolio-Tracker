@@ -10,8 +10,8 @@ const Titles = (props) => {
         <div className='titles'>
             <h1 className='name-symbol' >
                 {coinDetails.name + " " +
-                coinDetails.symbol.toUpperCase()}
-                <img className='coin-title-img' src={coinDetails.image.small} alt={coinDetails.name}></img>
+                coinDetails.symbol}
+                <img className='coin-title-img' src={coinDetails.iconUrl} alt={coinDetails.name}></img>
             </h1>
         </div>     
     )

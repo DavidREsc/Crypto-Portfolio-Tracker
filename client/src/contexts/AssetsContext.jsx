@@ -1,7 +1,8 @@
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import BrowseCoins from '../apis/BrowseCoins';
-import { LoadingSpinner } from '../styles/Loading.styled';
 import { useAuth } from './AuthContext';
+import {useLocation} from 'react-router-dom';
+import { LoadingSpinner } from '../styles/Loading.styled';
 
 const AssetsContext = React.createContext();
 
@@ -10,10 +11,16 @@ export const useAssets = () => {
 }
 
 export const AssetsProvider = ({children}) => {
-    const [assets, setAssets] = useState();
-    const [loading, setLoading] = useState(true);
-    const {user} = useAuth();
+    const location = useLocation();
     const mountedRef = useRef(false);
+
+    const [assets, setAssets] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [route, setRoute] = useState({
+        prevLocation: location.pathname,
+        curLocation: location.pathname
+    });
+    const [fetchAssetsError, setFetchAssetsError] = useState(false);
 
     useEffect(() => {
         mountedRef.current = true;
@@ -22,39 +29,50 @@ export const AssetsProvider = ({children}) => {
         }
     }, []);
 
-    useEffect(() => {
-        const fetchAssets = async () => {
-            if (user) {
-                setLoading(true);
+    useEffect(() => {  
+
+        const fetchAssets = async () => { 
                 try {
-                    const response = await BrowseCoins.get('/coinlist/1');
+                    const response = await BrowseCoins.get('/coinlist'); 
                     if (mountedRef.current) {
-                        setAssets(response.data.data);
-                    }
-                    let coins = [];
-                    for (let i = 1; i < 4; i++) {
-                        const response = await BrowseCoins.get(`/coinlist/${i+1}`);
-                        coins = coins.concat(response.data.data);
-                    }  
-                   if (mountedRef.current) {
-                        setAssets(prevState => [...prevState, ...coins]); 
-                    }
+                        setAssets(response.data.data.coins);
+                        setLoading(false);
+                    }              
                 } catch (err) {
                     console.log(err);
+                    if (mountedRef.current) setFetchAssetsError(true);
                 }
-            }
-            setLoading(false);
         }
         fetchAssets();
-    },[user])
+    },[])
+
+    useEffect(() => {
+        if (route.prevLocation !== location.pathname) {
+          setRoute((prev) => ({
+              prevLocation: prev.curLocation,
+              curLocation: location.pathname
+          }));
+        }
+    }, [location, route])
 
     const value = {
-        assets
+        assets,
+        fetchAssetsError
+    }
+
+    const validateAssets = (data) => {
+        let vAssets = [];
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].current_price && data[i].price_change_percentage_24h) {
+                vAssets.push(data[i]);
+            } 
+        }
+        return vAssets
     }
 
     return (
         <AssetsContext.Provider value={value}>
-            {loading ? user ? <div className='loading-page'><LoadingSpinner/></div> : null : children}
+            {loading ? <div className='loading-page'><LoadingSpinner/></div> : children}
         </AssetsContext.Provider>
     )
 }

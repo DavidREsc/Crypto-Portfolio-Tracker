@@ -95,3 +95,12 @@ body {
     margin-left: 2%;
     align-items: center;;
 }
+
+*::-webkit-scrollbar {
+    width: 3px; 
+  }
+
+*::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 10px;
+}
