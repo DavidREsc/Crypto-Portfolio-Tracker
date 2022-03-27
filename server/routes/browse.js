@@ -9,7 +9,7 @@ router.get('/coin-details/:id', async (req, res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "coinranking1.p.rapidapi.com",
-                "x-rapidapi-key": "5eed0b5b41msha994856d2b904eap13dec3jsnde1e0ff8d281"
+                "x-rapidapi-key": process.env.API
             }
         });
         const data = await response.json();
@@ -37,7 +37,7 @@ router.get('/coinlist', async(req, res) => {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "coinranking1.p.rapidapi.com",
-                    "x-rapidapi-key": "7b910ec589msh082a3435543e44bp1aa879jsn787515b72551"
+                    "x-rapidapi-key": process.env.API
                 }
             }));
         }
@@ -70,7 +70,7 @@ router.get('/price-history/:id/:period/', async (req, res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "coinranking1.p.rapidapi.com",
-                "x-rapidapi-key": "5eed0b5b41msha994856d2b904eap13dec3jsnde1e0ff8d281"
+                "x-rapidapi-key": process.env.API
             }
         });
 

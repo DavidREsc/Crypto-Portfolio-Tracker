@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import 'chartjs-adapter-moment';
 import '../../styles/coindetails.css';
 import {VscTriangleDown} from 'react-icons/vsc';
@@ -23,27 +23,41 @@ ChartJS.register(
 
 const Chart = (props) => {
 
-    const {price, currentPrice, time, changeInterval, percent} = props;
-    console.log(time)
+    const {coinDetails, priceHistory, changeTimePeriod, formatNumber} = props;
     const prevBtn = useRef();
+    const [priceData, setPriceData] = useState();
+    const [timeData, setTimeData] = useState();
+    const [currentPrice, setCurrentPrice] = useState();
+    const [percent, setPercent] = useState();
     let delayed;
 
     useEffect(() => {
       prevBtn.current.className = 'chart-btn-active'
     })
 
-    const handleIntervalChange = (e) => {
+    useEffect(() => {
+      console.log(priceHistory)
+      const prices = priceHistory.history.filter(el => el.price !== null).map(el => el.price);
+      const timeStamps = priceHistory.history.filter(el => el.price !== null).map(el => el.timestamp * 1000);
+      setPriceData(prices);
+      setTimeData(timeStamps);
+      setCurrentPrice(formatNumber(coinDetails.price));
+      setPercent(priceHistory.change);
+
+    }, [priceHistory, coinDetails])
+
+    const handleChangeTimePeriod = (e) => {
       prevBtn.current.className = 'chart-btn-inactive'
       prevBtn.current = e.target;
-      changeInterval(e);
+      changeTimePeriod(e);
     }
 
     const data = {
-        labels: time,
+        labels: timeData,
         datasets: [
           {
             label: 'Price',
-            data: price,
+            data: priceData,
             fill: false,          // Don't fill area under the line
             borderColor: 'orange', 
             backgrounColor: "#FC9408", // Line color
@@ -89,19 +103,19 @@ const Chart = (props) => {
     return (
         <div className='chart-container'>
           <div className='chart-btns'>
-            <button ref={prevBtn} onClick={handleIntervalChange} data-id='24h'>24h</button>
-            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='7d'>7d</button>
-            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='30d'>30d</button>
-            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='3m'>3m</button>
-            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='1y'>1y</button>
-            <button className='chart-btn-inactive' onClick={handleIntervalChange} data-id='3y'>3y</button>
+            <button ref={prevBtn} onClick={handleChangeTimePeriod} data-id='24h'>24h</button>
+            <button className='chart-btn-inactive' onClick={handleChangeTimePeriod} data-id='7d'>7d</button>
+            <button className='chart-btn-inactive' onClick={handleChangeTimePeriod} data-id='30d'>30d</button>
+            <button className='chart-btn-inactive' onClick={handleChangeTimePeriod} data-id='3m'>3m</button>
+            <button className='chart-btn-inactive' onClick={handleChangeTimePeriod} data-id='1y'>1y</button>
+            <button className='chart-btn-inactive' onClick={handleChangeTimePeriod} data-id='3y'>3y</button>
           </div>
-          <div style={percent < 0 ? {color:'red'} : {color:'green'}} className='price-percentage'>
+          <div style={1 < 0 ? {color:'red'} : {color:'green'}} className='price-percentage'>
               <h2 style={{color:'white'}}>
                   {'$' + currentPrice}
               </h2>
               <h2>
-                  <VscTriangleDown style={percent < 0 ? '' : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(percent).toFixed(2) + "%"}
+                  <VscTriangleDown style={percent < 0 ? {color: 'red'} : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(percent).toFixed(2) + "%"}
               </h2>
           </div>
           <Line data={data} options={options}/>

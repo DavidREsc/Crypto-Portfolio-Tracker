@@ -11,15 +11,9 @@ import Error from '../components/Error';
 const CoinDetails = () => {
 
     const {id} = useParams();
-    const [intervalPrices, setIntervalPrices] = useState([]);
-    const [time, setTime] = useState([]);
     const [coinDetails, setCoinDetails] = useState();
-    const [currentPrice, setCurrentPrice] = useState("");
-    const [percent, setPercent] = useState();
-    const [ath, setAth] = useState("");
-    const [marketCap, setMarketCap] = useState("");
-    const [availableSupply, setAvailableSupply] = useState("");
-    const [totalSupply, setTotalSupply] = useState("");
+    const [priceHistory, setPriceHistory] = useState();
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
@@ -35,56 +29,38 @@ const CoinDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const coinDetails = await BrowseCoins.get(`/coin-details/${id}`);
-                console.log(coinDetails)
-                const priceHistory = await BrowseCoins.get(`/price-history/${id}/24h`);
-                console.log(priceHistory)
-                const timeData = priceHistory.data.data.history.map(el => el.timestamp * 1000);
-                const priceData = priceHistory.data.data.history.map(el => el.price);
+                const coinDetailsResponse = await BrowseCoins.get(`/coin-details/${id}`);
+                console.log(coinDetailsResponse.data.data.coin)
+                const priceHistoryResponse = await BrowseCoins.get(`/price-history/${id}/24h`);
+                console.log(priceHistoryResponse.data.data)
 
-                if (mountedRef.current) {
-                    console.log(timeData)
-                
-                    setCoinDetails(coinDetails.data.data.coin);
-                    setCurrentPrice(formatNumber(coinDetails.data.data.coin.price));
-                    setAth(formatNumber(coinDetails.data.data.coin.allTimeHigh.price));
-                    setMarketCap(formatNumber(coinDetails.data.data.coin.marketCap))
-                    setAvailableSupply(formatNumber(coinDetails.data.data.coin.supply.circulating));
-                    setTotalSupply(formatNumber(coinDetails.data.data.coin.supply.total));
-                    setIntervalPrices(priceData);
-                    setTime(timeData);
-                    setPercent(priceHistory.data.data.change);
+                if (mountedRef.current) {      
+                    setCoinDetails(coinDetailsResponse.data.data.coin);
+                    setPriceHistory(priceHistoryResponse.data.data)
                     setLoading(false);
                 }
             } catch (err) {
                 setError(true);
-                console.log(err)
-                setErrorMsg(err);
+                setErrorMsg(err.response.data);
                 setLoading(false);
             }
         }
         fetchData();
     },[id])
 
-    const handleIntervalChange = async (e) => {
+    const handleTimePeriodChange = async (e) => {
         const period = e.target.dataset.id;
-        const priceDetails = await BrowseCoins.get(`/price-history/${id}/${period}`);
-        const timeData = priceDetails.data.data.history.map(el => el.timestamp * 1000);
-        const priceData = priceDetails.data.data.history.map(el => el.price);
-        setIntervalPrices(priceData);
-        setTime(timeData);
-    }
-
-    const changePercentChange = (days) => {
-
+        const response = await BrowseCoins.get(`/price-history/${id}/${period}`);
+        setPriceHistory(response.data.data);
     }
 
     const formatNumber = (price) => {
-
+        price = parseFloat(price);
         if (price === null) price = 'Unlimited';
-        else if (price > 1 ) price = price.toLocaleString();
+        else if (price > 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
         else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
         else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
+        console.log(price)
         return price;
     }
 
@@ -94,21 +70,15 @@ const CoinDetails = () => {
                 <>
                 {error ? <Error error={errorMsg}/> : 
                 <div className='detail-page'>
-                    <Titles price={currentPrice} coinDetails={coinDetails}/>
+                    <Titles price={1} coinDetails={coinDetails}/>
                     <div className='details'>
                         <Chart coinDetails={coinDetails}
-                               price={intervalPrices}
-                               currentPrice={currentPrice} 
-                               time={time}
-                               changeInterval={handleIntervalChange}
-                               percent={percent}
+                               priceHistory={priceHistory}
+                               changeTimePeriod={handleTimePeriodChange}
+                               formatNumber={formatNumber}
                         />
-                        <Details price={currentPrice}
-                                 ath={ath}
-                                 marketCap={marketCap}
-                                 availableSupply={availableSupply}
-                                 totalSupply={totalSupply}
-                                 coinDetails={coinDetails}
+                        <Details coinDetails={coinDetails}
+                                 formatNumber={formatNumber}
                         />
                     </div>
                 </div>
