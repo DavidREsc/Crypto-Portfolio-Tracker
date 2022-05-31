@@ -10,7 +10,7 @@ router.get('/', authorize, async (req, res) => {
             'WHERE users.user_id = $1', [req.user]
         );
         const assets = await db.query(
-            'SELECT portfolios.portfolio_id, assets.asset_coin_id, assets.asset_amount, assets.initial_price FROM users ' +
+            'SELECT portfolios.portfolio_id, assets.asset_coin_id, assets.asset_amount, assets.initial_price, assets.asset_id FROM users ' +
             'LEFT JOIN portfolios ON users.user_id = portfolios.user_id ' +
             'INNER JOIN assets ON portfolios.portfolio_id = assets.portfolio_id ' +
             'WHERE users.user_id = $1', [req.user]
@@ -37,6 +37,22 @@ router.post('/create-portfolio', authorize, async (req, res) => {
     }
 });
 
+router.delete('/delete-portfolio', async (req, res) => {
+    const {portfolio_id} = req.body;
+    try {
+        const transactions = await db.query(
+            'DELETE FROM assets WHERE assets.portfolio_id = $1 RETURNING *', [portfolio_id]
+        );
+        const portfolio = await db.query(
+            'DELETE FROM portfolios WHERE portfolios.portfolio_id = $1 RETURNING *', [portfolio_id]
+        )
+        res.status(200).json({transactions, portfolio});
+    } catch (error) {
+        console.log("error");
+        
+    }
+})
+
 router.post('/add-transaction', authorize, async (req, res) => {
     const {coin_id, quantity, portfolio_id, pricePerCoin} = req.body;
     try {
@@ -49,5 +65,44 @@ router.post('/add-transaction', authorize, async (req, res) => {
         console.log(error);      
     }
 });
+
+router.delete('/delete-asset', authorize, async (req, res) => {
+    const {coin_id, portfolio_id} = req.body;
+    try {
+        const asset = await db.query(
+            'DELETE FROM assets WHERE assets.asset_coin_id = $1 AND assets.portfolio_id = $2 RETURNING *',
+            [coin_id, portfolio_id]
+        )
+        res.status(200).json(asset);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.delete('/delete-transaction', authorize, async (req, res) => {
+    const {asset_id} = req.body;
+    try {
+        const asset = await db.query(
+            'DELETE FROM assets WHERE assets.asset_id = $1 RETURNING *' ,
+            [asset_id]
+        )
+        res.status(200).json(asset);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.put('/edit-transaction', authorize, async (req, res) => {
+    const {asset_amount, initial_price, asset_id} = req.body;
+    try {
+        const transaction = await db.query(
+            'UPDATE assets SET asset_amount = $1, initial_price = $2 WHERE assets.asset_id = $3 RETURNING *',
+            [asset_amount, initial_price, asset_id]
+        )
+        res.status(200).json(transaction);    
+    } catch (error) {
+        console.log(error);       
+    }
+})
 
 module.exports = router;

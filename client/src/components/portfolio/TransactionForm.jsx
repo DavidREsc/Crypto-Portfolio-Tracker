@@ -15,7 +15,7 @@ const TransactionForm = (props) => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      addTransaction(quantity, pricePerCoin);
+      addTransaction(parseFloat(quantity), parseFloat(pricePerCoin));
     }
 
   return (
@@ -47,7 +47,7 @@ const TransactionForm = (props) => {
               onChange={(event) => setPricePerCoin(event.target.value)}>
             </input>
           </div>
-          <button type='submit'>
+          <button className='form-btn' type='submit'>
             Submit
           </button>
         </form>

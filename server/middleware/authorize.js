@@ -11,6 +11,7 @@ const authorize = (req, res, next) => {
         req.user = verify.user;
         next();        
     } catch (error) {
+        console.log("Not authorized")
         res.status(200).json({error: error.message});
     }
 } 

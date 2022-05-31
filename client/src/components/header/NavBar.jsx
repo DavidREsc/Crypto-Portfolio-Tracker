@@ -19,6 +19,7 @@ const NavBar = () => {
             <GlobalStyle click={click}/>
             <NavLogoContainer to='/'>
                 <NavLogo/>
+                Crypto Manager
     
             </NavLogoContainer>
             <MobileIcon onClick={handleClick}>

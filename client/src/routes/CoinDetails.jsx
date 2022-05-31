@@ -7,6 +7,7 @@ import Details from '../components/coindetails/Details';
 import '../styles/coindetails.css';
 import { LoadingSpinner } from '../styles/Loading.styled';
 import Error from '../components/Error';
+import Summary from '../components/coindetails/Summary';
 
 const CoinDetails = () => {
 
@@ -30,9 +31,7 @@ const CoinDetails = () => {
         const fetchData = async () => {
             try {
                 const coinDetailsResponse = await BrowseCoins.get(`/coin-details/${id}`);
-                console.log(coinDetailsResponse.data.data.coin)
                 const priceHistoryResponse = await BrowseCoins.get(`/price-history/${id}/24h`);
-                console.log(priceHistoryResponse.data.data)
 
                 if (mountedRef.current) {      
                     setCoinDetails(coinDetailsResponse.data.data.coin);
@@ -60,7 +59,6 @@ const CoinDetails = () => {
         else if (price > 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
         else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
         else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
-        console.log(price)
         return price;
     }
 
@@ -81,6 +79,7 @@ const CoinDetails = () => {
                                  formatNumber={formatNumber}
                         />
                     </div>
+                    <Summary coinDetails={coinDetails} />
                 </div>
                 }
                 </>

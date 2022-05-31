@@ -9,7 +9,6 @@ const CoinList = (props) => {
 
     const {limit} = props;
     const {assets} = useAssets();
-    console.log(assets)
 
     return (
         <div className='coin-list'>

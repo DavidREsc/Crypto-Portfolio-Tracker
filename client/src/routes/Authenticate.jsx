@@ -107,12 +107,11 @@ const Authenticate = () => {
 
 	const createDefaultPortfolio = async () => {
 		try {
-			const response = await PortfolioRoute.post('/create-portfolio', {
+			await PortfolioRoute.post('/create-portfolio', {
 				method: 'POST',
                 headers: {'Content-Type': 'application/json'},
 				name: 'Main'
 			});
-			console.log(response);
 		} catch (error) {
 			console.log(error);
 		}

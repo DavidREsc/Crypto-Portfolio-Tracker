@@ -25,10 +25,10 @@ const SearchCoins = (props) => {
             <input className='search-bar' type="text" placeholder="Search.." onChange={handleSearch} value={value}></input>
             {searchResults && searchResults.map((result, idx) => {
                 return ( dropDown && 
-                  <Link key={idx} className='search-link' to={`/browse/${result.id}`}>
+                  <Link key={idx} className='search-link' to={`/browse/${result.uuid}`}>
                     <li className='search-results'>
                         <div>
-                            <img className='coin-search-img' src={result.image} alt={result.name}></img>
+                            <img className='coin-search-img' src={result.iconUrl} alt={result.name}></img>
                             {result.name}
                         </div>
                     </li>

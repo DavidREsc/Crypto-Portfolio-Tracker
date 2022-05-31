@@ -1,6 +1,5 @@
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import BrowseCoins from '../apis/BrowseCoins';
-import { useAuth } from './AuthContext';
 import {useLocation} from 'react-router-dom';
 import { LoadingSpinner } from '../styles/Loading.styled';
 
@@ -15,6 +14,7 @@ export const AssetsProvider = ({children}) => {
     const mountedRef = useRef(false);
 
     const [assets, setAssets] = useState([]);
+    const [stats, setStats] = useState();
     const [loading, setLoading] = useState(true);
     const [route, setRoute] = useState({
         prevLocation: location.pathname,
@@ -36,6 +36,7 @@ export const AssetsProvider = ({children}) => {
                     const response = await BrowseCoins.get('/coinlist'); 
                     if (mountedRef.current) {
                         setAssets(response.data.data.coins);
+                        setStats(response.data.data.stats);
                         setLoading(false);
                     }              
                 } catch (err) {
@@ -57,17 +58,8 @@ export const AssetsProvider = ({children}) => {
 
     const value = {
         assets,
+        stats,
         fetchAssetsError
-    }
-
-    const validateAssets = (data) => {
-        let vAssets = [];
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].current_price && data[i].price_change_percentage_24h) {
-                vAssets.push(data[i]);
-            } 
-        }
-        return vAssets
     }
 
     return (

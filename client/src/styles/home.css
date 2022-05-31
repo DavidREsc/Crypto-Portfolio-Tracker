@@ -1,0 +1,81 @@
+.home-stats-container {
+    margin-top: 5rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.home-stats-title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.stats {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.stat {
+    margin: 2rem;
+}
+
+.stat-label {
+    margin-bottom: 0.3rem;
+    color: gray;
+    font-size: 0.8rem;
+}
+
+.top-crypto-title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.top-crypto {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    flex-wrap: wrap;
+}
+
+.card {
+    margin: 3rem;
+    background-color: #0d121b;
+    width: 16rem;
+    height: 14rem;
+    text-decoration: none;
+    color: white;
+
+}
+
+.card:hover {
+    box-shadow: 0 0 11px gray; 
+    cursor: pointer;
+}
+
+.name-and-symbol {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid black;
+}
+
+.symbol {
+    width: 1.5rem;
+}
+
+.card-details-container {
+    font-size: 0.7rem;
+    margin-top: 1rem;
+}
+
+.card-details > li {
+    padding: 1rem;
+    width: 16rem;
+}

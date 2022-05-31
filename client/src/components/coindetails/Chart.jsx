@@ -36,7 +36,6 @@ const Chart = (props) => {
     })
 
     useEffect(() => {
-      console.log(priceHistory)
       const prices = priceHistory.history.filter(el => el.price !== null).map(el => el.price);
       const timeStamps = priceHistory.history.filter(el => el.price !== null).map(el => el.timestamp * 1000);
       setPriceData(prices);
@@ -44,7 +43,7 @@ const Chart = (props) => {
       setCurrentPrice(formatNumber(coinDetails.price));
       setPercent(priceHistory.change);
 
-    }, [priceHistory, coinDetails])
+    }, [priceHistory, coinDetails, formatNumber])
 
     const handleChangeTimePeriod = (e) => {
       prevBtn.current.className = 'chart-btn-inactive'
@@ -114,8 +113,8 @@ const Chart = (props) => {
               <h2 style={{color:'white'}}>
                   {'$' + currentPrice}
               </h2>
-              <h2>
-                  <VscTriangleDown style={percent < 0 ? {color: 'red'} : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(percent).toFixed(2) + "%"}
+              <h2 style={percent < 0 ? {color: 'red'} : {color: 'green'}}>
+                  <VscTriangleDown style={percent < 0 ? null : {transform: 'rotate(180deg)'}}/>{" " + Math.abs(percent).toFixed(2) + "%"}
               </h2>
           </div>
           <Line data={data} options={options}/>

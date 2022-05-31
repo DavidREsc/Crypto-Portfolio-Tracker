@@ -7,7 +7,7 @@ const generateJWTToken = (user_id) => {
         user: user_id
     }
 
-    return token.sign(payload, process.env.JWTSECRET, {expiresIn: '1h'});
+    return token.sign(payload, process.env.JWTSECRET, {expiresIn: '5h'});
 }
 
 module.exports = generateJWTToken;
