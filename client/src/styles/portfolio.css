@@ -71,7 +71,7 @@
     align-items: center;
     background: none;
     border: none;
-    color: white;
+    color: #e8e8e8;
     padding: 1rem;
     cursor: pointer;
 }
@@ -83,12 +83,26 @@
 
 .create-portfolio-btn {
     cursor: pointer;
+    background-color: #e8e8e8;
+    border: none;
+    height: 1.5rem;
+    padding: 5px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    border: 1px solid black;
+    width: 8rem;
+}
+
+.create-portfolio-btn:hover {
+    background-color: white;
 }
 
 .portfolio-content {
     width: 52%;
-    height: 50vh;
     padding: 1rem;
+    height: 75vh;
+    border-radius: 1rem;
 }
 
 .total-asset-worth-container {
@@ -117,7 +131,7 @@
 }
 
 .portfolio-page th {
-    color: white;
+    color: #e8e8e8;
     font-size: 0.7rem;
 }
 
@@ -147,17 +161,19 @@
 
 .add-asset-btn {
     cursor: pointer;
-    background-color: white;
+    background-color: #e8e8e8;
     border: none;
     height: 1.5rem;
     padding: 5px;
     border-radius: 5px;
     color: black;
     font-weight: bold;
+    border: 1px solid black;
+    width: 5rem;
 }
 
 .add-asset-btn:hover {
-    background-color: #e7e7e7;
+    background-color: white;
 }
 
 .browse-form-container-parent {
@@ -166,11 +182,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    background-color: white;
+    background-color: #1a1f2c;
     height: 50%;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 1rem;
-    height: 27rem;
+    height: 29rem;
     width: 25rem;
 }
 
@@ -198,6 +214,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
+    color: #e8e8e8;
 }
 
 .browse-form {
@@ -207,6 +224,7 @@
     bottom: -20px;
     right: -20px; 
     overflow: scroll;
+    color: #e8e8e8;
 }
 
 .browse-form-btn {
@@ -219,6 +237,7 @@
     align-items: center;
     margin-bottom: 0.5rem;
     z-index: 5;
+    color: #e8e8e8;
 }
 
 .browse-form-btn > * {
@@ -239,7 +258,7 @@
 }
 
 .browse-form-btn:hover {
-    background-color: #E9E9E9;
+    background-color: #181818;
     border-radius: 0.5rem;
 }
 
@@ -249,16 +268,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    background-color: white;
+    background-color: #1a1f2c;
     height: 50%;
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 1rem;
-    height: 27rem;
+    height: 25rem;
     width: 25rem;
 }
 
 .transaction-form-container{
-    height: 20rem;
+    height: 23rem;
     width: 90%;
     left: 50%;
     transform: translateX(-50%);
@@ -268,10 +287,9 @@
 
 .transaction-form {
     height: 100%;
-    color: black;
+    color: #e8e8e8;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .trns-form-asset-name-input {
@@ -282,29 +300,31 @@
     align-items: center;
     border-radius: 10px;
     padding: 1rem;
-    border: 1px solid black;
-    color: black;
+    border: 1px solid gray;
+    color: #e8e8e8;
 }
 
 .trns-form-asset-details-input {
-    width: 45%;
+    width: 44%;
     height: 2rem;
-    margin: auto;
     display: inline-block;
     border-radius: 10px;
     padding: 1rem;
     border: 1px solid black;
+    outline: none;
 }
 
 .trns-form-details-input-container {
     display: flex;
     justify-content: center;
+    gap: 1rem;
 }
 
 .trns-form-details-label-container {
     display: flex;
     justify-content: center;
-    margin-top: 30%;
+    gap: 1rem;
+    margin-top: 3rem;
 }
 
 .trns-form-asset-details-label {
@@ -348,7 +368,6 @@
     cursor: pointer;
     color: gray;
     font-size: 1rem;
-
 }
 
 .edit-transaction {
@@ -359,6 +378,10 @@
     color: gray;
     font-size: 1rem;
     margin-right: 7px;
+}
+
+.edit-transaction-icon {
+    color: gray;
 }
 
 .delete-asset-icon:hover {
@@ -374,31 +397,58 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    background-color: #1a1f2c;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 20rem;
-    height: 15rem;
-    color: black;
+    height: 13rem;
+    color: #e8e8e8;
     border-radius: 1rem;
 }
 
 .delete-asset-form-title {
-    margin-top: 15%;
+    margin-top: 7%;
 }
 
 .delete-asset-form-btns {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 15%;
-    width: 100%;
+    width: 90%;
+    gap: 10px;
+    margin-top: 5%;
 }
 
-.delete-asset-btn {
-    width: 5rem;
-    margin: 1rem;
+.delete-form-btn {
+    width: 100%;
     cursor: pointer;
+    height: 2rem;
+    background-color: #ff3333;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    color: #e8e8e8;
+}
+
+.cancel-form-btn {
+    width: 100%;
+    cursor: pointer;
+    height: 2rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    background-color: #dcdcdc;
+}
+
+.cancel-form-btn:hover {
+    background-color: #a9a9a9;
+}
+
+.form-text {
+    font-size: 0.7rem;
+    color: #a9a9a9;
+    padding: 1rem;
 }
 
 .transaction-asset-img {
@@ -433,24 +483,24 @@
 }
 
 .form-btn {
-    margin: 4rem;
-    width: 10rem;
-    height: 2rem;
-    align-self: center;
-    background: none;
-    border: 1px solid black;
-    border-radius: 5px;
+    width: 100%;
     cursor: pointer;
+    height: 2rem;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    background-color: #e8e8e8;
+    margin-top: 3rem;
 }
 
 .form-btn:hover {
-    background-color: #E9E9E9;
+    background-color: white;
 }
 
 .back-btn {
     margin-left: 1rem;
     cursor: pointer;
-    background-color: white;
+    background-color: #e8e8e8;
     border: none;
     height: 1.2rem;
     padding: 5px;
@@ -465,3 +515,190 @@
     background-color: #e7e7e7;
 }
 
+.form-asset-img {
+    width: 1rem;
+}
+
+.form-asset {
+    margin-top: 5%;
+}
+
+.trns-form-input-sign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.trns-form-asset-details-input-price {
+    width: 85%;
+    height: 2rem;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid black;
+    outline: none;
+}
+
+.trns-form-icons {
+    cursor: pointer;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #c8c8c8;
+}
+
+.trns-form-icons-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.trns-form-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.browse-form-icon {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #c8c8c8;
+    float: right;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.edit-transaction-form-container {
+    position: absolute;
+    align-items: center;
+    background-color: #1a1f2c;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 23rem;
+    height: 17rem;
+    color: #e8e8e8;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.overlay {
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   z-index: 10;
+   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.create-portfolio-form {
+    position: absolute;
+    background-color: #1a1f2c;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20rem;
+    height: 17rem;
+    color: #e8e8e8;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-portfolio-form-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.create-portfolio-form-input {
+    width: 85%;
+    height: 2rem;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid black;
+    outline: none;
+}
+
+.create-portfolio-form-title-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+@media screen and ( max-width: 960px) {
+
+    .portfolio-page-content {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .portfolio-content {
+        width: 100%;
+    }
+
+    .side-bar {
+       display: none;
+    }
+
+    .first-td {
+        min-width: 6rem;
+        max-width: 6rem;
+        width: 6rem; 
+    }
+
+    .last-td {
+        flex-direction: column;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .delete-asset {
+        width: 100%;
+    }
+
+    .edit-transaction {
+        width: 100%;
+    }
+
+    .add-asset-btn {
+        height: 2.5rem;
+        width: 12rem;
+    }
+
+    .total-asset-worth-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    .browse-form-btn-div {
+        margin-top: 1rem;
+    
+    }
+
+    .browse-form-btn {
+        margin-top: 1.1rem;
+    }
+
+    .total-worth {
+        width: 10rem;
+        text-align: center;
+    }
+
+
+
+ 
+
+
+
+}
+    

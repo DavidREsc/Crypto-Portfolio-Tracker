@@ -1,5 +1,5 @@
 header {
-	background-color: #0d121b;
+	background-color: #0a090c;
 	position: absolute;
 	display: flex;
 	justify-content: space-between;
@@ -11,7 +11,7 @@ header {
 }
 
 .source-btn {
-	color: white;
+	color: #e8e8e8;
 	text-decoration: none;
 	margin-left: 2rem;
 }

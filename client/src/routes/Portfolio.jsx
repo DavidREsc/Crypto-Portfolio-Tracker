@@ -298,6 +298,11 @@ const Portfolio = () => {
         setSelectedPortfolio(p);
     }
 
+    const handleTrnsBackBtn = () => {
+        setTransactionFormDisplay(false);
+        setBrowseFormDisplay(true);
+    }
+
     return (
             !loading && data && !error &&
             <div className='portfolio-page'>
@@ -306,17 +311,21 @@ const Portfolio = () => {
                     <BrowseForm 
                       handleSubmit={handleSelectAssetSubmit}
                       reference={dropDownRef}
+                      closeForm={() => setBrowseFormDisplay(false)}
                     />}
                     {transactionFormDisplay &&
                     <TransactionForm style={transactionFormDisplay} reference={transactionFormRef}
                       selectedAsset={selectedAsset}
                       addTransaction={addTransaction}
+                      handleTrnsBackBtn={handleTrnsBackBtn}
+                      closeForm={() => setTransactionFormDisplay(false)}
                     />}
                     {deleteAssetFormDisplay &&
                     <DeleteAssetForm style={deleteAssetFormDisplay} reference={deleteFormRef}
                         userAsset={selectedUserAsset}
                         deleteAsset={deleteAsset}
                         closeForm={() => setDeleteAssetFormDisplay(false)}
+                        selectedAsset={selectedUserAsset}
                     />}
                     <Sidebar data={portfolios} handleCreatePortfolio={() => setCreatePortfolioDisplay(true)}
                       selectPortfolio={(p) =>  {
@@ -345,6 +354,7 @@ const Portfolio = () => {
                       transaction={selectedTransaction}
                       reference={editFormRef}
                       handleSubmit={editTransaction}
+                      closeForm={() => setEditTransactionDisplay(false)}
                     />}
                     {deleteTransactionDisplay && <DeleteTransactionForm
                       reference={deleteTransactionFormRef} 
@@ -354,6 +364,7 @@ const Portfolio = () => {
                     {createPortfolioDisplay && <CreatePortfolioForm
                       reference={createPortfolioFormRef}
                       createPortfolio={createPortfolio}
+                      closeForm={() => setCreatePortfolioDisplay(false)}
                     />}
                     {deletePortfolioDisplay && <DeletePortfolioForm
                       reference={deletePortfolioFormRef}

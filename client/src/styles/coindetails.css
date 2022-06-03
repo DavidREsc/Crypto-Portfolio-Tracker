@@ -167,3 +167,16 @@ li {
     }
 }
 
+@media screen and (max-width: 960px) {
+    .summary {
+        flex-direction: column;
+    }
+    .description {
+        width: 100%;
+    }
+
+    .links {
+        width: 100%;
+    }
+}
+

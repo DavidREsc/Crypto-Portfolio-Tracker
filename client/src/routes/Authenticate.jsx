@@ -74,6 +74,15 @@ const Authenticate = () => {
 		handleLoginResponse(response);
 	}
 
+	const demoLogin = async () => {
+		const demoInfo = {
+			"email": "demo@gmail.com",
+			"password": "demo1234"
+		}
+		const response = await login(demoInfo);
+		handleLoginResponse(response);
+	}
+
 	const handleSignup = async (e) => {
 		e.preventDefault();
 		const response = await signup(signupInfo);
@@ -134,6 +143,7 @@ const Authenticate = () => {
 		      onSubmit={handleLogin}
 		      onChange={handleLoginInput}
 		      inputs={loginInfo}
+			  demoLogin={demoLogin}
 		    />
 	      }
 		</div>

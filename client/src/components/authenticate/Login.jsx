@@ -2,9 +2,10 @@ import React from 'react'
 
 const Login = (props) => {
 
-    const {changeForm, onSubmit, onChange, inputs, error} = props;
+    const {changeForm, onSubmit, onChange, inputs, error, demoLogin} = props;
 
     return (
+	  <>
         <form className='authenticate-form' onSubmit={onSubmit}>
 		  <div className='authenticate-titles'>
 		    <button 
@@ -50,7 +51,9 @@ const Login = (props) => {
 		  </label>
 		  </div>
 		  <input className='authenticate-btn' type='submit' value='Continue'/>
+		  <button className='demo-login' type='button' onClick={demoLogin}>Demo</button>
 		</form>
+	  </>
     )
 }
 

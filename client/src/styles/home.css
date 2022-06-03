@@ -10,12 +10,14 @@
     width: 100%;
     text-align: center;
     margin-bottom: 2rem;
+    color: #e8e8e8;
 }
 
 .stats {
     width: 100%;
     display: flex;
     justify-content: space-around;
+    color: #e8e8e8;
 }
 
 .stat {
@@ -24,14 +26,15 @@
 
 .stat-label {
     margin-bottom: 0.3rem;
-    color: gray;
     font-size: 0.8rem;
+    color: gray;
 }
 
 .top-crypto-title {
     width: 100%;
     text-align: center;
     margin-bottom: 2%;
+    color: #e8e8e8;
 }
 
 .top-crypto {
@@ -42,12 +45,16 @@
 }
 
 .card {
-    margin: 3rem;
-    background-color: #0d121b;
+    margin: 5rem;
     width: 16rem;
     height: 14rem;
     text-decoration: none;
-    color: white;
+    color: #e8e8e8;
+    border-radius: 10px;
+    background-color: #2d3436;
+background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
+    
+
 
 }
 

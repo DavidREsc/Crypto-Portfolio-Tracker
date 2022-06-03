@@ -34,7 +34,7 @@ const CoinList = (props) => {
                             <tr key={idx}>
                                 <td>{idx+1}</td>
                                 <td className='coin-name'> <Link className='coin-link' to={`/browse/${coin.uuid}`}> <img className='coin-img' src={coin.iconUrl} alt={coin.name}></img>{coin.name}</Link></td>
-                                <td>{coin.symbol.toUpperCase()}</td>
+                                <td><Link className='coin-link' to={`/browse/${coin.uuid}`}>{coin.symbol.toUpperCase()}</Link></td>
                                 <td style={coin.change < 0 ? {color:'red'} : {color:'green'}}>
                                     <VscTriangleDown className='icon' style={coin.change < 0 ? '' : {transform: 'rotate(180deg)'}}/>
                                     {Math.abs(coin.change).toFixed(2) + "%"}

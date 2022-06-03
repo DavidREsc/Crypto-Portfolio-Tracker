@@ -17,6 +17,7 @@ body {
 	padding: 0;
 	height: 100%;
     background-color: #101522;
+    
 }
 
 .home-page {	
@@ -24,7 +25,7 @@ body {
     background-color: #101522;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
-    color: white;
+    color: #e8e8e8;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,9 +45,9 @@ body {
     display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	background-color: #101522;
+    background-color: #101522;
 	min-height: 100vh;
-    color: white;
+    color: #e8e8e8;
 }
 
 .browse-page {

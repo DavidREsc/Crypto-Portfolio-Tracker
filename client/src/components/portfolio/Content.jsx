@@ -149,8 +149,9 @@ const Content = (props) => {
                     </tbody>
                 </table>
             </div>
+      
             <div className='add-asset-container'>
-                <button onClick={handleAddAsset} className='add-asset-btn'>Add Transaction</button>
+                <button onClick={handleAddAsset} className='add-asset-btn'>Add Asset</button>
             </div>
             </>
           }

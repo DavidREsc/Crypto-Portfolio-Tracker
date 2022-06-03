@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
 import { useAssets } from '../../contexts/AssetsContext';
+import {MdClose} from 'react-icons/md';
 
 const BrowseForm = (props) => {
-    const {handleSubmit, reference} = props;
+    const {handleSubmit, reference, closeForm} = props;
     const [searchTerm, setSearchTerm] = useState("");
     const {assets} = useAssets();
 
     return (
+      <div className='overlay'>
         <div ref={reference} className='browse-form-container-parent'>
+            <button className='browse-form-icon' onClick={closeForm}><MdClose /></button>
+            <h3 style={{marginBottom: '1rem'}}>Select Coin</h3>
             <input
-              placeholder='Search'
+              placeholder='Search...'
               type='text'
               className='browse-form-searchbar'
               value={searchTerm}
@@ -33,6 +37,7 @@ const BrowseForm = (props) => {
                 </form>
             </div>
         </div>
+      </div>
     )
 };
 
