@@ -5,7 +5,7 @@
 }
 
 html {
-	font-size: calc(10px + (20 - 10) * ((100vw - 300px) / (2560 - 320)));
+	font-size: calc(10px + (22 - 10) * ((100vw - 300px) / (2560 - 320)));
 	margin: 0;
 	padding: 0;
 	height: 100%;
