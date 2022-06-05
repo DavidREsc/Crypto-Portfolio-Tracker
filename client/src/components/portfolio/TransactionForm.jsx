@@ -11,7 +11,7 @@ const TransactionForm = (props) => {
 
     useEffect(() => {
       setPricePerCoin(() => {
-        return assets.filter(asset => asset.name === selectedAsset)[0].price
+        return (assets.filter(asset => asset.name === selectedAsset)[0].price)
       });
     },[assets, selectedAsset]);
 

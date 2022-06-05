@@ -46,13 +46,13 @@
 
 .card {
     margin: 5rem;
+    font-size: 10rem;
     width: 16rem;
     height: 14rem;
     text-decoration: none;
     color: #e8e8e8;
     border-radius: 10px;
-    background-color: #2d3436;
-background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
+    background-color: #060b18;
     
 
 
@@ -78,7 +78,7 @@ background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
 }
 
 .card-details-container {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     margin-top: 1rem;
 }
 

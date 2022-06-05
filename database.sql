@@ -4,6 +4,7 @@ CREATE TABLE users(
     user_id UUID DEFAULT uuid_generate_v4(),
     user_email VARCHAR(255) NOT NULL UNIQUE,
     user_password VARCHAR(255) NOT NULL,
+    verified BOOLEAN NOT NULL DEFAULT 'f',
     PRIMARY KEY (user_id)
 );
 
@@ -11,6 +12,7 @@ CREATE TABLE portfolios(
     portfolio_id UUID DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL,
     portfolio_name VARCHAR(255) NOT NULL,
+    main BOOLEAN NOT NULL,
     PRIMARY KEY (portfolio_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

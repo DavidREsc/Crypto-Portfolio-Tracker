@@ -5,7 +5,7 @@ const db = require('../db');
 router.get('/', authorize, async (req, res) => {
     try {
         const portfolios = await db.query(
-            'SELECT portfolios.portfolio_id, portfolios.portfolio_name FROM users ' + 
+            'SELECT portfolios.portfolio_id, portfolios.portfolio_name, portfolios.main FROM users ' + 
             'LEFT JOIN portfolios ON users.user_id = portfolios.user_id ' +
             'WHERE users.user_id = $1', [req.user]
         );
@@ -25,11 +25,11 @@ router.get('/', authorize, async (req, res) => {
 });
 
 router.post('/create-portfolio', authorize, async (req, res) => {
-    const {name} = req.body;
+    const {name, main} = req.body;
     try {
         const portfolio = await db.query(
-            'INSERT INTO portfolios (user_id, portfolio_name) ' +
-            'VALUES ($1, $2) RETURNING *', [req.user, name]
+            'INSERT INTO portfolios (user_id, portfolio_name, main) ' +
+            'VALUES ($1, $2, $3) RETURNING *', [req.user, name, main]
         );
         res.status(200).json(portfolio);
     } catch (error) {

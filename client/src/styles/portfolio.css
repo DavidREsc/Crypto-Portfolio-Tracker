@@ -52,6 +52,18 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.portfolio-list-item-active {
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 2rem;
+    width: 50%;
+    margin-bottom: 1rem;
+    padding: 0;
+}
+
 .delete-portfolio-btn {
     background: none;
     cursor: pointer;
@@ -74,6 +86,10 @@
     color: #e8e8e8;
     padding: 1rem;
     cursor: pointer;
+}
+
+.portfolio-list-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .create-portfolio-container {
@@ -106,7 +122,7 @@
 }
 
 .total-asset-worth-container {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .asset-title-container {
@@ -127,12 +143,12 @@
 }
 
 .asset-table td {
-    font-size: 0.71rem;
+    font-size: 0.80rem;
 }
 
 .portfolio-page th {
     color: #e8e8e8;
-    font-size: 0.7rem;
+    font-size: 0.80rem;
 }
 
 .portfolio-page tr {
@@ -155,7 +171,7 @@
 }
 
 .add-asset-container {
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-bottom: 10rem;
 }
 
@@ -238,6 +254,7 @@
     margin-bottom: 0.5rem;
     z-index: 5;
     color: #e8e8e8;
+    font-size: 0.85rem;
 }
 
 .browse-form-btn > * {
@@ -446,7 +463,7 @@
 }
 
 .form-text {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: #a9a9a9;
     padding: 1rem;
 }
@@ -627,6 +644,13 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+.current-balance {
+    margin-bottom: 0.2rem;
+    font-size: 0.65rem;
+    color: #a8a8a8;
+    padding: 0.3rem;
 }
 
 @media screen and ( max-width: 960px) {

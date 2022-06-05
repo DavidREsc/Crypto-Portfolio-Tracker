@@ -173,7 +173,7 @@ const Portfolio = () => {
         const coin_id = selectedUserAsset.uuid;
         const portfolio_id = selectedUserAsset.portfolio_id;
         try {
-            await PortfolioRoute.delete('/delete-asset', {
+            const response = await PortfolioRoute.delete('/delete-asset', {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 data: {
@@ -181,11 +181,15 @@ const Portfolio = () => {
                     portfolio_id
                 }
             });
-            let array = transactions.filter(t => {
-                return t.asset_coin_id !== coin_id || (t.asset_coin_id === coin_id && t.portfolio_id !== portfolio_id)
-            });
-   
-            setTransactions(array);
+            if (response.data.error) {
+                isAuthenticated();
+                history.push('./sign-in');
+            } else {
+                let array = transactions.filter(t => {
+                    return t.asset_coin_id !== coin_id || (t.asset_coin_id === coin_id && t.portfolio_id !== portfolio_id)
+                });
+                setTransactions(array);
+            }
         } catch (error) {
             console.log(error);
             
@@ -197,22 +201,27 @@ const Portfolio = () => {
         e.preventDefault();
         const asset_id = selectedTransaction.asset_id;
         try {
-            await PortfolioRoute.put('/edit-transaction', {
+            const response = await PortfolioRoute.put('/edit-transaction', {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 asset_amount,
                 initial_price,
                 asset_id
             })
-            const array = transactions.map(t => {
-                if (t.asset_id === asset_id) {
-                    t.asset_amount = asset_amount;
-                    t.initial_price = initial_price;
-                }
-                return t;
-            })
-            setTransactions(array);
-            setEditTransactionDisplay(false);
+            if (response.data.error) {
+                isAuthenticated();
+                history.push('./sign-in');
+            } else {
+                const array = transactions.map(t => {
+                    if (t.asset_id === asset_id) {
+                        t.asset_amount = asset_amount;
+                        t.initial_price = initial_price;
+                    }
+                    return t;
+                })
+                setTransactions(array);
+                setEditTransactionDisplay(false);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -221,31 +230,43 @@ const Portfolio = () => {
     const deleteTransaction = async () => {
         const asset_id = selectedTransaction.asset_id;
         try {
-            await PortfolioRoute.delete('/delete-transaction', {
+            const response = await PortfolioRoute.delete('/delete-transaction', {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 data: {
                     asset_id
                 }
             })     
-            const array = transactions.filter(t => t.asset_id !== asset_id);
-            if (!array.length) handlePortfolio();
-            setTransactions(array);
-            setDeleteTransactionDisplay(false);
+            if (response.data.error) {
+                isAuthenticated();
+                history.push('./sign-in');
+            } else {
+                const array = transactions.filter(t => t.asset_id !== asset_id);
+                if (!array.length) handlePortfolio();
+                setTransactions(array);
+                setDeleteTransactionDisplay(false);
+            }
         } catch (error) {
             console.log(error);       
         }
     }
 
-    const createPortfolio = async (name) => {
+    const createPortfolio = async (e, name) => {
+        e.preventDefault();
         try {
             const response = await PortfolioRoute.post('/create-portfolio', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                name
+                name,
+                main: 'f'
             })
-            setCreatePortfolioDisplay(false);
-            setPortfolios(prevState => prevState.concat(response.data.rows[0]))
+            if (response.data.error) {
+                isAuthenticated();
+                history.push('./sign-in');
+            } else {
+                setCreatePortfolioDisplay(false);
+                setPortfolios(prevState => prevState.concat(response.data.rows[0]))
+            }
         } catch (error) {
             console.log(error);  
         }
@@ -255,16 +276,21 @@ const Portfolio = () => {
     const deletePortfolio = async () => {
         const portfolio_id = selectedPortfolio.portfolio_id;
         try {
-            await PortfolioRoute.delete('/delete-portfolio', {
+            const response = await PortfolioRoute.delete('/delete-portfolio', {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 data: {
                     portfolio_id
                 }
             })
-            setTransactions(transactions.filter(t => t.portfolio_id !== portfolio_id));
-            setPortfolios(portfolios.filter(p => p.portfolio_id !== portfolio_id));
-            setCurrentPortfolio(portfolios[0]);
+            if (response.data.error) {
+                isAuthenticated();
+                history.push('./sign-in');
+            } else {
+                setTransactions(transactions.filter(t => t.portfolio_id !== portfolio_id));
+                setPortfolios(portfolios.filter(p => p.portfolio_id !== portfolio_id));
+                setCurrentPortfolio(portfolios[0]);
+            }
         } catch (error) {
             console.log("error");
             

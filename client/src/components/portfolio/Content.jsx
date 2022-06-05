@@ -52,9 +52,8 @@ const Content = (props) => {
         price = parseFloat(price);
         if (price === null) price = 'Unlimited';
         else if (price >= 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-        else if (price <= 0) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-        else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
-        else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
+        else if (price < 1 && price > 0.001) price = price.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2});
+        else price = price.toLocaleString(undefined, {maximumFractionDigits: 4})
         return price;
     }
 
@@ -85,7 +84,10 @@ const Content = (props) => {
         <div className='portfolio-content'>
           {!loading && <>
             <div className='total-asset-worth-container'>
-                <h2 style={totalChange < 0 ? {backgroundColor: 'red'} : {backgroundColor: 'green'}} className='total-worth'>{'$' + formatNumber(totalWorth)}</h2>
+                <div className='balance-container'>
+                  <p className='current-balance'>Current balance</p>
+                  <h2 style={totalChange < 0 ? {backgroundColor: 'red'} : {backgroundColor: 'green'}} className='total-worth'>{'$' + formatNumber(totalWorth)}</h2>
+                </div>
                 <div className='total-change' style={totalChange < 0 ? {color: 'red'} : {color: 'green'}}>
                     <VscTriangleDown style={totalChange < 0 ? '' : {transform: 'rotate(180deg)'}}/>
                     <h3>{Math.abs(totalChange).toFixed(2) + '%'}</h3>
@@ -128,7 +130,7 @@ const Content = (props) => {
                                         {'$' + profitLoss}
                                         <div className='profit-loss'>
                                             <VscTriangleDown style={asset.profitLossUnf < 0 ? '' : {transform: 'rotate(180deg)'}}/>
-                                            {formatNumber(Math.abs(((1 - (asset.holdings / asset.initialHoldings)) * 100))) + '%'}
+                                            {Math.abs(((1 - (asset.holdings / asset.initialHoldings)) * 100)).toFixed(2) + '%'}
                                         </div>
                                     </td>
                                     <td className='last-td'>

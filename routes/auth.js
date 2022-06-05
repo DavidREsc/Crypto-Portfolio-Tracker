@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
+const transporter = require('../utils/transporter');
 const jwtGenerator = require('../utils/jwtGenerator');
 const {check, validationResult} = require('express-validator');
 const authorize = require('../middleware/authorize');
 require('dotenv').config();
+
 
 router.post('/register', 
     check('email').isEmail().normalizeEmail().withMessage('Invalid email or password'),
@@ -18,6 +20,7 @@ router.post('/register',
     }
 
     try {
+
         const {email, password, confirmPassword} = req.body;
 
         //Check if password confirmation matches
@@ -40,11 +43,24 @@ router.post('/register',
 
         //Generate and return JWT token
         const token = jwtGenerator(newUser.rows[0].user_id);
+
+        /*const URL = `http://localhost:3001/api/v1/auth/verify-account/${token}`
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: "Confirm Registration",
+            html: `<p>Please click this link to confirm your email.</p>
+                   <a href=${URL}>${URL}</a>`
+        }
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log(info)*/
         res.status(200).cookie('token', token, {httpOnly: true});
         res.status(200).json({token});
 
     } catch (err) {
         res.status(500).json({"errors":[{"msg": "Server Error. Please try again later"}]});
+        console.log(err);
     }
 });
 
@@ -66,6 +82,9 @@ router.post('/login',
         //Check if password is correct
         const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
         if (!validPassword) return res.status(200).json({"error": "Password is incorrect"});
+
+        //Check if user verified
+        //if (!user.rows[0].verified) return res.status(200).json({"error": "Please confirm your email to login"});
 
         //Generate and return JWT token
         const token = jwtGenerator(user.rows[0].user_id);

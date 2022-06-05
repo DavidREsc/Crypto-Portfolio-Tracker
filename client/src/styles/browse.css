@@ -18,7 +18,7 @@ td {
     max-height: 2rem;
     border-top: 1px solid #202020;
     font-family: 'Lucida Sans';
-    font-size: 0.8rem;    
+    font-size: 0.85rem;    
     border-bottom: none;
 }
 
@@ -183,7 +183,7 @@ td {
 }
 
 .search-result-rank{
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: bold;
     color: gray;
     margin-right: 1rem;
@@ -208,7 +208,7 @@ td {
 }
 
 .result-coin-name-img {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: bold;
 }
 

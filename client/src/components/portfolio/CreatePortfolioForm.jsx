@@ -6,7 +6,7 @@ const CreatePortfolioForm = (props) => {
     const [portfolioName, setPortfolioName] = useState("");
   return (
    <div className='overlay'>
-    <div className='create-portfolio-form' ref={reference}>
+    <form className='create-portfolio-form' ref={reference} onSubmit={(e) => createPortfolio(e, portfolioName)} >
         <div className='create-portfolio-form-title-container'>
           <h3 className='create-portfolio-form-title'>Create Portfolio</h3>
           <MdClose onClick={closeForm} style={{fontSize: '1.5rem', cursor: 'pointer'}}/>
@@ -20,8 +20,8 @@ const CreatePortfolioForm = (props) => {
           onChange={(e) => setPortfolioName(e.target.value)}
           autoFocus>     
         </input>
-        <button className='form-btn' onClick={() => createPortfolio(portfolioName)}>Create</button>
-    </div>
+        <button className='form-btn' type='submit'>Create</button>
+    </form>
    </div>
   )
 }

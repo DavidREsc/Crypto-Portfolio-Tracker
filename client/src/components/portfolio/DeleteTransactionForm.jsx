@@ -1,7 +1,7 @@
 import React from 'react'
 
 const DeleteTransactionForm = (props) => {
-    const {reference, deleteTransaction, closeForm, selectedAsset} = props;
+    const {reference, deleteTransaction, closeForm} = props;
   return (
    <div className='overlay'>
     <div className='delete-asset-form' ref={reference}>

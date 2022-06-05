@@ -119,7 +119,8 @@ const Authenticate = () => {
 			await PortfolioRoute.post('/create-portfolio', {
 				method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-				name: 'Main'
+				name: 'Main',
+				main: 't'
 			});
 		} catch (error) {
 			console.log(error);
