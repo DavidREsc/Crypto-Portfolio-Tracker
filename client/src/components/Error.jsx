@@ -1,19 +1,15 @@
 import React from 'react'
 import { AiOutlineStop } from 'react-icons/ai';
-import { IconContext } from 'react-icons/lib';
  
 const Error = (props) => {
     const {error} = props
 
     return (
         error &&
-        <IconContext.Provider
-            value={{color: 'red', size: '2rem', margin:'2rem'}}
-        >
         <div className='error-page'>
-            <h3 className='error'>{error} <AiOutlineStop/></h3>
+            <AiOutlineStop style={{marginTop: '10rem', marginRight: '0.5rem', fontSize: '1.5rem', color: 'red'}}/>
+            <h2 style={{marginTop: '10rem', color: '#e8e8e8'}}>{error}</h2>
         </div>
-        </IconContext.Provider>
     )
 }
 

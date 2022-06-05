@@ -32,11 +32,18 @@ const CoinDetails = () => {
             try {
                 const coinDetailsResponse = await BrowseCoins.get(`/coin-details/${id}`);
                 const priceHistoryResponse = await BrowseCoins.get(`/price-history/${id}/24h`);
-
-                if (mountedRef.current) {      
-                    setCoinDetails(coinDetailsResponse.data.data.coin);
-                    setPriceHistory(priceHistoryResponse.data.data)
-                    setLoading(false);
+                console.log(coinDetailsResponse)
+                if (mountedRef.current) {
+                    if (coinDetailsResponse.data.data.status === 'fail' || priceHistoryResponse.data.data.status === 'fail') {
+                        setError(true);
+                        setErrorMsg(coinDetailsResponse.data.data.message);
+                        setLoading(false);
+                    }
+                    else {      
+                        setCoinDetails(coinDetailsResponse.data.data.data.coin);
+                        setPriceHistory(priceHistoryResponse.data.data.data)
+                        setLoading(false);
+                    }
                 }
             } catch (err) {
                 setError(true);
@@ -50,7 +57,7 @@ const CoinDetails = () => {
     const handleTimePeriodChange = async (e) => {
         const period = e.target.dataset.id;
         const response = await BrowseCoins.get(`/price-history/${id}/${period}`);
-        setPriceHistory(response.data.data);
+        setPriceHistory(response.data.data.data);
     }
 
     const formatNumber = (price) => {

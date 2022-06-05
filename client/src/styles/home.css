@@ -33,15 +33,23 @@
 .top-crypto-title {
     width: 100%;
     text-align: center;
-    margin-bottom: 2%;
     color: #e8e8e8;
 }
 
-.top-crypto {
+.top-crypto-container {
     display: flex;
     justify-content: center;
     margin-top: 5%;
     flex-wrap: wrap;
+    width: 100%;
+}
+
+.top-crypto {
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 1%; 
+    margin-top: 5vh;
+    margin-bottom: 2rem;
 }
 
 .card {
@@ -52,8 +60,8 @@
     text-decoration: none;
     color: #e8e8e8;
     border-radius: 10px;
-    background-color: #060b18;
-    
+    background: rgb(12,39,91);
+background: linear-gradient(315deg, rgba(12,39,91,1) 0%, rgba(31,19,50,1) 100%, rgba(0,212,255,1) 100%);
 
 
 }

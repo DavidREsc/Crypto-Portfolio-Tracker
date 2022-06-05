@@ -3,6 +3,7 @@ import '../styles/app.css';
 import '../styles/home.css';
 import { useAssets } from '../contexts/AssetsContext';
 import Card from '../components/Home/Card';
+import CoinList from '../components/browse/CoinList';
 
 const Home = () => {
     const {assets, stats} = useAssets();
@@ -45,11 +46,9 @@ const Home = () => {
                   </dl>
                 </div>
             </div>
-            <div className='top-crypto'>
-                <h2 className='top-crypto-title'>Top 30 Cryptocurrencies</h2>
-                {assets.filter((asset, idx) => idx < 30).map((asset, idx) => {
-                    return <Card key={idx} format={formatNumber} asset={asset} />
-                })}
+            <div className='top-crypto-container'>
+                <h2 className='top-crypto-title'>Top 20 Cryptocurrencies</h2>
+                <CoinList limit={20} className='top-crypto'/>
             </div>
         </div>
     )

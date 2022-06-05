@@ -8,6 +8,7 @@ const Browse = () => {
     const [searchFormDisplay, setSearchFormDisplay] = useState(false);
     const mountedRef = useRef(false);
     const searchFormRef = useRef(null);
+    const className = 'coin-list';
 
     useEffect(() => {
         mountedRef.current = true;
@@ -39,7 +40,7 @@ const Browse = () => {
                   reference={searchFormRef}
                   closeForm={() => setSearchFormDisplay(false)}
                 />}         
-                <CoinList limit={limit}/>
+                <CoinList limit={limit} className={className}/>
                 {limit !== 1000 && <div className='load-more-btn-div'><button onClick={handleLoadMore} className='load-more-btn'>Load More</button></div>}
                 <div className='back-to-top-btn-div'><button onClick={() => window.location.reload()} className='back-to-top-btn'>Back to Top</button></div>
             </div>

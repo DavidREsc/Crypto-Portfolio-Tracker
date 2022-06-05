@@ -7,11 +7,11 @@ import { useAssets } from '../../contexts/AssetsContext';
 
 const CoinList = (props) => {
 
-    const {limit} = props;
+    const {limit, className} = props;
     const {assets} = useAssets();
 
     return (
-        <div className='coin-list'>
+        <div className={className}>
             <table>
                 <thead>
                     <tr>

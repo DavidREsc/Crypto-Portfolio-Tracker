@@ -13,9 +13,10 @@ router.get('/coin-details/:id', async (req, res) => {
             }
         });
         const data = await response.json();
+
         res.status(200).json({
             status: "success",
-            data: data.data
+            data: data
         });
 
     } catch (err) {
@@ -77,7 +78,7 @@ router.get('/price-history/:id/:period/', async (req, res) => {
         const data = await response.json();
         res.status(200).json({
              status: "success",
-             data: data.data
+             data: data
          });
 
     } catch (err) {
