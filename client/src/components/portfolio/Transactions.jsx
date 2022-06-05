@@ -58,7 +58,7 @@ const Transactions = (props) => {
           </div>
           <div className='transactions-stats'>
             <p>Quantity</p>
-            <p className='transactions-stats-value'>{formatNumber(quantity) + " " + transactions[0].symbol}</p>
+            <p className='transactions-stats-value'>{quantity + " " + transactions[0].symbol}</p>
           </div>
           <div className='transactions-stats'>
             <p >Avg. Buy Price</p>

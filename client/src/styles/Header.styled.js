@@ -36,6 +36,14 @@ export const NavContainer = styled.div`
     }
 `
 
+export const NavLinkContainer = styled.div`
+    @media screen and (max-width: 960px) {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10vh;
+    }
+`
+
 export const NavIcon = styled.div`
     display: inline-block;
     user-select: none;   

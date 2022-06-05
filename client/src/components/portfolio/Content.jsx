@@ -123,7 +123,9 @@ const Content = (props) => {
                                     <td>
                                         <div>
                                             {'$' + formatNumber(asset.holdings)}
-                                            <p className='holdings'>{formatNumber(asset.asset_amount) + " " + asset.symbol}</p>
+                                            {//change formatnumber for holdings
+                                             }
+                                            <p className='holdings'>{asset.asset_amount + " " + asset.symbol}</p>
                                         </div>
                                     </td>
                                     <td style={asset.profitLossUnf < 0 ? {color: 'red'} : {color: 'green'}}>

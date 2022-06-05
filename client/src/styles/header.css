@@ -21,8 +21,30 @@ header {
 	color: rgba(255, 255, 255, 1);
 }
 
+.source-link {
+	color: #e8e8e8;
+	text-decoration: none;
+	margin-right: 1.2rem;
+}
+
+.source-link:hover {
+	text-decoration: underline;
+}
+
 @media screen and (max-width: 960px) {
 	header {
 		position: fixed;
+	}
+
+	.source-link {
+		text-align: center;
+        padding:2rem;
+        width: 100%;
+        font-size: 1.5rem;
+	}
+
+	.source-link:hover {
+		text-decoration: none;
+		transition: all 0.3 ease
 	}
 }
