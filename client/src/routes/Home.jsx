@@ -2,11 +2,10 @@ import React from 'react';
 import '../styles/app.css';
 import '../styles/home.css';
 import { useAssets } from '../contexts/AssetsContext';
-import Card from '../components/Home/Card';
 import CoinList from '../components/browse/CoinList';
 
 const Home = () => {
-    const {assets, stats} = useAssets();
+    const {stats} = useAssets();
     const formatNumber = (price) => {
         price = parseFloat(price);
         if (price === null) price = 'Unlimited';

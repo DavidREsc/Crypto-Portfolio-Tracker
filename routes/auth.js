@@ -20,6 +20,7 @@ router.post('/register',
     }
 
     try {
+        await new Promise(resolve => setTimeout(resolve, 800));
 
         const {email, password, confirmPassword} = req.body;
 
@@ -73,6 +74,7 @@ router.post('/login',
     if (!errors.isEmpty()) return res.status(422).json({errors: errors.array()});
 
     try {
+        await new Promise(resolve => setTimeout(resolve, 800));
         const {email, password} = req.body;
 
         //Check if user exists
