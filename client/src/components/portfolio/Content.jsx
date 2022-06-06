@@ -53,7 +53,8 @@ const Content = (props) => {
         if (price === null) price = 'Unlimited';
         else if (price >= 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
         else if (price < 1 && price > 0.001) price = price.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2});
-        else price = price.toLocaleString(undefined, {maximumFractionDigits: 4})
+        else if (price === 0) price = 0;
+        else price = price.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 8})
         return price;
     }
 
