@@ -11,16 +11,9 @@ const Authenticate = () => {
 	const {login, signup} = useAuth();
     const [form, setForm] = useState(0);
 	const [loginError, setLoginError] = useState("");
-    const [loginInfo, setLoginInfo] = useState({
-    	email: "",
-        password: "",
-    });
+    const [loginInfo, setLoginInfo] = useState({email: "", password: ""});
 	const [signupError, setSignupError] = useState("");
-    const [signupInfo, setSignupInfo] = useState({
-    	email: "",
-    	password: "",
-    	confirmPassword: ""
-    })
+    const [signupInfo, setSignupInfo] = useState({email: "", password: "", confirmPassword: ""})
 	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 	const {user} = useAuth();
@@ -32,18 +25,11 @@ const Authenticate = () => {
 
 	const handleChangeForm = () => {
 		if (!form) {
-			setLoginInfo({
-				email: "",
-				password: ""
-			});
+			setLoginInfo({email: "", password: ""});
 			setLoginError("");
 			setForm(1);
 		} else {
-			setSignupInfo({
-				email: "",
-				password: "",
-				confirmPassword: ""
-			});
+			setSignupInfo({email: "", password: "", confirmPassword: ""});
 			setSignupError("");
 			setForm(0);
 		}

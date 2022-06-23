@@ -1,8 +1,9 @@
 import React from 'react'
+import formatData from '../../utils/formatData';
 
 const Details = (props) => {
 
-    const {coinDetails, formatNumber} = props;
+    const {coinDetails} = props;
 
     return (
         coinDetails &&
@@ -10,10 +11,10 @@ const Details = (props) => {
             <h2 className='details-title'>Statistics</h2>
             <li>NAME:<div>{coinDetails.name}</div></li>
             <li>RANK:<div>{coinDetails.rank}</div></li>
-            <li>PRICE:<div>{'$' + formatNumber(coinDetails.price)}</div></li>
-            <li>ATH:<div>{'$' + formatNumber(coinDetails.allTimeHigh.price)}</div></li>
-            <li>MARKET CAP:<div>{'$' + formatNumber(coinDetails.marketCap)} </div></li>
-            <li>AVAILABLE SUPPLY:<div>{formatNumber(coinDetails.supply.circulating)}</div></li>
+            <li>PRICE:<div>{'$' + formatData.formatNumberV2(coinDetails.price)}</div></li>
+            <li>ATH:<div>{'$' + formatData.formatNumberV2(coinDetails.allTimeHigh.price)}</div></li>
+            <li>MARKET CAP:<div>{'$' + formatData.formatNumberV2(coinDetails.marketCap)} </div></li>
+            <li>AVAILABLE SUPPLY:<div>{formatData.formatNumberV2(coinDetails.supply.circulating)}</div></li>
             <li>24H CHANGE:<div>{coinDetails.change + ' %'}</div></li>
         </ul>
     )

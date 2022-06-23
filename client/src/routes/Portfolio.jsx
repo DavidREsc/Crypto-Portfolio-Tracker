@@ -72,6 +72,7 @@ const Portfolio = () => {
                     history.push('./sign-in');
                 }
                 else {
+                    // merge user transactions with coin details
                     let array = response.data.assets.map(data => {
                         let asset = assets.filter(asset => data.asset_coin_id === asset.uuid)[0];
                         return {
@@ -97,44 +98,6 @@ const Portfolio = () => {
         }
         retrieveData();
     },[history, isAuthenticated, assets]);
-
-
-    // unmounts form when user clicks outside form element
-    const unmountForm = (e) => {
-        if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
-            setBrowseFormDisplay(false);
-        }
-        if (transactionFormRef.current && !transactionFormRef.current.contains(e.target)) {
-            setTransactionFormDisplay(false);
-        }
-        if (deleteFormRef.current && !deleteFormRef.current.contains(e.target)) {
-            setDeleteAssetFormDisplay(false);
-        }
-        if (editFormRef.current && !editFormRef.current.contains(e.target)) {
-            setEditTransactionDisplay(false);
-        }
-        if (deleteTransactionFormRef.current && !deleteTransactionFormRef.current.contains(e.target)) {
-            setDeleteTransactionDisplay(false);
-        }
-        if (createPortfolioFormRef.current && !createPortfolioFormRef.current.contains(e.target)) {
-            setCreatePortfolioDisplay(false);
-        }
-        if (deletePortfolioFormRef.current && !deletePortfolioFormRef.current.contains(e.target)) {
-            setDeletePortfolioDisplay(false);
-        }
-    }
-
-    const handleAddAsset = async () => {
-        setBrowseFormDisplay(true);
-    }
-
-    const handleSelectAssetSubmit = (e) => {
-        e.preventDefault();
-        let value = e.target.dataset.asset;
-        setSelectedAsset(value);
-        setBrowseFormDisplay(false);
-        setTransactionFormDisplay(true);  
-    }
 
     const addTransaction = async (quantity, pricePerCoin) => {
         setTransactionFormDisplay(false);
@@ -163,11 +126,6 @@ const Portfolio = () => {
             console.log(error);
         }  
     } 
-
-    const selectDeleteAsset = (asset) => {
-        setDeleteAssetFormDisplay(true);
-        setSelectedUserAsset(asset);
-    }
 
     const deleteAsset = async () => {
         const coin_id = selectedUserAsset.uuid;
@@ -270,7 +228,6 @@ const Portfolio = () => {
         } catch (error) {
             console.log(error);  
         }
-
     }
 
     const deletePortfolio = async () => {
@@ -329,6 +286,39 @@ const Portfolio = () => {
         setBrowseFormDisplay(true);
     }
 
+    const selectDeleteAsset = (asset) => {
+        setDeleteAssetFormDisplay(true);
+        setSelectedUserAsset(asset);
+    }
+
+    const handleSelectAssetSubmit = (e) => {
+        e.preventDefault();
+        let value = e.target.dataset.asset;
+        setSelectedAsset(value);
+        setBrowseFormDisplay(false);
+        setTransactionFormDisplay(true);  
+    }
+
+    // unmounts form when user clicks outside form element
+    const unmountForm = (e) => {
+        if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+                setBrowseFormDisplay(false);
+        } else if (transactionFormRef.current && !transactionFormRef.current.contains(e.target)) {
+                setTransactionFormDisplay(false);
+        } else if (deleteFormRef.current && !deleteFormRef.current.contains(e.target)) {
+                setDeleteAssetFormDisplay(false);
+        } else if (editFormRef.current && !editFormRef.current.contains(e.target)) {
+                setEditTransactionDisplay(false);
+        } else if (deleteTransactionFormRef.current && !deleteTransactionFormRef.current.contains(e.target)) {
+                setDeleteTransactionDisplay(false);
+        } else if (createPortfolioFormRef.current && !createPortfolioFormRef.current.contains(e.target)) {
+                setCreatePortfolioDisplay(false);
+        } else if (deletePortfolioFormRef.current && !deletePortfolioFormRef.current.contains(e.target)) {
+                setDeletePortfolioDisplay(false);
+        }
+    }
+
+
     return (
             !loading && data && !error &&
             <div className='portfolio-page'>
@@ -361,7 +351,7 @@ const Portfolio = () => {
                       handleDeletePortfolio={handleDeletePortfolio}
                     />
                     {contentDisplay && <Content 
-                        handleAddAsset={handleAddAsset}
+                        handleAddAsset={() => setBrowseFormDisplay(true)}
                         handleDeleteAsset={selectDeleteAsset}
                         handleTransactions={handleTransactions}
                         transactions={transactions}

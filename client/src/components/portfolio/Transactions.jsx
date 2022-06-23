@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {AiFillEdit} from 'react-icons/ai';
 import {IoMdCloseCircle} from 'react-icons/io';
+import formatData from '../../utils/formatData';
 
 const Transactions = (props) => {
     const {handlePortfolio, allTransactions, selectedUserAsset, handleEditTransaction, handleDeleteTransaction} = props;
@@ -11,36 +12,26 @@ const Transactions = (props) => {
 
     useEffect(() => {
       if (allTransactions.length) {
-        const transactions_ = allTransactions.filter(t => t.uuid === selectedUserAsset.uuid && t.portfolio_id === selectedUserAsset.portfolio_id);
-        if (transactions_.length) {
-          let quantity_ = 0;
-          let balance_ = 0;
-          let averageBuy_ = 0;
-          for (let i = 0; i < transactions_.length; i++) {
-            quantity_ += transactions_[i].asset_amount;
-            balance_ += (transactions_[i].asset_amount * transactions_[i].price);
-            averageBuy_ += transactions_[i].initial_price
+        const transactions = allTransactions.filter(t => t.uuid === selectedUserAsset.uuid && t.portfolio_id === selectedUserAsset.portfolio_id);
+        if (transactions.length) {
+          let quantity = 0;
+          let balance = 0;
+          let averageBuy = 0;
+          for (let i = 0; i < transactions.length; i++) {
+            quantity += transactions[i].asset_amount;
+            balance += (transactions[i].asset_amount * transactions[i].price);
+            averageBuy += transactions[i].initial_price
           }
-          averageBuy_ = (averageBuy_ / transactions_.length);
+          averageBuy = (averageBuy / transactions.length);
       
-          setQuantity(quantity_);
-          setBalance(balance_);
-          setAverageBuy(averageBuy_);
-          setTransactions(transactions_);
+          setQuantity(quantity);
+          setBalance(balance);
+          setAverageBuy(averageBuy);
+          setTransactions(transactions);
         }
         else handlePortfolio();
       }
     },[allTransactions, selectedUserAsset, handlePortfolio])
-
-    const formatNumber = (price) => {
-      price = parseFloat(price);
-      if (price === null) price = 'Unlimited';
-      else if (price >= 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-      else if (price <= 0) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-      else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
-      else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
-      return price;
-    }
 
   return (
     <div className='portfolio-content'>
@@ -54,7 +45,7 @@ const Transactions = (props) => {
         <div className='transactions-stats-container'>
           <div className='transactions-stats'>
             <p>Balance</p>
-            <p className='transactions-stats-value'>{'$' + formatNumber(balance)}</p>
+            <p className='transactions-stats-value'>{'$' + formatData.formatNumber(balance)}</p>
           </div>
           <div className='transactions-stats'>
             <p>Quantity</p>
@@ -62,12 +53,9 @@ const Transactions = (props) => {
           </div>
           <div className='transactions-stats'>
             <p >Avg. Buy Price</p>
-            <p className='transactions-stats-value'>{'$' + formatNumber(averageBuy)}</p>
+            <p className='transactions-stats-value'>{'$' + formatData.formatNumber(averageBuy)}</p>
           </div>
         </div>
-        
-      
-      
       <div className='asset-table-container'>
         <table className='asset-table'>
             <thead>
@@ -87,10 +75,10 @@ const Transactions = (props) => {
                         <p>Buy</p>
                       </div>
                     </td>
-                    <td>{'$' + formatNumber(t.initial_price)}</td>
+                    <td>{'$' + formatData.formatNumber(t.initial_price)}</td>
                     <td>
                       <div>
-                        {'$' + formatNumber(t.asset_amount * t.initial_price)}
+                        {'$' + formatData.formatNumber(t.asset_amount * t.initial_price)}
                         <p className='holdings'>{t.asset_amount + " " + t.symbol}</p>
                       </div>
                     </td>

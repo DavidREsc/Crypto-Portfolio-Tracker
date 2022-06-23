@@ -23,6 +23,7 @@ CREATE TABLE assets(
     asset_coin_id VARCHAR(255) NOT NULL,
     asset_amount DOUBLE PRECISION NOT NULL,
     initial_price DOUBLE PRECISION NOT NULL,
+    
     PRIMARY KEY (asset_id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios(portfolio_id)
 );

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/browse.css';
 import {VscTriangleDown} from 'react-icons/vsc';
+import formatData from '../../utils/formatData';
 import { useAssets } from '../../contexts/AssetsContext';
 
 
@@ -24,12 +25,7 @@ const CoinList = (props) => {
                 </thead>
                 <tbody>
                     {assets && assets.filter((coin, idx) => idx < limit).map((coin,idx) => {
-                        let price = parseFloat(coin.price);
-                        if (price >= 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-                        else if (price < 1 && price >= 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
-                        else if (price < 0.0001 && price > 0.0000001) price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
-                        else price = price.toLocaleString(undefined, {minimumFractionDigits: 11})
-
+                        let price = formatData.formatNumberV2(coin.price)
                         return (
                             <tr key={idx}>
                                 <td>{idx+1}</td>

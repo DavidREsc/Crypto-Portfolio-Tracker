@@ -44,7 +44,8 @@ export const AssetsProvider = ({children}) => {
                     if (mountedRef.current) setFetchAssetsError(true);
                 }
         }
-        fetchAssets();
+        fetchAssets()
+        setInterval(fetchAssets, 180000)
     },[])
 
     useEffect(() => {

@@ -1,5 +1,10 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
+const Redis = require('ioredis')
+const redis = new Redis(process.env.NODE_ENV === 'production' ? process.env.REDIS_URL : {
+    'port': 6379,
+    'host': '127.0.0.1'
+})
 
 //Get coin details
 router.get('/coin-details/:id', async (req, res) => {
@@ -33,6 +38,12 @@ router.get('/coinlist', async(req, res) => {
         stats: []
     };
     try {
+        let cacheEntry = await redis.get('coinList')
+        if (cacheEntry) {
+            return res.status(200).json({
+            status: "success",
+            data: JSON.parse(cacheEntry)
+        })}
         for (let i = 0; i < 10; i++) {
             promises.push(fetch(`https://coinranking1.p.rapidapi.com/coins?referenceCurrencyUuid=_4s0A3Uuu5ML&timePeriod=24h&orderBy=marketCap&orderDirection=desc&limit=100&offset=${i*100}`, {
                 "method": "GET",
@@ -49,7 +60,7 @@ router.get('/coinlist', async(req, res) => {
             data.coins = data.coins.concat(responseJson.data.coins);
             data.stats = globalStats;
         }
-  
+        redis.set('coinList', JSON.stringify(data), 'EX', 180)
         res.status(200).json({
             status: "success",
             data

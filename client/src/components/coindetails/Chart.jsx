@@ -1,4 +1,5 @@
 import React, {useRef, useEffect, useState} from 'react';
+import formatData from '../../utils/formatData'
 import 'chartjs-adapter-moment';
 import '../../styles/coindetails.css';
 import {VscTriangleDown} from 'react-icons/vsc';
@@ -23,7 +24,7 @@ ChartJS.register(
 
 const Chart = (props) => {
 
-    const {coinDetails, priceHistory, changeTimePeriod, formatNumber} = props;
+    const {coinDetails, priceHistory, changeTimePeriod} = props;
     const prevBtn = useRef();
     const [priceData, setPriceData] = useState();
     const [timeData, setTimeData] = useState();
@@ -40,10 +41,10 @@ const Chart = (props) => {
       const timeStamps = priceHistory.history.filter(el => el.price !== null).map(el => el.timestamp * 1000);
       setPriceData(prices);
       setTimeData(timeStamps);
-      setCurrentPrice(formatNumber(coinDetails.price));
+      setCurrentPrice(formatData.formatNumberV2(coinDetails.price));
       setPercent(priceHistory.change);
 
-    }, [priceHistory, coinDetails, formatNumber])
+    }, [priceHistory, coinDetails])
 
     const handleChangeTimePeriod = (e) => {
       prevBtn.current.className = 'chart-btn-inactive'

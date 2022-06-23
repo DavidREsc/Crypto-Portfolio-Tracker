@@ -3,12 +3,13 @@ import { useAssets } from '../../contexts/AssetsContext';
 import {VscTriangleDown} from 'react-icons/vsc';
 import {IoMdCloseCircle} from 'react-icons/io';
 import {IoIosAddCircle} from 'react-icons/io';
+import formatData from '../../utils/formatData';
 
 const Content = (props) => {
     const {handleAddAsset, handleDeleteAsset, handleTransactions, transactions, currentPortfolio} = props;
     const [totalWorth, setTotalWorth] = useState(0);
     const [totalChange, setTotalChange] = useState(0);
-    const [userAssets, setUserAssets] = useState();
+    const [curPortfolioAssets, setCurPortfolioAssets] = useState();
     const [loading, setLoading] = useState(true);
     const {assets} = useAssets();
 
@@ -16,70 +17,31 @@ const Content = (props) => {
         let worth = 0;
         let initial = 0;
         let change = 0;
-        let userAssets_;
+        let curPortfolioAssets = [];
         if (transactions.length) {
-            userAssets_ = transactions.filter(t => t.portfolio_id === currentPortfolio.portfolio_id);
-            // total worth and percent change
-            if (userAssets_.length) {
-              for (let i = 0; i < userAssets_.length; i++) {
-                  worth += userAssets_[i].asset_amount * userAssets_[i].price;
-                  initial += userAssets_[i].asset_amount * userAssets_[i].initial_price;
+            // filter for assets in current portfolio
+            curPortfolioAssets = transactions.filter(t => t.portfolio_id === currentPortfolio.portfolio_id);
+
+            // calculate total worth and percent change
+            if (curPortfolioAssets.length) {
+              for (let i = 0; i < curPortfolioAssets.length; i++) {
+                  worth += curPortfolioAssets[i].asset_amount * curPortfolioAssets[i].price;
+                  initial += curPortfolioAssets[i].asset_amount * curPortfolioAssets[i].initial_price;
               }
               change = (((worth - initial) / Math.abs(initial)) * 100).toFixed(2);
             }
-
-            userAssets_ = userAssets_.map(t => {
-                const profitLossUnf = (t.price - t.initial_price) * t.asset_amount;
-                const holdings = (t.asset_amount * t.price);
-                const initialHoldings = (t.asset_amount * t.initial_price);
-                return {
-                    ...t,
-                    profitLossUnf,
-                    holdings,
-                    initialHoldings
-                }
-            })
-            userAssets_ = mergeUserAssets(userAssets_)
-            userAssets_.sort(compare)
+            // calculate profit/loss, holdings and initial holdings in dollars
+            curPortfolioAssets = formatData.calculateProfitLossHoldings(curPortfolioAssets)
+            // merge transactions
+            curPortfolioAssets = formatData.mergeTransactions(curPortfolioAssets)
+            // sort assets from greatest to least in holdings amount
+            curPortfolioAssets.sort(formatData.sortAssets)
         }
-        setUserAssets(userAssets_);
+        setCurPortfolioAssets(curPortfolioAssets);
         setTotalWorth(worth);
         setTotalChange(change);
         setLoading(false);
     },[transactions, assets, currentPortfolio])
-
-    const formatNumber = (price) => {
-        price = parseFloat(price);
-        if (price === null) price = 'Unlimited';
-        else if (price >= 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-        else if (price < 1 && price > 0.001) price = price.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2});
-        else if (price === 0) price = 0;
-        else price = price.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 8})
-        return price;
-    }
-
-    const mergeUserAssets = (a) => {
-        let mergedUserAssets = a.reduce((accumulator, cur) => {
-            let uuid = cur.uuid, found = accumulator.find(elem => {
-                return elem.uuid === uuid
-            });
-            if (found) {
-                found.profitLossUnf += cur.profitLossUnf;
-                found.holdings += cur.holdings;
-                found.initialHoldings += cur.initialHoldings;
-                found.asset_amount += cur.asset_amount;
-            }
-            else accumulator.push(cur);
-            return accumulator;
-        }, []);
-        return mergedUserAssets;
-    }
-
-    const compare = (a, b) => {
-        if (a.holdings < b.holdings) return 1;
-        if (a.holdings > b.holdings) return -1;
-        return 0;
-    }
 
     return (
         <div className='portfolio-content'>
@@ -87,7 +49,7 @@ const Content = (props) => {
             <div className='total-asset-worth-container'>
                 <div className='balance-container'>
                   <p className='current-balance'>Current balance</p>
-                  <h2 style={totalChange < 0 ? {backgroundColor: 'red'} : {backgroundColor: 'green'}} className='total-worth'>{'$' + formatNumber(totalWorth)}</h2>
+                  <h2 style={totalChange < 0 ? {backgroundColor: 'red'} : {backgroundColor: 'green'}} className='total-worth'>{'$' + formatData.formatNumber(totalWorth)}</h2>
                 </div>
                 <div className='total-change' style={totalChange < 0 ? {color: 'red'} : {color: 'green'}}>
                     <VscTriangleDown style={totalChange < 0 ? '' : {transform: 'rotate(180deg)'}}/>
@@ -108,24 +70,22 @@ const Content = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {userAssets && userAssets.map((asset, idx) => {
-                            const profitLoss = formatNumber(Math.abs(asset.profitLossUnf));
+                        {curPortfolioAssets && curPortfolioAssets.map((asset, idx) => {
+                            const profitLoss = formatData.formatNumber(Math.abs(asset.profitLossUnf));
                             return (
                                 <tr key={idx}>
                                     <td className='first-td'>
                                         <img className='content-asset-img' src={asset.iconUrl} alt={asset.name}></img>
                                         {asset.name}
                                     </td>
-                                    <td>{'$' + formatNumber(asset.price)}</td>
+                                    <td>{'$' + formatData.formatNumber(asset.price)}</td>
                                     <td style={asset.change < 0 ? {color: 'red'} : {color: 'green'}}>
                                         <VscTriangleDown style={asset.change < 0 ? '' : {transform: 'rotate(180deg)'}}/>
                                         {Math.abs(asset.change).toFixed(2) + '%'}
                                     </td>
                                     <td>
                                         <div>
-                                            {'$' + formatNumber(asset.holdings)}
-                                            {//change formatnumber for holdings
-                                             }
+                                            {'$' + formatData.formatNumber(asset.holdings)}
                                             <p className='holdings'>{asset.asset_amount + " " + asset.symbol}</p>
                                         </div>
                                     </td>

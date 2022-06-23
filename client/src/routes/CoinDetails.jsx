@@ -60,15 +60,6 @@ const CoinDetails = () => {
         setPriceHistory(response.data.data.data);
     }
 
-    const formatNumber = (price) => {
-        price = parseFloat(price);
-        if (price === null) price = 'Unlimited';
-        else if (price > 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
-        else if (price < 1 && price > 0.0001) price = price.toLocaleString(undefined, {minimumFractionDigits: 4});
-        else price = price.toLocaleString(undefined, {minimumFractionDigits: 8});
-        return price;
-    }
-
     return (
         <>
             {loading ? <div className='loading-page'><LoadingSpinner/> </div> :
@@ -80,11 +71,8 @@ const CoinDetails = () => {
                         <Chart coinDetails={coinDetails}
                                priceHistory={priceHistory}
                                changeTimePeriod={handleTimePeriodChange}
-                               formatNumber={formatNumber}
                         />
-                        <Details coinDetails={coinDetails}
-                                 formatNumber={formatNumber}
-                        />
+                        <Details coinDetails={coinDetails}/>
                     </div>
                     <Summary coinDetails={coinDetails} />
                 </div>
