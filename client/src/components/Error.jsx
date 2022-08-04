@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiOutlineStop } from 'react-icons/ai';
  
+// Error page
 const Error = (props) => {
     const {error} = props
 

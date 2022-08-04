@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Form for deleting an asset
 const deleteAssetForm = (props) => {
     const {reference, deleteAsset, closeForm} = props;
   return (

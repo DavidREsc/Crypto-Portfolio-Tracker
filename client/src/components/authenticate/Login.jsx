@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Login form
 const Login = (props) => {
 
     const {changeForm, onSubmit, onChange, inputs, error, demoLogin} = props;

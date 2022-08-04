@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {MdClose} from 'react-icons/md';
 
+// Form for editing a transaction
 const EditTransactionForm = (props) => {
     const {handleSubmit, reference, transaction, closeForm} = props;
     const [quantity, setQuantity] = useState(transaction.asset_amount);

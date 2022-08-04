@@ -1,5 +1,7 @@
 import React from 'react'
 
+
+// Form for deleting a portfolio
 const DeletePortfolioForm = (props) => {
     const {reference, closeForm, deletePortfolio} = props;
   return (

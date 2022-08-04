@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {MdClose} from 'react-icons/md';
 
+// Form for creating a new portfolio
 const CreatePortfolioForm = (props) => {
     const {reference, createPortfolio, closeForm} = props;
     const [portfolioName, setPortfolioName] = useState("");

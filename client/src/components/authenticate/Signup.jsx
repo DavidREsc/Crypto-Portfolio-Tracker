@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Signup form
 const Signup = (props) => {
 
     const {changeForm, onSubmit, onChange, inputs, error} = props;

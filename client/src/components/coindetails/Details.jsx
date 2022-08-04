@@ -1,6 +1,7 @@
 import React from 'react'
 import formatData from '../../utils/formatData';
 
+// Coin statistics - beside chart
 const Details = (props) => {
 
     const {coinDetails} = props;

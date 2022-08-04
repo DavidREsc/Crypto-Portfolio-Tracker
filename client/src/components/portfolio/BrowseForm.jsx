@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useAssets } from '../../contexts/AssetsContext';
 import {MdClose} from 'react-icons/md';
 
+// Form for browsing and selecting assets
 const BrowseForm = (props) => {
     const {handleSubmit, reference, closeForm} = props;
     const [searchTerm, setSearchTerm] = useState("");
@@ -19,10 +20,14 @@ const BrowseForm = (props) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}>
             </input>
+
             <div className='browse-form-container'>
                 <form className='browse-form'>
+                {/* Show results as user enters new characters. If nothing
+                is entered, show top 200 assets. */}
                     {assets.filter(asset => {
                         if (!searchTerm) return asset;
+                        // Matches entered characters to asset name or symbol
                         else return (asset.name.toLowerCase().includes(searchTerm.toLowerCase()
                                      || asset.symbol.includes(searchTerm)));
                     }).slice(0,200).map((asset, idx) => {

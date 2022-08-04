@@ -1,6 +1,7 @@
 import React from 'react'
 import '../../styles/coindetails.css';
 
+// Asset name, symbol, and icon - top of page
 const Titles = (props) => {
 
    const {coinDetails} = props; 

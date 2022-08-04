@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Form for deleting a transaction
 const DeleteTransactionForm = (props) => {
     const {reference, deleteTransaction, closeForm} = props;
   return (

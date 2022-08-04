@@ -5,6 +5,7 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { GlobalStyle } from '../../styles/Global.styled';
 import { useAuth } from '../../contexts/AuthContext';
 
+// Site navigation
 const NavBar = () => {
 
     const [click, setClick] = useState(false);

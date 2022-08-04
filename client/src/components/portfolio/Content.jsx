@@ -5,6 +5,7 @@ import {IoMdCloseCircle} from 'react-icons/io';
 import {IoIosAddCircle} from 'react-icons/io';
 import formatData from '../../utils/formatData';
 
+// Main content on portfolio page. Shows data of user transactions in current portfolio
 const Content = (props) => {
     const {handleAddAsset, handleDeleteAsset, handleTransactions, transactions, currentPortfolio} = props;
     const [totalWorth, setTotalWorth] = useState(0);
@@ -46,6 +47,7 @@ const Content = (props) => {
     return (
         <div className='portfolio-content'>
           {!loading && <>
+          {/* Portfolio total worth and percent change */}
             <div className='total-asset-worth-container'>
                 <div className='balance-container'>
                   <p className='current-balance'>Current balance</p>
@@ -56,6 +58,7 @@ const Content = (props) => {
                     <h3>{Math.abs(totalChange).toFixed(2) + '%'}</h3>
                 </div>
             </div>
+
             <div className='asset-title-container'>Your Assets</div>
             <div className='asset-table-container'>
                 <table className='asset-table'>
@@ -71,24 +74,34 @@ const Content = (props) => {
                     </thead>
                     <tbody>
                         {curPortfolioAssets && curPortfolioAssets.map((asset, idx) => {
+                            // Format decimal places for profit/loss
                             const profitLoss = formatData.formatNumber(Math.abs(asset.profitLossUnf));
                             return (
                                 <tr key={idx}>
+                                    {/* Asset name column */}
                                     <td className='first-td'>
                                         <img className='content-asset-img' src={asset.iconUrl} alt={asset.name}></img>
                                         {asset.name}
                                     </td>
+
+                                    {/* Current asset price column */}
                                     <td>{'$' + formatData.formatNumber(asset.price)}</td>
+
+                                    {/* 1d percent change column */}
                                     <td style={asset.change < 0 ? {color: 'red'} : {color: 'green'}}>
                                         <VscTriangleDown style={asset.change < 0 ? '' : {transform: 'rotate(180deg)'}}/>
                                         {Math.abs(asset.change).toFixed(2) + '%'}
                                     </td>
+
+                                    {/* Asset holdings (dollar amount and coin amount) */}
                                     <td>
                                         <div>
                                             {'$' + formatData.formatNumber(asset.holdings)}
                                             <p className='holdings'>{asset.asset_amount + " " + asset.symbol}</p>
                                         </div>
                                     </td>
+
+                                    {/* Profit/loss columns */}
                                     <td style={asset.profitLossUnf < 0 ? {color: 'red'} : {color: 'green'}}>
                                         {'$' + profitLoss}
                                         <div className='profit-loss'>
@@ -96,6 +109,8 @@ const Content = (props) => {
                                             {Math.abs(((1 - (asset.holdings / asset.initialHoldings)) * 100)).toFixed(2) + '%'}
                                         </div>
                                     </td>
+
+                                    {/* Actions columns */}
                                     <td className='last-td'>
                                         <div className='actions'>
                                             <button className='edit-transaction' onClick={() => handleTransactions(asset)}>
@@ -115,6 +130,7 @@ const Content = (props) => {
                 </table>
             </div>
       
+            {/* Button for adding a new asset/transaction */}
             <div className='add-asset-container'>
                 <button onClick={handleAddAsset} className='add-asset-btn'>Add Asset</button>
             </div>
