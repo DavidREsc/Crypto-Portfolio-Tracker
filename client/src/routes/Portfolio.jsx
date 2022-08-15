@@ -284,6 +284,7 @@ const Portfolio = () => {
                     portfolio_id
                 }
             })
+            // Failed to authorize
             if (response.data.error) {
                 isAuthenticated();
                 history.push('./sign-in');
