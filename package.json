@@ -10,7 +10,7 @@
   "scripts": {
     "heroku-postbuild": "cd client && npm install && npm run build",
     "dev": "env-cmd -f ./config/dev.env nodemon index.js",
-    "start": "concurrently \"env-cmd -f ./config/start.env nodemon index.js\" \"cd client && npm install && npm start\""
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
