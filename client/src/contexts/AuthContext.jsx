@@ -102,7 +102,7 @@ export const AuthProvider = ({children}) => {
             <ToastContainer
               position="top-center"
               autoClose={1000}
-              hideProgressBar={false}
+              hideProgressBar={true}
               newestOnTop={false}
               closeOnClick
               rtl={false}

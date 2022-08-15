@@ -13,6 +13,23 @@ const calculateProfitLossHoldings = (transactions) => {
     return calculated
 }
 
+const calculateTotalWorth = (assets) => {
+    let worth = 0
+    let initial = 0
+    for (let i = 0; i < assets.length; i++) {
+        worth += assets[i].asset_amount * assets[i].price;
+        initial += assets[i].asset_amount * assets[i].initial_price;
+    }
+    return {
+        worth,
+        initial
+    }
+}
+
+const calculatePercentChange = (current, initial) => {
+    return (((current - initial) / initial) * 100).toFixed(2)
+}
+
 const mergeTransactions = (transactions) => {
     let mergedTransactions = transactions.reduce((accumulator, cur) => {
         let uuid = cur.uuid, found = accumulator.find(elem => {
@@ -57,6 +74,8 @@ const formatNumberV2 = (price) => {
 
 const formatData = {
     calculateProfitLossHoldings,
+    calculatePercentChange,
+    calculateTotalWorth,
     mergeTransactions,
     sortAssets,
     formatNumber,

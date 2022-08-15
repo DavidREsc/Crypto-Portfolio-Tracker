@@ -32,7 +32,6 @@ const CoinDetails = () => {
             try {
                 const coinDetailsResponse = await BrowseCoins.get(`/coin-details/${id}`);
                 const priceHistoryResponse = await BrowseCoins.get(`/price-history/${id}/24h`);
-                console.log(coinDetailsResponse)
                 if (mountedRef.current) {
                     if (coinDetailsResponse.data.data.status === 'fail' || priceHistoryResponse.data.data.status === 'fail') {
                         setError(true);

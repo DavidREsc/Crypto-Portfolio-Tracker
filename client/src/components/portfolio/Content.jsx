@@ -25,18 +25,19 @@ const Content = (props) => {
 
             // calculate total worth and percent change
             if (curPortfolioAssets.length) {
-              for (let i = 0; i < curPortfolioAssets.length; i++) {
-                  worth += curPortfolioAssets[i].asset_amount * curPortfolioAssets[i].price;
-                  initial += curPortfolioAssets[i].asset_amount * curPortfolioAssets[i].initial_price;
-              }
-              change = (((worth - initial) / Math.abs(initial)) * 100).toFixed(2);
+                let data = formatData.calculateTotalWorth(curPortfolioAssets)
+                worth = data.worth
+                initial = data.initial
+                change = formatData.calculatePercentChange(worth, initial);
+
+                // calculate profit/loss, holdings and initial holdings in dollars
+                curPortfolioAssets = formatData.calculateProfitLossHoldings(curPortfolioAssets)
+                // merge transactions
+                curPortfolioAssets = formatData.mergeTransactions(curPortfolioAssets)
+                // sort assets from greatest to least in holdings amount
+                curPortfolioAssets.sort(formatData.sortAssets)
             }
-            // calculate profit/loss, holdings and initial holdings in dollars
-            curPortfolioAssets = formatData.calculateProfitLossHoldings(curPortfolioAssets)
-            // merge transactions
-            curPortfolioAssets = formatData.mergeTransactions(curPortfolioAssets)
-            // sort assets from greatest to least in holdings amount
-            curPortfolioAssets.sort(formatData.sortAssets)
+  
         }
         setCurPortfolioAssets(curPortfolioAssets);
         setTotalWorth(worth);
@@ -106,7 +107,7 @@ const Content = (props) => {
                                         {'$' + profitLoss}
                                         <div className='profit-loss'>
                                             <VscTriangleDown style={asset.profitLossUnf < 0 ? '' : {transform: 'rotate(180deg)'}}/>
-                                            {Math.abs(((1 - (asset.holdings / asset.initialHoldings)) * 100)).toFixed(2) + '%'}
+                                            {Math.abs(formatData.calculatePercentChange(asset.holdings, asset.initialHoldings)) + '%'}
                                         </div>
                                     </td>
 
@@ -132,7 +133,7 @@ const Content = (props) => {
       
             {/* Button for adding a new asset/transaction */}
             <div className='add-asset-container'>
-                <button onClick={handleAddAsset} className='add-asset-btn'>Add Asset</button>
+                <button onClick={handleAddAsset} className='add-asset-btn'>Add New</button>
             </div>
             </>
           }

@@ -8,19 +8,28 @@ const TransactionForm = (props) => {
     const {reference, selectedAsset, addTransaction, handleTrnsBackBtn, closeForm} = props;
     const [quantity, setQuantity] = useState("");
     const [pricePerCoin, setPricePerCoin] = useState("");
+    const [priceModifed, setPriceModified] = useState(false)
     const {assets} = useAssets();
 
     // Gets and sets the current price of selected coin
     useEffect(() => {
-      setPricePerCoin(() => {
-        return (assets.filter(asset => asset.name === selectedAsset)[0].price)
-      });
-    },[assets, selectedAsset]);
+      if (!priceModifed) {
+        setPricePerCoin(() => {
+          return (assets.filter(asset => asset.name === selectedAsset)[0].price)
+        });
+      }
+    },[assets, selectedAsset, priceModifed]);
 
     // Function handler for submit
     const handleSubmit = (e) => {
       e.preventDefault();
       addTransaction(parseFloat(quantity), parseFloat(pricePerCoin));
+    }
+
+    const handlePriceChange = (e) => {
+      const price = e.target.value
+      setPriceModified(true)
+      setPricePerCoin(price)
     }
 
   return (
@@ -69,7 +78,7 @@ const TransactionForm = (props) => {
                   min="0"
                   step="any"
                   value={pricePerCoin}
-                  onChange={(event) => setPricePerCoin(event.target.value)}>
+                  onChange={(e) => handlePriceChange(e)}>
                 </input>
             </div>
           </div>

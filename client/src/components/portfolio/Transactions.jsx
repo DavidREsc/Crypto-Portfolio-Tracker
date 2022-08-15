@@ -35,7 +35,10 @@ const Transactions = (props) => {
           setTransactions(transactions);
         }
         // triggers if you delete all transactions while this component is mounted
-        else handlePortfolio();
+        else {
+          console.log("Deleted all transactions")
+          handlePortfolio();
+        }
       }
     },[allTransactions, selectedUserAsset, handlePortfolio])
 

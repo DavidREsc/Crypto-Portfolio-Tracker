@@ -34,6 +34,7 @@ router.post('/create-portfolio', authorize, async (req, res) => {
         res.status(200).json(portfolio);
     } catch (error) {
         console.log("error");
+        res.send(500)
     }
 });
 
@@ -49,6 +50,7 @@ router.delete('/delete-portfolio', async (req, res) => {
         res.status(200).json({transactions, portfolio});
     } catch (error) {
         console.log("error");
+        res.send(500)
         
     }
 })
@@ -62,7 +64,8 @@ router.post('/add-transaction', authorize, async (req, res) => {
         );
         res.status(200).json(asset);
     } catch (error) {
-        console.log(error);      
+        console.log(error);
+        res.send(500)      
     }
 });
 
@@ -76,6 +79,7 @@ router.delete('/delete-asset', authorize, async (req, res) => {
         res.status(200).json(asset);
     } catch (err) {
         console.log(err);
+        res.send(500)
     }
 });
 
@@ -89,6 +93,7 @@ router.delete('/delete-transaction', authorize, async (req, res) => {
         res.status(200).json(asset);
     } catch (error) {
         console.log(error);
+        res.send(500)
     }
 })
 
@@ -101,7 +106,8 @@ router.put('/edit-transaction', authorize, async (req, res) => {
         )
         res.status(200).json(transaction);    
     } catch (error) {
-        console.log(error);       
+        console.log(error); 
+        res.send(500)      
     }
 })
 
