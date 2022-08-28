@@ -45,7 +45,7 @@ services:
     image: redis:7.0.2
     ports:
       - "8001:8001"
-    command: ["redis-server", "--bind", "redis", "--port", "8000"]
+    command: ["redis-server", "--bind", "redis", "--port", "8001"]
     volumes:
       - redis:/data
 
