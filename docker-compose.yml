@@ -3,12 +3,16 @@ version: "3.8"
 services:
   client:
     image: client
+    build:
+      context: ./client
     stdin_open: true
     ports:
       - "3000:3000"
 
   api:
     image: api
+    build:
+      context: ./server
     ports:
       - "3001:3001"
     depends_on:
