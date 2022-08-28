@@ -31,6 +31,7 @@ services:
   postgres:
     image: postgres:14.1
     restart: always
+    command: postgres -c port=8000
     ports:
       - "8000:8000"
     environment:
