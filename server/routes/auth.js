@@ -32,7 +32,7 @@ router.post('/register',
         if (user.rows.length !== 0) return res.status(200).json({"error": "There is already an account with that email"});
 
         //Encrypt password
-        const saltRounds = parseInt(process.env.SALTROUNDS);
+        const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const bcryptPassword = await bcrypt.hash(password, salt);
 

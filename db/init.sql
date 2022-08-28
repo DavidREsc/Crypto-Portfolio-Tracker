@@ -1,4 +1,6 @@
-CREATE DATABASE crypto_tracker;
+CREATE DATABASE crypto_portfolio_tracker;
+\c crypto_portfolio_tracker;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users(
     user_id UUID DEFAULT uuid_generate_v4(),
@@ -23,7 +25,6 @@ CREATE TABLE assets(
     asset_coin_id VARCHAR(255) NOT NULL,
     asset_amount DOUBLE PRECISION NOT NULL,
     initial_price DOUBLE PRECISION NOT NULL,
-    
     PRIMARY KEY (asset_id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios(portfolio_id)
 );

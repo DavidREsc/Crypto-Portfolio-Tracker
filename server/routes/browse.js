@@ -2,9 +2,10 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const Redis = require('ioredis')
 const redis = new Redis(process.env.NODE_ENV === 'production' ? process.env.REDIS_URL : {
-    'port': 6379,
-    'host': '127.0.0.1'
+    'port': process.env.REDISPORT,
+    'host': process.env.REDISHOST
 })
+
 
 //Get coin details
 router.get('/coin-details/:id', async (req, res) => {
@@ -76,7 +77,6 @@ router.get('/coinlist', async(req, res) => {
 router.get('/price-history/:id/:period/', async (req, res) => {
     const id = req.params.id;
     const period = req.params.period;
-
     try {
         const response = await fetch(`https://coinranking1.p.rapidapi.com/coin/${id}/history?referenceCurrencyUuid=_4s0A3Uuu5ML&timePeriod=${period}`, {
             "method": "GET",

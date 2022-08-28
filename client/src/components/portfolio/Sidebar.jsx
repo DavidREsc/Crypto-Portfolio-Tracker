@@ -24,7 +24,7 @@ const Sidebar = (props) => {
             <div className='all-portfolios-container'>All Portfolios</div>
             <div className='portfolio-list-container'>
                 <ul className='portfolio-list'>
-                    {data.map((p, idx) => {
+                    {data && data.map((p, idx) => {
                         let className;
                         // Change style for selected portfolio
                         if (idx === selected) className = 'portfolio-list-item-active';
@@ -32,7 +32,7 @@ const Sidebar = (props) => {
                         return (
                             <li key={idx} className={className}>
                               <button className='portfolio-list-item-btn' onClick={(e) => handleSelectPortfolio(p, idx)}>
-                                {p.portfolio_name}
+                                {p.portfolio_name} 
                               </button>
                               <div>
                                 {/* Button for deleting a portfolio except if 'Main'*/}
