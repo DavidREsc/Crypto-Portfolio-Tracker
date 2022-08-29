@@ -15,9 +15,11 @@ Clone the repository
 git clone https://github.com/DavidREsc/Crypto-Portfolio-Tracker.git
 ```
 
+
 1. Find the example.env file within the directory server/config
 2. Enter your own environment variables for the Coinranking api key and jwt secret
 3. Rename the file to dev.env
+
 
 In the root of the project enter the command:
 
