@@ -11,3 +11,6 @@ build:
     api: server/Dockerfile
   config:
     NODE_ENV: production
+
+run:
+  api: node server/index.js --bind 0.0.0.0:$PORT
