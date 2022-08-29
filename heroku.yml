@@ -9,7 +9,5 @@ build:
   docker:
     client: client/Dockerfile
     api: server/Dockerfile
-
-run:
-  client: npm run build
-  api: node index.js
+  config:
+    NODE_ENV: production
