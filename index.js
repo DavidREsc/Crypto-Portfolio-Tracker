@@ -13,24 +13,24 @@ app.use(express.json());
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')))
+    app.use(express.static(path.join(__dirname, '/client/build')))
 }
 
 /*****ROUTES******/
 
 //Browse routes
-app.use('/api/v1/browse', require('./routes/browse'));
+app.use('/api/v1/browse', require('./src/routes/browse'));
 
 //Auth routes
-app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/auth', require('./src/routes/auth'));
 
 //Portfolio routes
-app.use('/api/v1/portfolio', require('./routes/portfolio'));
+app.use('/api/v1/portfolio', require('./src/routes/portfolio'));
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 })
 
 app.get('/*', (req, res) => {
-    res.sendFile('../client/build/index.html', {root: __dirname});
+    res.sendFile('./client/build/index.html', {root: __dirname});
 })
