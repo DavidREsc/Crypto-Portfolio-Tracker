@@ -33,7 +33,6 @@ router.get('/coin-details/:id', async (req, res) => {
 
 //Get coin list
 router.get('/coinlist', async(req, res) => {
-    console.log(process.env.API)
     let promises = [];
     let data = {
         coins: [],
