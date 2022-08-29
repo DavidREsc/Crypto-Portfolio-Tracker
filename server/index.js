@@ -32,5 +32,5 @@ app.listen(PORT, () => {
 })
 
 app.get('/*', (req, res) => {
-    res.sendFile('client/build/index.html', {root: __dirname});
+    res.sendFile('../client/build/index.html', {root: __dirname});
 })
