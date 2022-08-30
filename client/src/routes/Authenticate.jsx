@@ -76,8 +76,8 @@ const Authenticate = () => {
 	}
 
 	const handleLoginResponse = (res) => {
-		if (res.status === 422 || res.status === 500) {
-			setLoginError(res.data.errors[0].msg);
+		if (res.status === 422 || res.status === 500 || res.status === 400) {
+			setLoginError(res.data.error[0]);
 		} else if (res.status === 200) {
 			if (res.data.error) {
 				setLoginError(res.data.error);
@@ -87,8 +87,9 @@ const Authenticate = () => {
 	}
 
 	const handleSignupResponse = (res) => {
-		if (res.status === 422 || res.status === 500) {
-			setSignupError(res.data.errors[0].msg);
+		if (res.status === 422 || res.status === 500 || res.status === 400) {
+			console.log(res)
+			setSignupError(res.data.error[0]);
 		} else if (res.status === 200) {
 			if (res.data.error) {
 				setSignupError(res.data.error)

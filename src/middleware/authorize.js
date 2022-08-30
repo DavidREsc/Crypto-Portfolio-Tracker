@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const authorize = (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.crypto_portfolio_tracker;
     
     if (!token) return res.status(200).json({error: "You are not authorized to view this page"});
 

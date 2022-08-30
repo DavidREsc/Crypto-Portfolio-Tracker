@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/api/v1/browse', require('./src/routes/browse'));
 
 //Auth routes
-app.use('/api/v1/auth', require('./src/routes/auth'));
+app.use('/api/v1/auth', require('./src/routes/authRoutes'));
 
 //Portfolio routes
 app.use('/api/v1/portfolio', require('./src/routes/portfolio'));
