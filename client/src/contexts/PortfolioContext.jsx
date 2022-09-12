@@ -64,8 +64,14 @@ export const PortfolioProvider = ({children}) => {
             setTransactions(array);
             const lastPortfolio = localStorage.getItem('lastPortfolioViewed')
             let selectPortfolio;
+            
             if (!lastPortfolio) selectPortfolio = response.data.portfolios.filter(p => p.portfolio_name === 'Main')[0];
-            else selectPortfolio = response.data.portfolios.filter(p => p.portfolio_id === lastPortfolio)[0]
+
+            else {
+              selectPortfolio = response.data.portfolios.filter(p => p.portfolio_id === lastPortfolio)[0]
+              if (!selectPortfolio) selectPortfolio = response.data.portfolios.filter(p => p.portfolio_name === 'Main')[0]
+            }
+
             const map = new Map()
             let profit = 0
             for (let i = 0; i < array.length; i++) {
@@ -73,6 +79,7 @@ export const PortfolioProvider = ({children}) => {
                 map.set(array[i].name, {amount: array[i].asset_amount, price: array[i].initial_price})
               }
             }
+
             for (let i = 0; i < array.length; i++) {
               if (array[i].portfolio_id === selectPortfolio.portfolio_id && array[i].transaction_type === 'sell') {
                 profit += map.sell(array[i].name, {amount: array[i].asset_amount, price: array[i].initial_price})
