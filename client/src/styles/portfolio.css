@@ -2,24 +2,32 @@
     display: flex;
     width: 100%;
     justify-content: space-evenly;
-    margin-top: 12vh;
+    margin-top: 15vh;
 }
 .side-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 20%;
-    height: 50vh;
-
+    height: 65%;
+    background-color: hsl(219, 35%, 6%);
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .all-portfolios-container {
     margin-bottom: 2rem;
+    margin-top: 2rem;
     padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 
 }
 
 .portfolio-list-container {
-    width: 100%;
+    width: 90%;
     overflow: auto;
-    max-height: 24.5rem;
+    max-height: 21rem;
     scrollbar-width: thin;
 }
 
@@ -27,6 +35,9 @@
     text-decoration: none;
     display: block;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .portfolio-list-item {
@@ -34,10 +45,11 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    height: 2rem;
-    width: 50%;
+    width: 70%;
     margin-bottom: 1rem;
-    padding: 0;
+    padding: 0.2rem;
+    border-radius: 5px;
+   
 }
 
 .portfolio-list-item div {
@@ -49,19 +61,21 @@
 }
 
 .portfolio-list-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(1, 87, 155, 0.2);
 }
 
 .portfolio-list-item-active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(1, 87, 155, 0.2);
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: left;
-    height: 2rem;
-    width: 50%;
+    width: 70%;
     margin-bottom: 1rem;
-    padding: 0;
+    border-radius: 5px;
+    border: 1px solid #01579b;
+    padding: 0.2rem;
+    color: rgba(0, 188, 212, 1)
 }
 
 .delete-portfolio-btn {
@@ -83,18 +97,28 @@
     align-items: center;
     background: none;
     border: none;
-    color: #e8e8e8;
+    color: hsl(198, 16%, 74%);
+    font-weight: bold;
     padding: 1rem;
     cursor: pointer;
+    font-size: 0.8rem;
 }
 
 .portfolio-list-item.active {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.create-portfolio-button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
 .create-portfolio-container {
     margin-top: 2rem;
     padding: 1rem;
+    display: flex;
+    width: 85%;
+    justify-content: center;
 }
 
 .create-portfolio-btn {
@@ -115,29 +139,44 @@
 }
 
 .portfolio-content {
-    width: 56%;
-    padding: 1rem;
-    height: 75vh;
+    width: 65%;
+    padding: 3rem;
+    height: 80%;
     border-radius: 1rem;
+    background-color: hsl(219, 35%, 6%);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
 }
 
 .total-asset-worth-container {
     margin-bottom: 2rem;
+    margin-left: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.capital-gains {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 1.1rem;
 }
 
 .asset-title-container {
     margin-bottom: 1rem;
+    margin-left: 1rem;
 }
 
 .asset-table-container {
     width: 100%;
-    max-height: 50vh;
+    max-height: 38vh;
     overflow: auto;
     scrollbar-width: thin;
+    background-color: hsl(219, 35%, 6%);
 }
 
 .asset-table {
-    width: 100%;
+    width: 98%;
     border-collapse: collapse;
     margin: auto;
 }
@@ -147,8 +186,9 @@
 }
 
 .portfolio-page th {
-    color: #e8e8e8;
+    color: hsl(198, 16%, 74%);
     font-size: 0.80rem;
+    background-color: hsl(219, 35%, 6%);
 }
 
 .portfolio-page tr {
@@ -170,6 +210,12 @@
     text-align: right;
 }
 
+.add-new-btn {
+    width: 10rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
 .add-asset-container {
     margin-top: 2rem;
     margin-bottom: 10rem;
@@ -186,6 +232,7 @@
     font-weight: bold;
     border: 1px solid black;
     width: 5rem;
+    margin-left: 1rem;
 }
 
 .add-asset-btn:hover {
@@ -198,28 +245,25 @@
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    background-color: #1a1f2c;
+    background-color: hsl(219, 35%, 6%);
     height: 50%;
     padding: 1.5rem;
     border-radius: 1rem;
-    height: 29rem;
+    height: 32rem;
     width: 25rem;
+    border: 1px solid #222
 }
 
 .browse-form-searchbar {
+    display: flex;
     width: 100%;
-    height: 1.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #E9E9E9;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    background-color: #E9E9E9;
-    outline-color: gray;
+    margin: auto;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 
-.browse-form-searchbar:hover {
-    border: 1px solid gray;
-}
+
 
 .browse-form-container {
     height: 20rem;
@@ -230,7 +274,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    color: #e8e8e8;
+    color: #cfd8dc;
 }
 
 .browse-form {
@@ -240,7 +284,7 @@
     bottom: -20px;
     right: -20px; 
     overflow: scroll;
-    color: #e8e8e8;
+    color: #cfd8dc;
 }
 
 .browse-form-btn {
@@ -253,7 +297,7 @@
     align-items: center;
     margin-bottom: 0.5rem;
     z-index: 5;
-    color: #e8e8e8;
+    color: #cfd8dc;
     font-size: 0.85rem;
 }
 
@@ -265,6 +309,7 @@
     display: flex;
     align-items: center;
     padding: 1rem;
+    color: hsl(198, 16%, 70%);
     font-weight: bold;
 }
 
@@ -275,83 +320,53 @@
 }
 
 .browse-form-btn:hover {
-    background-color: #181818;
+    background-color: rgba(150, 150, 150, 0.1);
     border-radius: 0.5rem;
 }
 
-.transaction-form-container-parent {
+.transaction-form {
+    background-color: hsl(219, 35%, 6%);
+    border: 1px solid #222;
+    border-radius: 1rem;
+    height: 38rem;
+    width: 29rem;
+    padding: 2rem;
+    color: #e8e8e8;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    background-color: #1a1f2c;
-    height: 50%;
-    padding: 1rem;
-    border-radius: 1rem;
-    height: 25rem;
-    width: 25rem;
-}
-
-.transaction-form-container{
-    height: 23rem;
-    width: 90%;
-    left: 50%;
-    transform: translateX(-50%);
-    overflow: hidden;
-    position: absolute;
-}
-
-.transaction-form {
-    height: 100%;
-    color: #e8e8e8;
-    display: flex;
-    flex-direction: column;
+    transform: translate(-50%, -52%);
 }
 
 .trns-form-asset-name-input {
     width: 80%;
     height: 3rem;
-    margin: auto;
+    margin-bottom: 3rem;
     display: flex;
     align-items: center;
     border-radius: 10px;
     padding: 1rem;
     border: 1px solid gray;
-    color: #e8e8e8;
+    color: hsl(198, 16%, 74%);
 }
 
-.trns-form-asset-details-input {
-    width: 44%;
-    height: 2rem;
-    display: inline-block;
-    border-radius: 10px;
-    padding: 1rem;
-    border: 1px solid black;
-    outline: none;
+.trns-back-btn {
+    width: 10rem;
 }
 
 .trns-form-details-input-container {
     display: flex;
     justify-content: center;
     gap: 1rem;
-}
-
-.trns-form-details-label-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
     margin-top: 3rem;
 }
 
-.trns-form-asset-details-label {
-    margin-right: 0.4rem;
-    margin-left: 0.8rem;
-    margin-bottom: 0.5rem;
-    min-width: 45%;
-    font-weight: bold;
-}
+.trns-radio {
 
+}
 .content-asset-img {
     width: 1rem;
     margin-right: 0.5rem;
@@ -369,14 +384,31 @@
 }
 
 .total-worth {
-    display: inline-block;
-    border-radius: 0.6rem;
-    padding: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.total-profit-loss {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.total-worth-change {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .total-change {
     display: flex;
-    margin-top: 10px;
+}
+
+.close-form-icon {
+    background: none;
+    color: hsl(198, 16%, 74%);
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
 }
 
 .delete-asset {
@@ -414,18 +446,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1a1f2c;
+    background-color: hsl(219, 35%, 6%);
+    border: 1px solid #222;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20rem;
-    height: 13rem;
+    width: 25rem;
+    height: 20rem;
     color: #e8e8e8;
+    padding: 1rem;
+    padding-top: 2rem;
     border-radius: 1rem;
 }
 
 .delete-asset-form-title {
-    margin-top: 7%;
+    font-size: 1.2rem;
+    color: hsl(198, 16%, 76%);
 }
 
 .delete-asset-form-btns {
@@ -433,8 +469,8 @@
     flex-direction: column;
     justify-content: center;
     width: 90%;
-    gap: 10px;
-    margin-top: 5%;
+    gap: 15px;
+    margin-top: 2rem;
 }
 
 .delete-form-btn {
@@ -463,7 +499,7 @@
 }
 
 .form-text {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #a9a9a9;
     padding: 1rem;
 }
@@ -562,18 +598,22 @@
     font-size: 1.5rem;
     background: none;
     border: none;
-    color: #c8c8c8;
+    color: hsl(198, 16%, 74%);
 }
 
 .trns-form-icons-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    color: hsl(198, 16%, 74%)
 }
 
 .trns-form-title {
     text-align: center;
     margin-bottom: 3rem;
+    color: hsl(198, 16%, 74%)
 }
 
 .browse-form-icon {
@@ -607,23 +647,31 @@
    left: 0;
    position: fixed;
    z-index: 10;
-   background-color: rgba(0, 0, 0, 0.5);
+   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.create-portfolio-form {
+.create-portfolio-form-container {
     position: absolute;
-    background-color: #1a1f2c;
+    background-color: hsl(219, 35%, 6%);
+    border: 1px solid #222;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20rem;
-    height: 17rem;
-    color: #e8e8e8;
+    width: 25rem;
+    height: 19rem;
+    color: hsl(198, 16%, 74%);
     border-radius: 1rem;
-    padding: 1rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-portfolio-form {
+    width: 100%;
+
 }
 
 .create-portfolio-form-title {
@@ -653,6 +701,18 @@
     padding: 0.3rem;
 }
 
+.balance-container {
+}
+
+.date-picker {
+   width: 100%;
+   margin-top: 1rem;
+}
+
+.react-datepicker__input-container input {
+    height: 2rem;
+}
+
 @media screen and ( max-width: 960px) {
 
     .portfolio-page-content {
@@ -663,6 +723,14 @@
 
     .portfolio-content {
         width: 100%;
+        padding: 0rem;
+        background: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    .asset-table-container {
+        background: none;
     }
 
     .side-bar {
@@ -717,12 +785,4 @@
         width: 10rem;
         text-align: center;
     }
-
-
-
- 
-
-
-
 }
-    

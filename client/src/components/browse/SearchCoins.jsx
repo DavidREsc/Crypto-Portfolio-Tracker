@@ -25,8 +25,8 @@ const SearchCoins = (props) => {
                 {assets && assets.filter(asset => {
                     if (!searchTerm) return assets;
                     // Matches entered characters to asset name or symbol
-                    else return (asset.name.toLowerCase().includes(searchTerm.toLowerCase()
-                                 || asset.symbol.includes(searchTerm)));
+                    else return (asset.name.toLowerCase().includes(searchTerm.toLowerCase())
+                                 || asset.symbol.toLowerCase().includes(searchTerm));
                 }).slice(0,200).map((asset, idx) => {
                   return (
                     <Link key={idx} className='search-link' to={`/browse/${asset.uuid}`}>

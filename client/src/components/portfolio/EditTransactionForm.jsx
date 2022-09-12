@@ -1,48 +1,93 @@
-import React, {useState} from 'react'
-import {MdClose} from 'react-icons/md';
+import React from 'react'
+import {useForm, Controller} from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup'
+import { transactionSchema } from '../../utils/yupSchemas'
+import { TextFieldTransaction } from '../../styles/MaterialUi.styled';
+import AddTransactionBtn from '../buttons/AddTransactionBtn';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import InputAdornment from '@mui/material/InputAdornment';
+import CloseFormBtn from '../buttons/CloseFormBtn';
 
-// Form for editing a transaction
+// Form for adding a new transaction
 const EditTransactionForm = (props) => {
-    const {handleSubmit, reference, transaction, closeForm} = props;
-    const [quantity, setQuantity] = useState(transaction.asset_amount);
-    const [pricePerCoin, setPricePerCoin] = useState(transaction.initial_price);
+    const {reference, editTransaction, closeForm, name, icon, defaultPrice, defaultQuantity, loading} = props;
+    const {handleSubmit, control} = useForm({
+      resolver: yupResolver(transactionSchema)
+    })
 
   return (
-   <div className='overlay'>
-    <div ref={reference} className='edit-transaction-form-container'>
-         <button className='browse-form-icon' onClick={closeForm}><MdClose /></button>
-         <form className='edit-transaction-form' onSubmit={(e) => handleSubmit(e, parseFloat(quantity), parseFloat(pricePerCoin))}>
-          <h3>Edit Transaction</h3>
-          <div className='trns-form-details-label-container'>
-            <label className="trns-form-asset-details-label"> Quantity</label>
-            <label className="trns-form-asset-details-label"> Price Per Coin</label>
-          </div>
-          <div className="trns-form-details-input-container">
-            <input className='trns-form-asset-details-input' autoFocus required
-              placeholder='0.00'
-              type='number'
-              min="0"
-              step="any"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}>
-            </input>
-            <div className='trns-form-input-sign'>
-              <h4>$</h4>
-              <input className='trns-form-asset-details-input-price' 
+    <div className='overlay'>
+      {/* Quantity and price per coin */}
+      <form ref={reference} className='transaction-form' onSubmit={handleSubmit(editTransaction)}>
+        <div className='trns-form-icons-container'>
+          {/* Close button for closing form */}
+          <CloseFormBtn closeForm={closeForm}/>
+        </div>
+
+        {/* Title */}
+        <h3 className='trns-form-title'>Edit Transaction</h3>
+
+        {/* Asset image and name */}
+        <div className='trns-form-asset-name-input'>
+          <img className='coin-img' src={icon} alt={name}></img>
+          <p>{name}</p>
+        </div>
+
+        <div className="trns-form-details-input-container">
+          <Controller 
+            control={control}
+            name='quantity'
+            defaultValue={defaultQuantity}
+            render={({ field: {onChange, value}, fieldState: {error} }) => (
+              <TextFieldTransaction
                 type='number'
-                min="0"
-                step="any"
-                value={pricePerCoin}
-                onChange={(event) => setPricePerCoin(event.target.value)}>
-              </input>
-            </div>
+                placeholder='0.00'
+                fullWidth
+                error={!!error}
+                label='Quantity'
+                variant='outlined'
+                autoComplete='off'
+                onChange={onChange}
+                value={value}
+                helperText={error ? error.message : null}
+              />
+            )}
+          />
+          <Controller 
+            control={control}
+            name='pricePerCoin'
+            defaultValue={defaultPrice}
+            render={({ field: {onChange, value}, fieldState: {error} }) => (
+              <TextFieldTransaction
+                type='number'
+                placeholder='0.00'
+                fullWidth
+                error={!!error}
+                label='Price per coin'
+                variant='outlined'
+                autoComplete='off'
+                onChange={onChange}
+                value={value}
+                helperText={error ? error.message : null}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AttachMoneyIcon color='primary' />
+                      </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
+
           </div>
-          <button className='form-btn' type='submit'>
-            Submit
-          </button>
-        </form>
+          {/* Submit button*/}
+          <div style={{marginTop: '2rem', width: '100%'}}>
+            <AddTransactionBtn text='Edit Transaction' loading={loading}/>
+          </div>
+          
+      </form>
     </div>
-   </div>
   )
 }
 

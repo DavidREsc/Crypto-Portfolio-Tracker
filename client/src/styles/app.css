@@ -5,11 +5,11 @@
 }
 
 html {
-	font-size: calc(10px + (21 - 10) * ((100vw - 300px) / (2560 - 320)));
+	font-size: calc(10px + (21 - 10) * ((100vw - 300px) / (3072 - 320)));
 	margin: 0;
 	padding: 0;
 	height: 100%;
-    font-family: 'Lucida Sans';
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -22,10 +22,10 @@ body {
 
 .home-page {	
     min-height: 100vh;
-    background-color: #101522;
+    background-color: #0d121b;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
-    color: #e8e8e8;
+    color: #ccc;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,7 +36,7 @@ body {
 	flex-flow: row wrap;
 	justify-content: center;
 	align-items: center;
-	background-color: #101522;
+    background-color: #0d121b;
 	min-height: 100vh;
 }
 
@@ -44,17 +44,17 @@ body {
     display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-    background-color: #101522;
+    background-color: #0d121b;
 	min-height: 100vh;
-    color: #e8e8e8;
+    color: hsl(198, 16%, 74%);
 }
 
 .browse-page {
     min-height: 100vh;
-    background-color: #101522;
+    background-color: #0d121b;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
-    color: white;
+    color: #ccc;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,10 +63,10 @@ body {
 
 .detail-page {
     min-height: 100vh;
-    background-color: #101522;
+    background-color: #0d121b;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
-    color: white;
+    color: hsl(198, 16%, 74%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,7 +75,7 @@ body {
 
 .loading-page {
     min-height: 100vh;
-    background-color: #101522;
+    background-color: #0d121b;
     margin: -4rem auto -4rem auto;
     padding-top: 4rem;
     color: white;
@@ -103,7 +103,7 @@ body {
 }
 
 *::-webkit-scrollbar {
-    width: 10px; 
+    width: 7px; 
   }
 
 *::-webkit-scrollbar-thumb {

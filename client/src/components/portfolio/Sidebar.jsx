@@ -1,56 +1,113 @@
-import React, { useEffect, useState} from 'react';
-import {AiFillDelete} from 'react-icons/ai';
+import React, { useEffect, useState, useRef} from 'react';
+import PortfolioList from './PortfolioList';
+import { ButtonCreatePortfolio } from '../../styles/MaterialUi.styled';
+import { usePortfolio } from '../../contexts/PortfolioContext';
+import DeleteForm from './DeleteForm';
+import CreatePortfolioForm from './CreatePortfolioForm';
 
 //Sidebar containing portfolios, create portfolio button
-const Sidebar = (props) => {
-    const {data, handleCreatePortfolio, selectPortfolio, handleDeletePortfolio} = props;
-    const [selected, setSelected] = useState();
+const Sidebar = () => {
+    const {updateCurrentPortfolio, portfolios, currentPortfolio, deletePortfolio, createPortfolio} = usePortfolio()
+    const [selectedPortfolio, setSelectedPortfolio] = useState()
+    const [deletePortfolioFormDisplay, setDeletePortfolioFormDisplay] = useState(false)
+    const [createPortfolioFormDisplay, setCreatePortfolioFormDisplay] = useState(false)
+    const [queryLoading, setQueryLoading] = useState(false)
+    const deletePortfolioFormRef = useRef(null)
+    const createPortfolioFormRef = useRef(null)
 
-    // Selects portfolio 'Main' on mount
     useEffect(() => {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].main) setSelected(i);
-        }
-    }, [data])
+		const handleClickOutside = (e) => {
+			if (deletePortfolioFormRef.current && !deletePortfolioFormRef.current.contains(e.target)) {
+				setDeletePortfolioFormDisplay(false)
+			} else if (createPortfolioFormRef.current && !createPortfolioFormRef.current.contains(e.target)) {
+				setCreatePortfolioFormDisplay(false)
+            }
+		}
+		document.addEventListener('mousedown', handleClickOutside)
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [])
 
     // Function handler for selecting different portfolios
-    const handleSelectPortfolio = (p, idx) => {
-        setSelected(idx);
-        selectPortfolio(p);
+    const handleSelectPortfolio = (p) => {
+        updateCurrentPortfolio(p)
+    }
+
+    const showDeletePortfolioForm = (p) => {
+        setSelectedPortfolio(p)
+        setDeletePortfolioFormDisplay(true)
+    }
+
+    const showCreatePortfolioForm = () => {
+        setCreatePortfolioFormDisplay(true)
+    }
+
+    const handleDeletePortfolio = () => {
+        setQueryLoading(true)
+        deletePortfolio(selectedPortfolio, (e) => {
+            if (e) console.log(e)
+            else {
+                setDeletePortfolioFormDisplay(false)
+            }
+            setQueryLoading(false)
+        })
+    }
+
+    const handleCreatePortfolio = (data) => {
+        const {name} = data
+        setQueryLoading(true)
+        createPortfolio(name, (e) => {
+            if (e) console.log(e)
+            else {
+                setCreatePortfolioFormDisplay(false)
+            }
+            setQueryLoading(false)
+        })
+
     }
 
     return (
         <div className='side-bar'>
-            <div className='all-portfolios-container'>All Portfolios</div>
-            <div className='portfolio-list-container'>
-                <ul className='portfolio-list'>
-                    {data && data.map((p, idx) => {
-                        let className;
-                        // Change style for selected portfolio
-                        if (idx === selected) className = 'portfolio-list-item-active';
-                        else className = 'portfolio-list-item'
-                        return (
-                            <li key={idx} className={className}>
-                              <button className='portfolio-list-item-btn' onClick={(e) => handleSelectPortfolio(p, idx)}>
-                                {p.portfolio_name} 
-                              </button>
-                              <div>
-                                {/* Button for deleting a portfolio except if 'Main'*/}
-                                 <button className='delete-portfolio-btn' onClick={() => handleDeletePortfolio(p)}>
-                                     {p.main ? null : <AiFillDelete style={{fontSize: '1rem'}}/>}
-                                 </button>
-                              </div>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
-            <div className='create-portfolio-container'>
-                {/* Button for creating a new portfolio */}
-                <button className='create-portfolio-btn' onClick={handleCreatePortfolio}>
-                    Create Portfolio
-                </button>
-            </div>
+            {portfolios && currentPortfolio &&
+                <>
+                <div className='all-portfolios-container'>Portfolios</div>
+                <PortfolioList 
+                    portfolios={portfolios} 
+                    handleSelectPortfolio={handleSelectPortfolio} 
+                    currentPortfolio={currentPortfolio}
+                    showDeletePortfolioForm={showDeletePortfolioForm}
+                    />
+                <div className='create-portfolio-container'>
+                    {/* Button for creating a new portfolio */}
+                    <ButtonCreatePortfolio 
+                        variant='outlined' 
+                        fullWidth 
+                        onClick={showCreatePortfolioForm}>
+                        Create Portfolio
+                    </ButtonCreatePortfolio>
+                </div>
+                {deletePortfolioFormDisplay &&
+                    <DeleteForm 
+                        reference={deletePortfolioFormRef}
+                        deleteFunc={handleDeletePortfolio}
+                        closeForm={() => setDeletePortfolioFormDisplay(false)}
+                        title={'Delete Portfolio?'}
+                        text={'All transactions associated with this portfolio will be deleted.'}
+                        loading={queryLoading}
+                    />
+                }
+                {createPortfolioFormDisplay &&
+                    <CreatePortfolioForm 
+                        reference={createPortfolioFormRef}
+                        createPortfolio={handleCreatePortfolio}
+                        closeForm={() => setCreatePortfolioFormDisplay(false)}
+                        loading={queryLoading}
+                    />
+                }
+
+                </>
+            }
         </div>
     )
 }

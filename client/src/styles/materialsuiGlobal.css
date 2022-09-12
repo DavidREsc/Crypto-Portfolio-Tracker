@@ -1,0 +1,10 @@
+.MuiLoadingButton-loading {
+}
+
+.MuiLoadingButton-loadingIndicator {
+    color: red;
+}
+
+.Mui-disabled {
+    color: red;
+}

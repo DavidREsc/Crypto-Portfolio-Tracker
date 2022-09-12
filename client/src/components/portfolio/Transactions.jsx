@@ -2,20 +2,23 @@ import React, { useEffect, useState } from 'react'
 import {AiFillEdit} from 'react-icons/ai';
 import {IoMdCloseCircle} from 'react-icons/io';
 import formatData from '../../utils/formatData';
+import { usePortfolio } from '../../contexts/PortfolioContext';
 
 // Table for showing all transaction of a particular asset
 const Transactions = (props) => {
-    const {handlePortfolio, allTransactions, selectedUserAsset, handleEditTransaction, handleDeleteTransaction} = props;
+    const {handlePortfolio, allTransactions, handleEditTransaction, handleDeleteTransaction} = props;
     const [quantity, setQuantity] = useState();
     const [balance, setBalance] = useState();
     const [averageBuy, setAverageBuy] = useState();
     const [transactions, setTransactions] = useState();
+    const {selected} = usePortfolio()
+
 
 
     useEffect(() => {
       if (allTransactions.length) {
         // Filter for transactions of selected asset in current portfolio
-        const transactions = allTransactions.filter(t => t.uuid === selectedUserAsset.uuid && t.portfolio_id === selectedUserAsset.portfolio_id);
+        const transactions = allTransactions.filter(t => t.uuid === selected.uuid && t.portfolio_id === selected.portfolio_id);
 
         // Calculate total quantity, balance, and average buy price from transactions
         if (transactions.length) {
@@ -40,7 +43,7 @@ const Transactions = (props) => {
           handlePortfolio();
         }
       }
-    },[allTransactions, selectedUserAsset, handlePortfolio])
+    },[allTransactions, selected, handlePortfolio])
 
   return (
     

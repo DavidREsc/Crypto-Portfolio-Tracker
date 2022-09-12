@@ -10,6 +10,7 @@ import Authenticate from "./routes/Authenticate";
 import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AssetsProvider } from "./contexts/AssetsContext";
+
 import './styles/app.css';
 
 const App = () => {
@@ -19,14 +20,14 @@ const App = () => {
           <AssetsProvider> 
             <Header />
                 <Switch>
-                    <Route exact path='/' component={Home}/>         
+                      <Route exact path='/' component={Home}/>        
                       <Route exact path='/sign-in' component={Authenticate}/>
-                      <Route exact path='/browse/:id' component={CoinDetails}/>            
-                      <PrivateRoute exact path='/portfolio' component={Portfolio}/>
                       <Route exact path='/browse' component={Browse}/>
-                      <Route path='*' component={PageNotFound}/>
+                      <Route exact path='/browse/:id' component={CoinDetails}/>  
+                      <PrivateRoute exact path='/portfolio' component={Portfolio}/>
+                      <Route path='*' component={PageNotFound}/>      
                 </Switch>
-                </AssetsProvider>
+          </AssetsProvider>
           </AuthProvider>
         </Router>
     )

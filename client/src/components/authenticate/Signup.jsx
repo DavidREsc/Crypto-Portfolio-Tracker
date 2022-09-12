@@ -1,69 +1,89 @@
 import React from 'react'
+import {TextFieldSignIn} from '../../styles/MaterialUi.styled'
+import AuthTitleBtns from '../buttons/AuthTitleBtns'
+import SignInButton from '../buttons/SignInButton'
+import {useForm, Controller} from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup'
+import { signUpSchema } from '../../utils/yupSchemas'
 
 // Signup form
 const Signup = (props) => {
 
-    const {changeForm, onSubmit, onChange, inputs, error} = props;
+  const {changeForm, onSubmit, serverError, loading} = props;
+	const {handleSubmit, control} = useForm({
+		resolver: yupResolver(signUpSchema)
+	})
 
     return (
-        <form className='authenticate-form' onSubmit={onSubmit}>
-		  <div className='authenticate-titles'>
-		    <button 
-		      style={{color: "rgba(255,255,255,0.3)"}}
-		      className='authenticate-login-title'
-		      type='button'
-		      onClick={changeForm}>
-		      Login
-		    </button>
-		    <button 
-		      className='authenticate-signup-title'
-		      style={{borderBottom: "2px solid white"}}
-		      type='button'>
-		      Sign Up
-		    </button>
-		  </div>
-		  <div className='error-div'>
-			  {error}
-		  </div>
-		  <div className='input-container'>
-		  <label className='authenticate-label'>
-		    Email
-		    <input
-		      className='authenticate-input'
-		      autoComplete='off'
-		      type='text'
-		      name='email'
-		      onChange={onChange}
-		      value={inputs.email}
-		    />
-		  </label>
-		  </div>
-		  <div className='input-container'>
-		  <label className='authenticate-label'>
-		    Password
-		    <input
-		      className='authenticate-input'
-		      type='password'
-		      name='password'
-		      onChange={onChange}
-		      value={inputs.password}
-		    />
-		  </label>
-		  </div>
-		  <div className='input-container'>
-		  <label className='authenticate-label'>
-		    Confirm Password
-		    <input
-		      className='authenticate-input'
-		      type='password'
-		      name='confirmPassword'
-		      onChange={onChange}
-		      value={inputs.confirmPassword}
-		    />
-		  </label>
-		  </div>
-		  <input className='authenticate-btn' type='submit' value='Register'/>
-		</form>
+      <form className='authenticate-form' onSubmit={handleSubmit(onSubmit)}>
+				<AuthTitleBtns changeForm={changeForm} state={false}/>
+				<div className='error-div'>
+					{serverError}
+				</div>
+
+		  	<div className='input-container'>
+					<Controller 
+						control={control}
+						name='email'
+						defaultValue=""
+						render={({ field: {onChange, value}, fieldState: {error} }) => (
+							<TextFieldSignIn
+								fullWidth
+								error={!!error}
+								label='Email'
+								variant='outlined'
+								autoComplete='off'
+								onChange={onChange}
+								value={value}
+								helperText={error ? error.message : null}
+							/>
+						)}
+					/>
+				</div>
+
+				<div className='input-container'>
+					<Controller 
+							control={control}
+							name='password'
+							defaultValue=""
+							render={({ field: {onChange, value}, fieldState: {error} }) => (
+								<TextFieldSignIn
+									label='Password'
+									variant='outlined'
+									error={!!error}
+									fullWidth
+									type='password'
+									onChange={onChange}
+									value={value}
+									helperText={error ? error.message : null}
+								/>
+							)}
+					/>			
+				</div>
+
+				<div className='input-container'>
+					<Controller 
+						control={control}
+						name='confirmPassword'
+						defaultValue=""
+						render={({ field: {onChange, value}, fieldState: {error} }) => (
+							<TextFieldSignIn
+								label='Confirm Password'
+								fullWidth
+								error={!!error}
+								variant='outlined'
+								type='password'
+								onChange={onChange}
+								value={value}
+								helperText={error ? error.message : null}
+							/>
+						)}
+					/>	
+				</div>
+				<div style={{width: '85%'}}>
+				<SignInButton loading={loading} text='Sign Up'/>
+				</div>
+			</form>
     )
 }
 

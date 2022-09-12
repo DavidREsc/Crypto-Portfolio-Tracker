@@ -2,138 +2,109 @@ import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import Login from '../components/authenticate/Login';
 import Signup from '../components/authenticate/Signup';
+import Auth from '../apis/Auth'
 import { useAuth } from '../contexts/AuthContext';
-import PortfolioRoute from '../apis/PortfolioRoute';
 import '../styles/authenticate.css'
 
 const Authenticate = () => {
 
-	const {login, signup} = useAuth();
-    const [form, setForm] = useState(0);
-	const [loginError, setLoginError] = useState("");
-    const [loginInfo, setLoginInfo] = useState({email: "", password: ""});
-	const [signupError, setSignupError] = useState("");
-    const [signupInfo, setSignupInfo] = useState({email: "", password: "", confirmPassword: ""})
+  const [form, setForm] = useState(true);
+	const [serverError, setServerError] = useState("")
+	const [isAuthenticated, setIsAuthenticated] = useState(true);
+	const [loading, setLoading] = useState(false)
+	const [demoLoading, setDemoLoading] = useState(false)
 	const history = useHistory();
-	const [loading, setLoading] = useState(true);
-	const {user} = useAuth();
+	const {user, authenticated} = useAuth();
 
+	// Redirect to portfolio page if user already logged in
 	useEffect(() => {
 		if (user) history.push('/portfolio');
-		setLoading(false);
+		else setIsAuthenticated(false); // loads page only if user isn't authenticated
 	}, [user, history]);
 
+	// Flips state for switching between sign up and login form
 	const handleChangeForm = () => {
-		if (!form) {
-			setLoginInfo({email: "", password: ""});
-			setLoginError("");
-			setForm(1);
-		} else {
-			setSignupInfo({email: "", password: "", confirmPassword: ""});
-			setSignupError("");
-			setForm(0);
-		}
+		setForm(prevState => !prevState)
+		setServerError("")
 	}
 
-	const handleLoginInput = (e) => {
-		const key = e.target.name;
-		const value = e.target.value;
-		setLoginInfo(prevInfo => ({
-			...prevInfo,
-			[key]: value
-		}));
-	}
-
-	const handleSignupInput = (e) => {
-		const key = e.target.name;
-		const value = e.target.value;
-
-		setSignupInfo(prevInfo => ({
-			...prevInfo,
-			[key]: value
-		}));
-	}
-
-	const handleLogin = async (e) => {
-		e.preventDefault();
-		const response = await login(loginInfo)
-		handleLoginResponse(response);
-	}
-
-	const demoLogin = async () => {
-		const demoInfo = {
-			"email": "demo@gmail.com",
-			"password": "demo1234"
-		}
-		const response = await login(demoInfo);
-		handleLoginResponse(response);
-	}
-
-	const handleSignup = async (e) => {
-		e.preventDefault();
-		const response = await signup(signupInfo);
-		handleSignupResponse(response);
-	}
-
-	const handleLoginResponse = (res) => {
-		if (res.status === 422 || res.status === 500 || res.status === 400) {
-			setLoginError(res.data.error[0]);
-		} else if (res.status === 200) {
-			if (res.data.error) {
-				setLoginError(res.data.error);
-			}
-			else history.push('/portfolio');
-		}
-	}
-
-	const handleSignupResponse = (res) => {
-		if (res.status === 422 || res.status === 500 || res.status === 400) {
-			console.log(res)
-			setSignupError(res.data.error[0]);
-		} else if (res.status === 200) {
-			if (res.data.error) {
-				setSignupError(res.data.error)
-			}
-			else { 		
-				createDefaultPortfolio();
-				history.push('./portfolio');
-			}
-		}
-	}
-
-	const createDefaultPortfolio = async () => {
+	// Signs up user
+	const handleSignUp = async (data) => {
+		const {email, password, confirmPassword} = data
+		setLoading(true) //for button loading state
 		try {
-			await PortfolioRoute.post('/create-portfolio', {
+			await Auth.post('/register', {
 				method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-				name: 'Main',
-				main: 't'
-			});
-		} catch (error) {
-			console.log(error);
+				header: {'Content-Type': 'application/json'},
+				email,
+				password,
+				confirmPassword
+			})
+			authenticated() // user is set to true in AuthContext which will cause a  
+											// rerender and user will be redirected to portfolio route
+		} catch (e) {
+			setServerError(e.response.data.error)
+			setLoading(false)
+		}
+	}
+
+	// Logs in user
+	const handleLogin = async (data) => {
+		const {email, password} = data
+		setLoading(true)
+		try {
+			await Auth.post('/login', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				email,
+				password
+			})
+			authenticated()
+		} catch (e) {
+			setServerError(e.response.data.error)
+			setLoading(false)
+		}
+	}
+
+	// Log in for demo
+	const demoLogin = async () => {
+		setDemoLoading(true)
+		const email = 'david.rapalae@gmail.com'
+		const password = 'demo123$'
+		try {
+			await Auth.post('/login', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				email,
+				password
+			})
+			authenticated()
+		} catch (e) {
+			setServerError(e.response.data.error)
+			setDemoLoading(false)
 		}
 	}
 
 	return (
-		!loading &&
-        <div className='sign-in-page'>
-		  {form ?
-		    <Signup
-			  error={signupError}
-		      changeForm={handleChangeForm}
-		      onSubmit={handleSignup}
-		      onChange={handleSignupInput}
-		      inputs={signupInfo}
-		    /> :
-		    <Login 
-			  error={loginError}
-		      changeForm={handleChangeForm}
-		      onSubmit={handleLogin}
-		      onChange={handleLoginInput}
-		      inputs={loginInfo}
-			  demoLogin={demoLogin}
-		    />
-	      }
+		!isAuthenticated &&
+      <div className='sign-in-page'>
+				{!form ? 
+					<Signup
+						changeForm={handleChangeForm}
+						onSubmit={handleSignUp}
+						serverError={serverError}
+						loading={loading}
+					/>
+				:
+					<Login 
+						changeForm={handleChangeForm}
+						onSubmit={handleLogin}
+						serverError={serverError}
+						loading={loading}
+						demoLogin={demoLogin}
+						demoLoading={demoLoading}
+					/>
+				}
 		</div>
 	)
 }

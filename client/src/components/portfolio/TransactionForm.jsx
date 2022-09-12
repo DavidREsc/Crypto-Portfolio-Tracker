@@ -1,46 +1,49 @@
-import React, {useState, useEffect} from 'react'
-import { useAssets } from '../../contexts/AssetsContext';
+import React from 'react'
 import {BiArrowBack} from 'react-icons/bi';
-import {MdClose} from 'react-icons/md';
+import {useForm, Controller} from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup'
+import { transactionSchema } from '../../utils/yupSchemas'
+import { TextFieldTransaction } from '../../styles/MaterialUi.styled';
+import AddTransactionBtn from '../buttons/AddTransactionBtn';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import InputAdornment from '@mui/material/InputAdornment';
+import CloseFormBtn from '../buttons/CloseFormBtn';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { withStyles } from "@material-ui/core/styles";
+import { blue } from "@material-ui/core/colors";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+const BlueRadio = withStyles({
+  root: {
+    color: blue[400],
+    "&$checked": {
+      color: blue[600]
+    }
+  },
+  checked: {}
+})((props) => <Radio color="default" {...props} />);
+
+const curDate = new Date()
 
 // Form for adding a new transaction
 const TransactionForm = (props) => {
-    const {reference, selectedAsset, addTransaction, handleTrnsBackBtn, closeForm} = props;
-    const [quantity, setQuantity] = useState("");
-    const [pricePerCoin, setPricePerCoin] = useState("");
-    const [priceModifed, setPriceModified] = useState(false)
-    const {assets} = useAssets();
-
-    // Gets and sets the current price of selected coin
-    useEffect(() => {
-      if (!priceModifed) {
-        setPricePerCoin(() => {
-          return (assets.filter(asset => asset.name === selectedAsset)[0].price)
-        });
-      }
-    },[assets, selectedAsset, priceModifed]);
-
-    // Function handler for submit
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      addTransaction(parseFloat(quantity), parseFloat(pricePerCoin));
-    }
-
-    const handlePriceChange = (e) => {
-      const price = e.target.value
-      setPriceModified(true)
-      setPricePerCoin(price)
-    }
+    const {reference, addTransaction, handleTrnsBackBtn, closeForm, name, icon, defaultPrice, loading} = props;
+    const {handleSubmit, control} = useForm({
+      resolver: yupResolver(transactionSchema)
+    })
 
   return (
-   <div className='overlay'>
-    <div ref={reference} className='transaction-form-container-parent'>
-      <div className='transaction-form-container'>
+    <div className='overlay'>
+      {/* Quantity and price per coin */}
+      <form ref={reference} className='transaction-form' onSubmit={handleSubmit(addTransaction)}>
         <div className='trns-form-icons-container'>
           {/* Back button to select a different asset */}
-          <button className='trns-form-icons' onClick={handleTrnsBackBtn}><BiArrowBack/></button>
+          <button type='button' className='trns-form-icons' onClick={handleTrnsBackBtn}><BiArrowBack/></button>
           {/* Close button for closing form */}
-          <button className='trns-form-icons' onClick={closeForm}><MdClose className='trns-form-icons'/></button>
+          <CloseFormBtn closeForm={closeForm}/>
         </div>
 
         {/* Title */}
@@ -48,49 +51,101 @@ const TransactionForm = (props) => {
 
         {/* Asset image and name */}
         <div className='trns-form-asset-name-input'>
-          <img 
-            className='coin-img'
-            src={assets.filter(asset => asset.name === selectedAsset)[0].iconUrl}
-            alt={selectedAsset}>
-          </img>
-          <p>{selectedAsset}</p>
+          <img className='coin-img' src={icon} alt={name}></img>
+          <p>{name}</p>
+        </div>
+        <div className='trns-radio'>
+          <Controller
+            name={'type'}
+            control={control}
+            defaultValue="buy"
+            render={({field: {onChange, value}}) => (
+              <RadioGroup value={value} onChange={onChange} style={{display: 'flex', flexDirection: 'row', margin: 'auto'}}>
+                <FormControlLabel
+                  value={'buy'}
+                  label={'Buy'}
+                  control={<BlueRadio />}
+                />
+                <FormControlLabel
+                  value={'sell'}
+                  label={'Sell'}
+                  control={<BlueRadio />}
+                />
+              </RadioGroup>
+            )}
+            />
+        </div>
+        <div className='date-picker'>
+          <label>Date</label>
+          <Controller
+            control={control}
+            name="reactDatepicker"
+            defaultValue={curDate}
+            render={({ field: { onChange, value, ref } }) => (
+              <ReactDatePicker
+                onChange={onChange}
+                selected={value}
+              />
+            )}
+          />
         </div>
 
-        {/* Quantity and price per coin */}
-        <form className='transaction-form' onSubmit={handleSubmit}>
-          <div className='trns-form-details-label-container'>
-            <label className="trns-form-asset-details-label"> Quantity</label>
-            <label className="trns-form-asset-details-label"> Price Per Coin</label>
-          </div>
-          <div className="trns-form-details-input-container">
-            <input className='trns-form-asset-details-input' autoFocus required
-              placeholder='0.00'
-              type='number'
-              min="0"
-              step="any"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}>
-            </input>
-            <div className='trns-form-input-sign'>
-                <h4>$</h4>
-                <input className='trns-form-asset-details-input-price' 
-                  type='number'
-                  min="0"
-                  step="any"
-                  value={pricePerCoin}
-                  onChange={(e) => handlePriceChange(e)}>
-                </input>
-            </div>
-          </div>
+        <div className="trns-form-details-input-container">
+          <Controller 
+            control={control}
+            name='quantity'
+            defaultValue=""
+            render={({ field: {onChange, value}, fieldState: {error} }) => (
+              <TextFieldTransaction
+                inputRef={input => input && input.focus()}
+                type='number'
+                placeholder='0.00'
+                fullWidth
+                error={!!error}
+                label='Quantity'
+                variant='outlined'
+                autoComplete='off'
+                onChange={onChange}
+                value={value}
+                helperText={error ? error.message : null}
+              />
+            )}
+          />
+          <Controller 
+            control={control}
+            name='pricePerCoin'
+            defaultValue={defaultPrice}
+            render={({ field: {onChange, value}, fieldState: {error} }) => (
+              <TextFieldTransaction
+                type='number'
+                placeholder='0.00'
+                fullWidth
+                error={!!error}
+                label='Price per coin'
+                variant='outlined'
+                autoComplete='off'
+                onChange={onChange}
+                value={value}
+                helperText={error ? error.message : null}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AttachMoneyIcon color='primary' />
+                      </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
 
+          </div>
           {/* Submit button*/}
-          <button className='form-btn' type='submit'>
-            Submit
-          </button>
-        </form>
-      </div>
+          <div style={{marginTop: '2rem', width: '100%'}}>
+            <AddTransactionBtn text='Add Transaction' loading={loading}/>
+          </div>
+          
+      </form>
     </div>
-   </div>
   )
 }
 

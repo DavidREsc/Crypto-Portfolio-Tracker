@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AiOutlineApartment } from 'react-icons/ai';
 
 export const NavLogoContainer = styled(Link)`
-    color: #e8e8e8;
+    color: #CCC;
     justify-self: flex-start;
     cursor: pointer;
     text-decoration: none;
@@ -20,8 +20,8 @@ export const NavLogo = styled(AiOutlineApartment)`
 export const NavContainer = styled.div`
     display: flex;
 	margin-right: 5%;
-	color: #e8e8e8;
-    background-color: #0a090c;
+	color: #CCC;
+    background-color: hsl(219, 35%, 6%);
 
     @media screen and (max-width: 960px) {
         display: flex;
@@ -56,7 +56,7 @@ export const NavIcon = styled.div`
 
 export const MobileIcon = styled.div`
     display: none;
-    color: #e8e8e8;
+    color: #CCC;
 
     @media screen and (max-width: 960px) {
         display: block;
@@ -69,13 +69,13 @@ export const MobileIcon = styled.div`
     }
 `
 export const NavLinks = styled(Link)`
-    color: #e8e8e8;
+    color: #CCC;
 	text-decoration: none;
 	margin-right: 2rem;
 
     &:hover {
         text-decoration: underline;
-	    color: rgba(255, 255, 255, 1);
+	    color: #CCC;
     }
 
     @media screen and (max-width: 960px) {
@@ -92,7 +92,7 @@ export const NavLinks = styled(Link)`
 `
 
 export const NavBtn = styled.button`
-    color: #e8e8e8;
+    color: #CCC;
 	background: none;
     border: none;
     cursor: pointer;
@@ -101,7 +101,7 @@ export const NavBtn = styled.button`
 
     &:hover {
         text-decoration: underline;
-	    color: #e8e8e8;
+	    color: #CCC;
     }
 
     @media screen and (max-width: 960px) {

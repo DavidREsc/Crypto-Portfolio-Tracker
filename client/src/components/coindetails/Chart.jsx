@@ -118,7 +118,7 @@ const Chart = (props) => {
           </div>
           {/* Price and percent change at top of chart */}
           <div className='price-percentage'>
-              <h2 style={{color:'white'}}>
+              <h2 style={{color:'hsl(198, 16%, 74%)'}}>
                   {'$' + currentPrice}
               </h2>
               {/* percent change color green if postitive red if negative */}

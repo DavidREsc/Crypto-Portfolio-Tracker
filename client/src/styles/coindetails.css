@@ -32,9 +32,10 @@
 }
 
 .coin-details {
-    background-color: #0d121b;
+    background-color: hsl(219, 35%, 6%);
     border-radius: 30px;
     font-size: 0.9rem;
+    border: 1px solid #222;
     
 }
 
@@ -51,21 +52,23 @@ li {
 
 .chart-btn-inactive {
     padding: 0.7rem;
+    width: 4rem;
     cursor: pointer;
     background: none;
     color: white;
-    border: 1px solid white;
+    border: 1px solid #01579b;
     margin-left: 0.5rem;
     border-radius: 0.5rem;
 }
 
 .chart-btn-active {
     padding: 0.7rem;
+    width: 4rem;
     cursor: pointer;
     background: none;
     color: white;
-    border: 1px solid white;
-    background-color: #3d3939;
+    border: 1px solid #01579b;
+    background-color: rgba(0, 188, 212, 0.1);
     border-radius: 0.5rem;
     margin-left: 0.5rem;
 }
@@ -77,7 +80,7 @@ li {
 
 .details-title {
     padding: 1rem;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #555;
     margin-bottom: 1rem;
 }
 
@@ -115,7 +118,9 @@ li {
     margin-top: 6%;
     justify-content: space-around;
     width: 100%;
-    margin-bottom: 5%;
+    background-color: hsl(219, 35%, 6%);
+    padding-top: 3rem;
+    padding-bottom: 10rem;
     
 }
 
@@ -125,10 +130,11 @@ li {
     gap: 1.5rem;
     width: 50vw;
     padding: 1rem;
+
 }
 
 .description > h3 {
-    color: #0BB5FF;
+    color: #01579b;
 }
 
 .description ~ a, .description ~ a:link {
@@ -138,10 +144,13 @@ li {
 .links {
     width: 30vw;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 .coin-summary-link {
-    color: #0BB5FF;
+    color: #01579b;
     text-decoration: none;
 }
 
