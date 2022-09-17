@@ -11,6 +11,7 @@ const Portfolio = () => {
 
     const [contentDisplay, setContentDisplay] = useState(true);
     const [transactionsDisplay, setTransactionsDisplay] = useState(false);
+    const [sidebarActive, setSidebarActive] = useState(false)
     const {updateSelected, createPortfolio, portfolios, transactions, currentPortfolio} = usePortfolio()
 
     const showTransactionsTable = (asset) => {
@@ -22,6 +23,10 @@ const Portfolio = () => {
     const showPortfolioTable = () => {
         setTransactionsDisplay(false)
         setContentDisplay(true)
+    }
+
+    const handleSidebar = () => {
+        setSidebarActive(prevState => !prevState)
     }
 
     useEffect(() => {
@@ -36,7 +41,10 @@ const Portfolio = () => {
             <div className='portfolio-page'>
                 {portfolios && transactions && currentPortfolio &&
                 <div className='portfolio-page-content'>
-                    <Sidebar/>
+                    {!transactionsDisplay && <button className='mobile-cur-portfolio' onClick={handleSidebar}>
+                        {currentPortfolio.portfolio_name} 
+                    </button>}
+                    <Sidebar active={sidebarActive} handleSidebar={handleSidebar}/>
                     {contentDisplay && <PortfolioAssets
                         showTransactionsTable={showTransactionsTable}
                     />}

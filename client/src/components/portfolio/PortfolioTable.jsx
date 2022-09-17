@@ -16,9 +16,9 @@ const PortfolioTable = (props) => {
 					<tr>
 						<th className='first-header'>Name</th>
 						<th>Price</th>
-						<th>24h</th>
+						<th className='d-change-header'>24h</th>
 						<th>Holdings</th>
-						<th>Profit/Loss</th>
+						<th className='profit-loss-header'>Profit/Loss</th>
 						<th className='last-header'>Actions</th>
 				  </tr>
 				</thead>
@@ -35,10 +35,15 @@ const PortfolioTable = (props) => {
 								</td>
 
 								{/* Current asset price column */}
-								<td>{'$' + formatData.formatNumber(asset.price)}</td>
+								<td>{'$' + formatData.formatNumber(asset.price)}
+									<div className='d-change-active' style={asset.change < 0 ? {color: '#f44336'} : {color: 'hsl(145, 100%, 36%)'}}>
+										<VscTriangleDown style={asset.change < 0 ? '' : {transform: 'rotate(180deg)'}}/>
+										{Math.abs(asset.change).toFixed(2) + '%'}
+									</div>
+								</td>
 
 								{/* 1d percent change column */}
-								<td style={asset.change < 0 ? {color: '#f44336'} : {color: 'hsl(145, 100%, 36%)'}}>
+								<td className='d-change-col' style={asset.change < 0 ? {color: '#f44336'} : {color: 'hsl(145, 100%, 36%)'}}>
 									<VscTriangleDown style={asset.change < 0 ? '' : {transform: 'rotate(180deg)'}}/>
 									{Math.abs(asset.change).toFixed(2) + '%'}
 							  </td>
@@ -52,7 +57,7 @@ const PortfolioTable = (props) => {
 								</td>
 
 								{/* Profit/loss columns */}
-								<td style={asset.profitLossUnf < 0 ? {color: '#f44336'} : {color: 'hsl(145, 100%, 36%)'}}>
+								<td className='profit-loss-col' style={asset.profitLossUnf < 0 ? {color: '#f44336'} : {color: 'hsl(145, 100%, 36%)'}}>
 									{(asset.profitLossUnf < 0 ? '-$' : '$') + profitLoss}
 									<div className='profit-loss'>
 										<VscTriangleDown style={asset.profitLossUnf < 0 ? '' : {transform: 'rotate(180deg)'}}/>

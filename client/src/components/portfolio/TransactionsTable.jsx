@@ -11,7 +11,7 @@ const TransactionsTable = (props) => {
             <thead>
                 <tr>
                     <th className='first-header'>Type</th>
-                    <th>Date</th>
+                    <th className='date-header'>Date</th>
                     <th>Price</th>
                     <th>Amount</th>
                     <th className='last-header'>Actions</th>
@@ -24,13 +24,13 @@ const TransactionsTable = (props) => {
                   <tr key={idx}>
 
                     {/* Type column */}
-                    <td className='first-td'>
+                    <td className='first-td-trns'>
                       <div>
                         <p>{t.transaction_type}</p>
                       </div>
                     </td>
 
-                    <td>
+                    <td className='date-col'>
                       {date.toLocaleDateString()}
                     </td>
 

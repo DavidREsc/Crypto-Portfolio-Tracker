@@ -34,7 +34,8 @@ export const ButtonCreatePortfolio = styled(Button)({
 		border: '1px solid 	hsl(206, 99%, 50%)',
 		backgroundColor: 'rgba(0, 188, 212, 0.1)'
 	},
-	padding: '0.7rem'
+	padding: '0.7rem',
+	height: '100%',
 })
 
 export const ButtonStyled= styled(Button)({

@@ -65,7 +65,7 @@
     background-color: rgba(1, 87, 155, 0.2);
 }
 
-.portfolio-list-item-active {
+.portfolio-list-item-active, .mobile-cur-portfolio {
     background-color: rgba(1, 87, 155, 0.2);
     text-decoration: none;
     display: flex;
@@ -144,7 +144,6 @@
     padding: 3rem;
     height: 50rem;
     border-radius: 1rem;
-  
 }
 
 .total-asset-worth-container {
@@ -152,7 +151,11 @@
     margin-left: 0.9rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+}
+
+.capital-gains-container {
+    margin-left: 3rem;
+    margin-top: 1.5rem;
 }
 
 .capital-gains {
@@ -164,6 +167,8 @@
 .asset-title-container {
     margin-bottom: 1rem;
     margin-left: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .asset-table-container {
@@ -196,7 +201,6 @@
     width: 17rem;
     max-width: 20rem;
     min-width: 17rem;
-
 }
 
 .last-header {
@@ -211,6 +215,7 @@
     width: 10rem;
     margin-top: 3rem;
     margin-left: 1rem;
+    
 }
 
 .add-asset-container {
@@ -366,7 +371,6 @@
 }
 .content-asset-img {
     width: 1rem;
-    margin-right: 0.5rem;
 }
 
 .profit-loss {
@@ -411,7 +415,7 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-    color: gray;
+    color: #f44336;
     font-size: 1rem;
 }
 
@@ -708,6 +712,21 @@
 .react-datepicker__input-container input {
     height: 2rem;
 }
+.coin-link {
+    margin-left: 10px;
+}
+
+.d-change-active {
+    display: none;
+}
+
+.mobile-cur-portfolio {
+    display: none;
+}
+
+.first-td-trns {
+    width: 8rem;
+}
 
 @media screen and ( max-width: 960px) {
 
@@ -723,20 +742,8 @@
         background: none;
         border: none;
         box-shadow: none;
-    }
-
-    .asset-table-container {
-        background: none;
-    }
-
-    .side-bar {
-       display: none;
-    }
-
-    .first-td {
-        min-width: 6rem;
-        max-width: 6rem;
-        width: 6rem; 
+        height: 100%;
+        margin-bottom: 10rem;
     }
 
     .last-td {
@@ -748,6 +755,7 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
+        gap: 10px;
     }
 
     .delete-asset {
@@ -761,6 +769,7 @@
     .add-asset-btn {
         height: 2.5rem;
         width: 12rem;
+        margin-bottom: 10rem;
     }
 
     .total-asset-worth-container {
@@ -781,6 +790,141 @@
         width: 10rem;
         text-align: center;
     }
+
+    .d-change-col {
+        display: none;
+    }
+
+    .d-change-header {
+        display: none;
+    }
+
+    .profit-loss-header{
+        display: none;
+    }
+
+    .profit-loss-col {
+        display: none;
+    }
+
+    .first-td {
+        min-width: 10rem;
+        width: 14rem;
+        max-width: 14rem;
+    }
+
+    .asset-table-container {
+        max-height: unset;
+        min-height: unset;
+    }
+
+    .asset-table td, .asset-table th {
+       font-size: 1.2rem;
+    }
+
+    .holdings {
+        font-size: 1rem;
+    }
+
+    .edit-transaction {
+        font-size: 1.5rem;
+    }
+
+    .delete-asset {
+        font-size: 1.5rem;
+    }
+    .content-asset-img {
+        width:2rem;
+        float: left;
+    }
+    .coin-link {
+        margin-left: 1rem;
+        vertical-align: middle;
+
+    }
+
+    .capital-gains-container {
+        font-size: 1.5rem;
+    }
+    .capital-gains {
+        font-size: 1.5rem;
+    }
+
+    .current-balance {
+        font-size: 1rem;
+    }
+
+    .total-asset-worth-container {
+        font-size: 1.3rem;
+    }
+    .d-change-active {
+        display: block;
+        margin-top: 5px;
+    }
+
+    .mobile-cur-portfolio {
+        display: block;
+        width: 40%;
+        padding: 0.8rem;
+        align-self: start;
+        margin: 1rem 0 3rem 1rem;
+    }
+
+    .side-bar {
+        position: absolute;
+        left: -100%;
+        transition: all 0.5s ease;
+        z-index: 11;
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        height: 100%;
+        top: 0;
+        
+    }
+
+    .side-bar.active {
+        left: 0;
+        top: 0;
+        position: absolute;
+        transition: all 0.5s ease;
+        z-index: 11; 
+        height: 100%;
+
+    }
+    .portfolio-list-container {
+        height: 55%;
+        width: 80%;
+        max-height: unset;
+        margin-bottom: 5rem;
+    }
+    .portfolio-list {
+        height: 100%;
+    }
+    .portfolio-list-item, .portfolio-list-item-active {
+        padding: 1rem;
+    }
+
+    .portfolio-list-item-btn {
+        font-size: 1.5rem;
+    }
+
+    .all-portfolios-container {
+        font-size: 3rem;
+    }
+
+    .create-portfolio-container {
+        height: 8.5rem;
+        width: 30rem;
+    }
+
+    .date-col {
+        display: none;
+    }
+    .date-header {
+        display: none;
+    }
+
 }
 
 @media only screen   

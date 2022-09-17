@@ -6,7 +6,8 @@ import DeleteForm from './DeleteForm';
 import CreatePortfolioForm from './CreatePortfolioForm';
 
 //Sidebar containing portfolios, create portfolio button
-const Sidebar = () => {
+const Sidebar = (props) => {
+    const {active, handleSidebar} = props
     const {updateCurrentPortfolio, portfolios, currentPortfolio, deletePortfolio, createPortfolio} = usePortfolio()
     const [selectedPortfolio, setSelectedPortfolio] = useState()
     const [deletePortfolioFormDisplay, setDeletePortfolioFormDisplay] = useState(false)
@@ -14,6 +15,7 @@ const Sidebar = () => {
     const [queryLoading, setQueryLoading] = useState(false)
     const deletePortfolioFormRef = useRef(null)
     const createPortfolioFormRef = useRef(null)
+    
 
     useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -32,6 +34,7 @@ const Sidebar = () => {
     // Function handler for selecting different portfolios
     const handleSelectPortfolio = (p) => {
         updateCurrentPortfolio(p)
+        handleSidebar()
     }
 
     const showDeletePortfolioForm = (p) => {
@@ -68,7 +71,7 @@ const Sidebar = () => {
     }
 
     return (
-        <div className='side-bar'>
+        <div className={!active ? 'side-bar' : 'side-bar active'}>
             {portfolios && currentPortfolio &&
                 <>
                 <div className='all-portfolios-container'>Portfolios</div>

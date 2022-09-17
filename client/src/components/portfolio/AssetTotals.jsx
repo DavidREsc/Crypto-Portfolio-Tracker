@@ -21,7 +21,7 @@ const AssetTotals = (props) => {
           <h3>{(totalChange >= 0 ? '+ $' : '- $') + totalProfitLoss}</h3>
         </div>
       </div>
-      <div>
+      <div className='capital-gains-container'>
         <h2>Capital Gains</h2>
         <p className='capital-gains'style={{color: capitalGains < 0 ? '#f44336' : 'hsl(145, 100%, 36%)'}}>
         {capitalGains < 0 ? '-$' + formatData.formatNumber(Math.abs(capitalGains)) : '$' + formatData.formatNumber(capitalGains)}
