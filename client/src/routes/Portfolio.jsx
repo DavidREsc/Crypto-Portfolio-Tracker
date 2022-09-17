@@ -3,6 +3,7 @@ import '../styles/portfolio.css';
 import Sidebar from '../components/portfolio/Sidebar';
 import { usePortfolio } from '../contexts/PortfolioContext';
 import PortfolioTransactions from '../components/portfolio/PortfolioTransactions';
+import { GlobalStyle } from '../styles/Global.styled';
 
 import PortfolioAssets from '../components/portfolio/PortfolioAssets';
 
@@ -18,6 +19,7 @@ const Portfolio = () => {
         updateSelected(asset)
         setContentDisplay(false)
         setTransactionsDisplay(true)
+        window.scrollTo(0, 0)
     }
 
     const showPortfolioTable = () => {
@@ -41,6 +43,7 @@ const Portfolio = () => {
             <div className='portfolio-page'>
                 {portfolios && transactions && currentPortfolio &&
                 <div className='portfolio-page-content'>
+                    <GlobalStyle click={sidebarActive}/>
                     {!transactionsDisplay && <button className='mobile-cur-portfolio' onClick={handleSidebar}>
                         {currentPortfolio.portfolio_name} 
                     </button>}

@@ -82,7 +82,7 @@ const EditTransactionForm = (props) => {
 
           </div>
           {/* Submit button*/}
-          <div style={{marginTop: '2rem', width: '100%'}}>
+          <div style={{marginTop: '', width: '100%'}}>
             <AddTransactionBtn text='Edit Transaction' loading={loading}/>
           </div>
           

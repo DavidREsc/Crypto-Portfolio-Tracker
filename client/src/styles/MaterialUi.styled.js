@@ -139,19 +139,22 @@ export const TextFieldSearch = styled(TextField)({
 		"&.Mui-focused fieldset": {
 		  borderColor: "#01579b"
 		},
-		  input: {color:'hsl(198, 16%, 74%)'}
+		  input: {color:'hsl(198, 16%, 74%)'},
+		  fontSize: '1.2rem'
 	  },
 })
 
 export const TextFieldTransaction = styled(TextField)({
 	"& label": {
-	  color: "hsl(198, 16%, 80%)"
+	  color: "hsl(198, 16%, 80%)",
+	  fontSize: '1.1em'
 	},
 	"&:hover label": {
 	  fontWeight: 700
 	},
 	"& label.Mui-focused": {
-	  color: "hsl(198, 16%, 80%)"
+	  color: "hsl(198, 16%, 80%)",
+	  fontSize: '1.2rem'
 	},
 	"& .MuiInput-underline:after": {
 	  borderBottomColor: "#01579b"
@@ -167,7 +170,8 @@ export const TextFieldTransaction = styled(TextField)({
 	  "&.Mui-focused fieldset": {
 		borderColor: "#01579b"
 	  },
-		input: {color:'hsl(198, 16%, 80%)'}
+		input: {color:'hsl(198, 16%, 80%)'},
+		fontSize: '1.1rem'
 	},
 	height: '5rem'
 });
