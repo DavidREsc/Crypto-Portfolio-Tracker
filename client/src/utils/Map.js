@@ -88,6 +88,8 @@ class Map {
             if (val.amount > originalVal.amount) {
                 // subtract buy amount from sell amount
                 val.amount -= originalVal.amount
+                originalVal.t.amount_sold = originalVal.t.asset_amount
+                console.log(originalVal.t.amount_sold)
                 // remove earliest buy transaction from queue
                 this.map[key].dequeue()
                 // calculate profit
@@ -97,7 +99,10 @@ class Map {
             }
             else {
                 newVal.amount = originalVal.amount - val.amount
+                originalVal.t.amount_sold = val.amount + (originalVal.t.amount_sold || 0)
+                console.log(val.amount, originalVal.t.amount_sold, originalVal.t.asset_amount)
                 newVal.price = originalVal.price
+                newVal.t = originalVal.t
                 profit += (val.price - originalVal.price) * val.amount
                 val.amount = 0
                 if (newVal.amount) this.map[key].update(newVal)

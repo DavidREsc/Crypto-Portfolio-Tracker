@@ -5,10 +5,10 @@ const calculateProfitLossHoldings = (transactions) => {
     const calculated = transactions.map(t => {
         // unformatted profit/loss. Formatting turns number into a string
         // which will mess up the total profit loss addition
-        const profitLossUnf = (t.price - t.initial_price) * t.asset_amount;
+        const profitLossUnf = (t.price - t.initial_price) * (t.asset_amount - (t.amount_sold || 0));
         totalProfitLoss += profitLossUnf
-        const holdings = (t.asset_amount * t.price);
-        const initialHoldings = (t.asset_amount * t.initial_price);
+        const holdings = ((t.asset_amount - (t.amount_sold || 0)) * t.price);
+        const initialHoldings = ((t.asset_amount - (t.amount_sold || 0)) * t.initial_price);
         // merge calculated values with transaction data
         return {
             ...t,
@@ -39,6 +39,7 @@ const calculateTotalWorth = (assets) => {
 // Calculates percent change between current price and initial price 
 // asset was purchased at
 const calculatePercentChange = (current, initial) => {
+    if (current === 0) return 0
     return (((current - initial) / initial) * 100).toFixed(2)
 }
 
@@ -52,6 +53,7 @@ const mergeTransactions = (transactions) => {
             found.holdings += cur.holdings;
             found.initialHoldings += cur.initialHoldings;
             found.asset_amount += cur.asset_amount;
+            found.amount_sold += cur.amount_sold;
         }
         else accumulator.push(cur);
         return accumulator;

@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect, useRef} from 'react';
-import BrowseCoins from '../apis/BrowseCoins';
+import Coins from '../apis/Coins';
 import { LoadingSpinner } from '../styles/Loading.styled';
 import Error from '../components/Error';
 
@@ -28,7 +28,7 @@ export const AssetsProvider = ({children}) => {
 
         const fetchAssets = async () => { 
                 try {
-                    const response = await BrowseCoins.get('/coinlist'); 
+                    const response = await Coins.get('/'); 
                     if (mountedRef.current) {
                         setAssets(response.data.data.coins);
                         setStats(response.data.data.stats);

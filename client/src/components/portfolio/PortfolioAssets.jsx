@@ -101,8 +101,6 @@ const PortfolioAssets = (props) => {
 		})
 	}
 
-
-
 	const handleSelect = (e) => {
 		let asset = assets.filter(a => a.uuid === e.target.dataset.asset)[0];
 		updateSelected(asset)

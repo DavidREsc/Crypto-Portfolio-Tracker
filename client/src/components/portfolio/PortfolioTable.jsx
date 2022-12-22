@@ -26,6 +26,7 @@ const PortfolioTable = (props) => {
 					{curPortfolioAssets && curPortfolioAssets.map((asset, idx) => {
 						// Format decimal places for profit/loss
 						const profitLoss = formatData.formatNumber(Math.abs(asset.profitLossUnf));
+						console.log(asset.profitLossPercent)
 						return (
 							<tr key={idx}>
 								{/* Asset name column */}
@@ -52,7 +53,7 @@ const PortfolioTable = (props) => {
 								<td>
 									<div>
 										{'$' + formatData.formatNumber(asset.holdings)}
-										<p className='holdings'>{asset.asset_amount + " " + asset.symbol}</p>
+										<p className='holdings'>{(asset.asset_amount - (asset.amount_sold || 0)) + " " + asset.symbol}</p>
 									</div>
 								</td>
 

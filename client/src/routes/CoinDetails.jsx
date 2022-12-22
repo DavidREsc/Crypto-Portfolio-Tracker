@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import BrowseCoins from '../apis/BrowseCoins';
+import Coins from '../apis/Coins';
 import { useParams } from 'react-router-dom';
 import Chart from '../components/coindetails/Chart';
 import Titles from '../components/coindetails/Titles';
@@ -30,8 +30,8 @@ const CoinDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const coinDetailsResponse = await BrowseCoins.get(`/coin-details/${id}`);
-                const priceHistoryResponse = await BrowseCoins.get(`/price-history/${id}/24h`);
+                const coinDetailsResponse = await Coins.get(`/${id}`);
+                const priceHistoryResponse = await Coins.get(`/${id}/24h`);
                 if (mountedRef.current) {
                     if (coinDetailsResponse.data.data.status === 'fail' || priceHistoryResponse.data.data.status === 'fail') {
                         setError(true);
@@ -55,7 +55,7 @@ const CoinDetails = () => {
 
     const handleTimePeriodChange = async (e) => {
         const period = e.target.dataset.id;
-        const response = await BrowseCoins.get(`/price-history/${id}/${period}`);
+        const response = await Coins.get(`/${id}/${period}`);
         setPriceHistory(response.data.data.data);
     }
 

@@ -2,7 +2,8 @@ import React, {createContext, useContext, useEffect, useRef, useState} from 'rea
 import { useAssets } from './AssetsContext';
 import { useAuth } from './AuthContext';
 import { LoadingSpinner } from '../styles/Loading.styled';
-import PortfolioRoute from '../apis/PortfolioRoute';
+import Portfolios from '../apis/Portfolios';
+import Transactions from '../apis/Transactions';
 import Error from '../components/Error';
 import {useHistory} from 'react-router-dom';
 import Map from '../utils/Map';
@@ -44,7 +45,7 @@ export const PortfolioProvider = ({children}) => {
     const controller = new AbortController()
     const retrieveData = async () => {
       try {
-        const response = await PortfolioRoute.get('', {signal: controller.signal});
+        const response = await Portfolios.get('/', {signal: controller.signal});
         // jwt token expired
         if (response.data.error) {
           isAuthenticated();
@@ -76,7 +77,7 @@ export const PortfolioProvider = ({children}) => {
             let profit = 0
             for (let i = 0; i < array.length; i++) {
               if (array[i].portfolio_id === selectPortfolio.portfolio_id && array[i].transaction_type === 'buy') {
-                map.set(array[i].name, {amount: array[i].asset_amount, price: array[i].initial_price})
+                map.set(array[i].name, {amount: array[i].asset_amount, price: array[i].initial_price, t: array[i]})
               }
             }
 
@@ -113,7 +114,8 @@ export const PortfolioProvider = ({children}) => {
     const map = new Map()
     for (let i = 0; i < transactions.length; i++) {
       if (transactions[i].portfolio_id === p.portfolio_id && transactions[i].transaction_type === 'buy') {
-        map.set(transactions[i].name, {amount: transactions[i].asset_amount, price: transactions[i].initial_price})
+        transactions[i].amount_sold = 0
+        map.set(transactions[i].name, {amount: transactions[i].asset_amount, price: transactions[i].initial_price, t: transactions[i]})
       }
     }
     updateCapitalGains(map, p, transactions)
@@ -147,7 +149,7 @@ export const PortfolioProvider = ({children}) => {
 		const portfolio_id = selected.portfolio_id;
 		try {
 			// Delete all transactions of an asset in specified portfolio from database
-			const response = await PortfolioRoute.delete('/delete-asset', {
+			const response = await Transactions.delete('/delete-asset', {
 				method: 'DELETE',
 				headers: {'Content-Type': 'application/json'},
 				data: {
@@ -180,12 +182,11 @@ export const PortfolioProvider = ({children}) => {
     const assetId = selected.uuid
     try {
       // Add transaction to database
-      const asset = await PortfolioRoute.post('/add-transaction', {
+      const asset = await Portfolios.post(`/${currentPortfolio.portfolio_id}/transactions`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         coin_id: assetId,
         quantity,
-        portfolio_id: currentPortfolio.portfolio_id,
         pricePerCoin,
         type,
         date
@@ -222,7 +223,7 @@ export const PortfolioProvider = ({children}) => {
     const transaction_id = selected.transaction_id;
     try {
         // Delete transaction from database
-        const response = await PortfolioRoute.delete('/delete-transaction', {
+        const response = await Transactions.delete('/delete-transaction', {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
             data: {
@@ -252,7 +253,7 @@ export const PortfolioProvider = ({children}) => {
     const transaction_id = selected.transaction_id;
     try {
         // Edit transaction in database
-        const response = await PortfolioRoute.put('/edit-transaction', {
+        const response = await Transactions.put('/edit-transaction', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             quantity,
@@ -286,12 +287,9 @@ export const PortfolioProvider = ({children}) => {
    const deletePortfolio = async (p, cb) => {
     const portfolio_id = p.portfolio_id;
     try {
-        const response = await PortfolioRoute.delete('/delete-portfolio', {
+        const response = await Portfolios.delete(`/${portfolio_id}`, {
             method: 'DELETE',
-            headers: {'Content-Type': 'application/json'},
-            data: {
-                portfolio_id
-            }
+            headers: {'Content-Type': 'application/json'}
         })
         // Failed to authorize
         if (response.data.error) {
@@ -315,7 +313,7 @@ export const PortfolioProvider = ({children}) => {
   const createPortfolio = async (name, cb, main = 'f') => {
         // Query database with new portfolio
         try {
-            const response = await PortfolioRoute.post('/create-portfolio', {
+            const response = await Portfolios.post('/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 name,

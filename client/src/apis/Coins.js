@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Portfolio data route
+// Coin data route
 export default axios.create({
-    baseURL: '/api/v1/portfolio'
+    baseURL: '/api/v1/coins'
 });

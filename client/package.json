@@ -55,5 +55,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://api:3001"
+  "proxy": "http://localhost:3001"
 }
