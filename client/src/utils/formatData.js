@@ -5,10 +5,10 @@ const calculateProfitLossHoldings = (transactions) => {
     const calculated = transactions.map(t => {
         // unformatted profit/loss. Formatting turns number into a string
         // which will mess up the total profit loss addition
-        const profitLossUnf = (t.price - t.initial_price) * (t.asset_amount - (t.amount_sold || 0));
+        const profitLossUnf = t.transaction_type === 'buy' ? (t.price - t.initial_price) * (t.asset_amount - (t.amount_sold || 0)) : 0;
         totalProfitLoss += profitLossUnf
-        const holdings = ((t.asset_amount - (t.amount_sold || 0)) * t.price);
-        const initialHoldings = ((t.asset_amount - (t.amount_sold || 0)) * t.initial_price);
+        const holdings = t.transaction_type === 'buy' ? ((t.asset_amount - (t.amount_sold || 0)) * t.price) : 0;
+        const initialHoldings =  t.transaction_type === 'buy' ? ((t.asset_amount - (t.amount_sold || 0)) * t.initial_price) : 0;
         // merge calculated values with transaction data
         return {
             ...t,
@@ -25,10 +25,12 @@ const calculateTotalWorth = (assets) => {
     let worth = 0
     let initial = 0
     for (let i = 0; i < assets.length; i++) {
-        // Format asset price decimal places
-        assets[i].price = formatPPC(parseFloat(assets[i].price))
-        worth += assets[i].asset_amount * assets[i].price;
-        initial += assets[i].asset_amount * assets[i].initial_price;
+        if (assets[i].transaction_type === 'buy') {
+            // Format asset price decimal places
+            assets[i].price = formatPPC(parseFloat(assets[i].price))
+            worth += (assets[i].asset_amount - (assets[i].amount_sold || 0)) * assets[i].price;
+            initial += (assets[i].asset_amount - (assets[i].amount_sold || 0)) * assets[i].initial_price;
+        }
     }
     return {
         worth,
@@ -52,12 +54,20 @@ const mergeTransactions = (transactions) => {
             found.profitLossUnf += cur.profitLossUnf;
             found.holdings += cur.holdings;
             found.initialHoldings += cur.initialHoldings;
-            found.asset_amount += cur.asset_amount;
-            found.amount_sold += cur.amount_sold;
+            found.asset_amount += cur.transaction_type === 'buy' ? cur.asset_amount : 0
+            found.amount_sold += cur.amount_sold || 0
+            console.log(cur)
+   
         }
-        else accumulator.push(cur);
+        else {
+            if (cur.transaction_type === 'sell') {
+                cur.amount_sold = cur.asset_amount
+            }
+            accumulator.push(cur);
+        }
         return accumulator;
     }, []);
+    console.log(mergedTransactions)
     return mergedTransactions;
 }
 
@@ -105,11 +115,25 @@ const formatNumberV2 = (price) => {
     return price;
 }
 
+// merge user transactions with coinranking asset data
+const mergeWithCoinRankingData = (transactions, assets) => {
+    let array = transactions.map(transaction => {
+        let asset = assets.find(asset => transaction.asset_id === asset.uuid)
+        return {
+          ...transaction,
+          ...asset,
+        };
+    });
+    return array
+}
+
+
 const formatData = {
     calculateProfitLossHoldings,
     calculatePercentChange,
     calculateTotalWorth,
     mergeTransactions,
+    mergeWithCoinRankingData,
     sortAssets,
     formatNumber,
     formatNumberV2,

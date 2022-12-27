@@ -4,6 +4,7 @@ import { ButtonCreatePortfolio } from '../../styles/MaterialUi.styled';
 import { usePortfolio } from '../../contexts/PortfolioContext';
 import DeleteForm from './DeleteForm';
 import CreatePortfolioForm from './CreatePortfolioForm';
+import { toastError } from '../../utils/toasts';
 
 //Sidebar containing portfolios, create portfolio button
 const Sidebar = (props) => {
@@ -49,7 +50,7 @@ const Sidebar = (props) => {
     const handleDeletePortfolio = () => {
         setQueryLoading(true)
         deletePortfolio(selectedPortfolio, (e) => {
-            if (e) console.log(e)
+            if (e) toastError('Server error. Please try again later')
             else {
                 setDeletePortfolioFormDisplay(false)
             }
@@ -61,7 +62,7 @@ const Sidebar = (props) => {
         const {name} = data
         setQueryLoading(true)
         createPortfolio(name, (e) => {
-            if (e) console.log(e)
+            if (e) toastError('Server error. Please try again later')
             else {
                 setCreatePortfolioFormDisplay(false)
             }

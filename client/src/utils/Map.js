@@ -34,6 +34,10 @@ class Queue {
         return node
     }
 
+    next() {
+        return this.next
+    }
+
     update(val) {
         let node = new Node(val)
         if (this.length === 1) {
@@ -80,16 +84,19 @@ class Map {
         if (!this.map[key]) return val.price * val.amount
         // Get earliest transaction value
         let originalVal = this.map[key].peek()
+        // No more buy transactions left, sell transaction is entirely profit
         if (!originalVal) return  val.price * val.amount
         let newVal = {}
         let profit = 0
         while (originalVal) {
+            if (originalVal.t.transaction_date > val.date) {
+                break;
+            }
             // if sell transaction amount is larger than the buy transaction amount
-            if (val.amount > originalVal.amount) {
+            else if (val.amount > originalVal.amount) {
                 // subtract buy amount from sell amount
                 val.amount -= originalVal.amount
                 originalVal.t.amount_sold = originalVal.t.asset_amount
-                console.log(originalVal.t.amount_sold)
                 // remove earliest buy transaction from queue
                 this.map[key].dequeue()
                 // calculate profit
@@ -100,7 +107,6 @@ class Map {
             else {
                 newVal.amount = originalVal.amount - val.amount
                 originalVal.t.amount_sold = val.amount + (originalVal.t.amount_sold || 0)
-                console.log(val.amount, originalVal.t.amount_sold, originalVal.t.asset_amount)
                 newVal.price = originalVal.price
                 newVal.t = originalVal.t
                 profit += (val.price - originalVal.price) * val.amount

@@ -19,13 +19,16 @@ if (process.env.NODE_ENV === 'production') {
 /*****ROUTES******/
 
 //Browse routes
-app.use('/api/v1/browse', require('./src/routes/browse'));
+app.use('/api/v1/coins', require('./src/routes/coinsRoutes'));
 
 //Auth routes
 app.use('/api/v1/auth', require('./src/routes/authRoutes'));
 
-//Portfolio routes
-app.use('/api/v1/portfolio', require('./src/routes/portfolio'));
+//Portfolios routes
+app.use('/api/v1/portfolios', require('./src/routes/portfoliosRoutes'));
+
+//Transactions routes
+app.use('/api/v1/transactions', require('./src/routes/transactionsRoutes'))
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);

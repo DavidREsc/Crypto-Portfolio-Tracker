@@ -1,7 +1,7 @@
 import React from 'react'
 
 const AssetStats = (props) => {
-	const {quantity, balance, averageBuy, symbol} = props
+	const {quantity, balance, averageBuy, averageSell, symbol} = props
   return (
     <div className='transactions-stats-container'>
       <div className='transactions-stats'>
@@ -15,6 +15,10 @@ const AssetStats = (props) => {
       <div className='transactions-stats'>
         <p >Avg. Buy Price</p>
         <p className='transactions-stats-value'>{'$' + averageBuy}</p>
+      </div>
+      <div className='transactions-stats'>
+        <p >Avg. Sell Price</p>
+        <p className='transactions-stats-value'>{'$' + averageSell}</p>
       </div>
     </div>
   )
