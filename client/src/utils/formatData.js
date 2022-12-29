@@ -56,7 +56,6 @@ const mergeTransactions = (transactions) => {
             found.initialHoldings += cur.initialHoldings;
             found.asset_amount += cur.transaction_type === 'buy' ? cur.asset_amount : 0
             found.amount_sold += cur.amount_sold || 0
-            console.log(cur)
    
         }
         else {
@@ -67,7 +66,6 @@ const mergeTransactions = (transactions) => {
         }
         return accumulator;
     }, []);
-    console.log(mergedTransactions)
     return mergedTransactions;
 }
 

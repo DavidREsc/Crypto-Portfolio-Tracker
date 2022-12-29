@@ -74,6 +74,7 @@ const PortfolioAssets = (props) => {
     setTotalChange(change);
     setTotalProfitLoss(formatData.formatNumber(Math.abs(totalProfitLoss)));
     setLoading(false);
+    console.log("run assets")
   }, [transactions, assets, currentPortfolio]);
 
   useEffect(() => {

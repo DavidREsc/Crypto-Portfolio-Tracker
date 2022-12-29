@@ -29,8 +29,6 @@ const PortfolioTable = (props) => {
                 const profitLoss = formatData.formatNumber(
                   Math.abs(asset.profitLossUnf)
                 );
-                console.log(asset.asset_amount - (asset.amount_sold || 0));
-                console.log(asset.asset_amount, asset.amount_sold);
                 return (
                   <tr key={idx}>
                     {/* Asset name column */}

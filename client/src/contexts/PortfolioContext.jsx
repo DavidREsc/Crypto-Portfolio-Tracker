@@ -40,6 +40,7 @@ export const PortfolioProvider = ({children}) => {
         date: transaction.transaction_date,
       });
     });
+    console.log('Calculate capital gains')
     setCapitalGains(capitalGains.toFixed(2));
   }, []);
 
@@ -65,9 +66,11 @@ export const PortfolioProvider = ({children}) => {
             sellTransactions.push(transaction); // store sell transactions in separate array
           }
         }
+
       });
       calculateCapitalGains(map, sellTransactions);
       setMap(map);
+      console.log('Create hashmap')
     },
     [calculateCapitalGains]
   );
@@ -83,6 +86,7 @@ export const PortfolioProvider = ({children}) => {
     if (!portfolio)
       portfolio = portfolios.find((p) => p.portfolio_name === "Main"); // if not found, get the 'main' portfolio
     setCurrentPortfolio(portfolio); // set current portfolio
+    console.log('Init current portfolio')
     return portfolio;
   }, []);
 
@@ -99,6 +103,7 @@ export const PortfolioProvider = ({children}) => {
     const controller = new AbortController();
     const retrieveData = async () => {
       try {
+        console.log('run')
         const response = await Portfolios.get("/", {
           signal: controller.signal,
         });
@@ -112,7 +117,7 @@ export const PortfolioProvider = ({children}) => {
             setPortfolios(response.data.portfolios);
             setTransactions(merged);
             const currentPortfolio = initCurrentPortfolio(response.data.portfolios);
-            createBuyTransactionMap(currentPortfolio, merged);
+            createBuyTransactionMap(currentPortfolio.portfolio_id, merged);
             setLoading(false);
           }
         }
@@ -137,7 +142,6 @@ export const PortfolioProvider = ({children}) => {
   ]);
 
   const updateSelected = (selected) => {
-    console.log(selected)
     setSelected(selected);
   };
 

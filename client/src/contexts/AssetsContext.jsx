@@ -43,7 +43,7 @@ export const AssetsProvider = ({children}) => {
                 }
         }
         fetchAssets()
-        setInterval(fetchAssets, 180000)
+        setInterval(fetchAssets, 100000)
     },[])
 
     const value = {
