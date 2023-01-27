@@ -2,6 +2,7 @@ const db = require('../db')
 const Portfolio = {}
 
 Portfolio.create = (user, {name, main}) => {
+    console.log(user)
     return db.query(
         'INSERT INTO portfolios (user_id, portfolio_name, main) ' +
         'VALUES ($1, $2, $3) RETURNING *', [user, name, main]

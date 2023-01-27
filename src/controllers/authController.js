@@ -1,12 +1,15 @@
 const Auth = require('../models/auth')
 const Jwt = require('../models/jwt')
 const bcrypt = require('bcrypt');
+const Portfolio = require('../models/portfolio')
 const jwtGenerator = require('../utils/jwtGenerator');
 const AuthController = {}
 
 // Create a user
 AuthController.register = async (req, res, next) => {
     const {email, password} = req.body
+    req.body.name = 'Main'
+    req.body.main = true
     try {
         const user = await Auth.get(email)
         // Check if user already exists
@@ -21,12 +24,15 @@ AuthController.register = async (req, res, next) => {
 
         // create new user in database
         const newUser = await Auth.create(email, bcryptPassword)
+        // create a default portfolio
+        await Portfolio.create(newUser.rows[0].user_id, req.body)
         // generate new jwt
         const token = jwtGenerator(newUser.rows[0].user_id);
         // set http only cookie with jwt 
         res.cookie('crypto_portfolio_tracker', token, {httpOnly: true})
         res.status(201).json({email: newUser.rows[0].user_email})
     } catch (e) {
+        //console.log(e)
         res.status(500).json({error: "Server error"})
     }
     next()
