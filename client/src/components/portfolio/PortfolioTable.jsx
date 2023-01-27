@@ -1,5 +1,5 @@
-import React from "react";
-import formatData from "../../utils/formatData";
+import React, {useEffect} from "react";
+import {formatNumber, formatPercent, calculatePercentChange} from "../../utils/formatData";
 import { VscTriangleDown } from "react-icons/vsc";
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoIosAddCircle } from "react-icons/io";
@@ -26,7 +26,7 @@ const PortfolioTable = (props) => {
             {curPortfolioAssets &&
               curPortfolioAssets.map((asset, idx) => {
                 // Format decimal places for profit/loss
-                const profitLoss = formatData.formatNumber(
+                const profitLoss = formatNumber(
                   Math.abs(asset.profitLossUnf)
                 );
                 return (
@@ -45,7 +45,7 @@ const PortfolioTable = (props) => {
 
                     {/* Current asset price column */}
                     <td>
-                      {"$" + formatData.formatNumber(asset.price)}
+                      {"$" + formatNumber(asset.price)}
                       <div
                         className="d-change-active"
                         style={
@@ -87,7 +87,7 @@ const PortfolioTable = (props) => {
                     {/* Asset holdings (dollar amount and coin amount) */}
                     <td>
                       <div>
-                        {"$" + formatData.formatNumber(asset.holdings)}
+                        {"$" + formatNumber(asset.holdings)}
                         <p className="holdings">
                           {(
                             asset.asset_amount - (asset.amount_sold || 0)
@@ -118,9 +118,9 @@ const PortfolioTable = (props) => {
                         />
                         {(asset.profitLossPercent !== undefined
                           ? asset.profitLossPercent
-                          : formatData.formatPercent(
+                          : formatPercent(
                               Math.abs(
-                                formatData.calculatePercentChange(
+                                calculatePercentChange(
                                   asset.holdings,
                                   asset.initialHoldings
                                 )

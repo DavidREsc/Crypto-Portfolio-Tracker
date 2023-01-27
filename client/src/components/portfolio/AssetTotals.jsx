@@ -1,6 +1,6 @@
 import React from 'react'
 import {VscTriangleDown} from 'react-icons/vsc';
-import formatData from '../../utils/formatData';
+import {formatNumber} from '../../utils/formatData';
 
 const AssetTotals = (props) => {
 	const {totalWorth, totalChange, totalProfitLoss, capitalGains} = props
@@ -24,7 +24,7 @@ const AssetTotals = (props) => {
       <div className='capital-gains-container'>
         <h2>Capital Gains</h2>
         <p className='capital-gains'style={{color: capitalGains < 0 ? '#f44336' : 'hsl(145, 100%, 36%)'}}>
-        {capitalGains < 0 ? '-$' + formatData.formatNumber(Math.abs(capitalGains)) : '$' + formatData.formatNumber(capitalGains)}
+        {capitalGains < 0 ? '-$' + formatNumber(Math.abs(capitalGains)) : '$' + formatNumber(capitalGains)}
         </p>
       </div>
     </div>

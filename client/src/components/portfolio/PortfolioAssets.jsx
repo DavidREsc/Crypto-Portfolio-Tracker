@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import AssetTotals from "./AssetTotals";
 import { useAssets } from "../../contexts/AssetsContext";
-import formatData from "../../utils/formatData";
 import PortfolioTable from "./PortfolioTable";
 import DeleteForm from "./DeleteForm";
 import { usePortfolio } from "../../contexts/PortfolioContext";
@@ -9,6 +8,15 @@ import Button1 from "../buttons/Button1";
 import BrowseForm from "./BrowseForm";
 import TransactionForm from "./TransactionForm";
 import { toastError } from "../../utils/toasts";
+import {
+  calculateTotalWorth,
+  calculatePercentChange,
+  calculateProfitLossHoldings,
+  mergeTransactions,
+  formatNumber,
+  formatPPC,
+  sortAssets
+} from "../../utils/formatData"
 
 const PortfolioAssets = (props) => {
   const [totalWorth, setTotalWorth] = useState(0);
@@ -37,59 +45,32 @@ const PortfolioAssets = (props) => {
   const browseFormRef = useRef(null);
   const transactionFormRef = useRef(null);
 
+  // Perform all calculations for transactions in currently viewed portfolio
   useEffect(() => {
-    let worth = 0,
-      initial = 0,
-      change = 0,
-      totalProfitLoss = 0;
-    let curPortfolioAssets = [];
-    if (transactions.length) {
-      // filter for assets in current portfolio
-      curPortfolioAssets = transactions.filter(
-        (t) => t.portfolio_id === currentPortfolio.portfolio_id
-      );
+    const curPortfolioAssets = transactions.filter(
+      (t) => t.portfolio_id === currentPortfolio.portfolio_id
+    )
+    const {currentWorth, initialWorth} = calculateTotalWorth(curPortfolioAssets)
+    const totalPercentChange = calculatePercentChange(currentWorth, initialWorth)
+    const {calculatedTransactions, totalProfitLoss} = calculateProfitLossHoldings(curPortfolioAssets)
+    const mergedTransactions = mergeTransactions(calculatedTransactions)
+    mergedTransactions.sort(sortAssets)
 
-      // calculate total worth and percent change
-      if (curPortfolioAssets.length) {
-        let data = formatData.calculateTotalWorth(curPortfolioAssets);
-        worth = data.worth;
-        initial = data.initial;
-        change = formatData.calculatePercentChange(worth, initial);
-
-        // calculate profit/loss, holdings and initial holdings in dollars
-        let calculated =
-          formatData.calculateProfitLossHoldings(curPortfolioAssets);
-        curPortfolioAssets = calculated.calculated;
-        totalProfitLoss = calculated.totalProfitLoss;
-
-        // merge transactions
-        curPortfolioAssets = formatData.mergeTransactions(curPortfolioAssets);
-
-        // sort assets from greatest to least in holdings amount
-        curPortfolioAssets.sort(formatData.sortAssets);
-      }
-    }
-    setCurPortfolioAssets(curPortfolioAssets);
-    setTotalWorth(formatData.formatNumber(worth));
-    setTotalChange(change);
-    setTotalProfitLoss(formatData.formatNumber(Math.abs(totalProfitLoss)));
+    setCurPortfolioAssets(mergedTransactions)
+    setTotalWorth(formatNumber(currentWorth))
+    setTotalChange(totalPercentChange)
+    setTotalProfitLoss(formatNumber(Math.abs(totalProfitLoss)));
     setLoading(false);
-    console.log("run assets")
-  }, [transactions, assets, currentPortfolio]);
+  }, [transactions, assets, currentPortfolio])
 
+  // Add event listener for mouse click outside forms
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (deleteFormRef.current && !deleteFormRef.current.contains(e.target)) {
         setDeleteAssetFormDisplay(false);
-      } else if (
-        browseFormRef.current &&
-        !browseFormRef.current.contains(e.target)
-      ) {
+      } else if (browseFormRef.current && !browseFormRef.current.contains(e.target)) {
         setBrowseAssetFormDisplay(false);
-      } else if (
-        transactionFormRef.current &&
-        !transactionFormRef.current.contains(e.target)
-      ) {
+      } else if (transactionFormRef.current && !transactionFormRef.current.contains(e.target)) {
         setTransactionFormDisplay(false);
       }
     };
@@ -99,6 +80,7 @@ const PortfolioAssets = (props) => {
     };
   }, []);
 
+  // Handler for deleting all transactions of a particular asset
   const handleDeleteAsset = () => {
     setQueryLoading(true);
     deleteAsset((e) => {
@@ -110,12 +92,13 @@ const PortfolioAssets = (props) => {
     });
   };
 
+  // Handler for adding a transaction
   const handleAddTransaction = (data) => {
     const { quantity, pricePerCoin, type, reactDatepicker } = data;
     setQueryLoading(true);
     addTransaction(
       quantity,
-      parseFloat(formatData.formatPPC(pricePerCoin)),
+      parseFloat(formatPPC(pricePerCoin)),
       type,
       reactDatepicker.toLocaleDateString(),
       (e) => {
@@ -128,6 +111,7 @@ const PortfolioAssets = (props) => {
     );
   };
 
+  // Handler for selecting an asset in the choose asset form
   const handleSelect = (e) => {
     let asset = assets.filter((a) => a.uuid === e.target.dataset.asset)[0];
     updateSelected(asset);
@@ -190,7 +174,7 @@ const PortfolioAssets = (props) => {
               reference={transactionFormRef}
               addTransaction={handleAddTransaction}
               handleTrnsBackBtn={handleTrnsBackBtn}
-              defaultPrice={formatData.formatPPC(parseFloat(selected.price))}
+              defaultPrice={formatPPC(parseFloat(selected.price))}
               closeForm={() => setTransactionFormDisplay(false)}
               icon={selected.iconUrl}
               name={selected.name}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/browse.css';
 import {VscTriangleDown} from 'react-icons/vsc';
-import formatData from '../../utils/formatData';
+import {formatNumberV2} from '../../utils/formatData';
 import { useAssets } from '../../contexts/AssetsContext';
 
 // Displays coin data
@@ -26,7 +26,7 @@ const CoinList = (props) => {
                 <tbody>
                     {assets && assets.filter((coin, idx) => idx < limit).map((coin,idx) => {
                         // Format price decimal places
-                        let price = formatData.formatNumberV2(coin.price)
+                        let price = formatNumberV2(coin.price)
                         return (
                             <tr key={idx}>
                                 <td>{idx+1}</td>

@@ -1,5 +1,5 @@
 import React, {useRef, useEffect, useState} from 'react';
-import formatData from '../../utils/formatData'
+import {formatNumberV2} from '../../utils/formatData'
 import 'chartjs-adapter-moment';
 import '../../styles/coindetails.css';
 import {VscTriangleDown} from 'react-icons/vsc';
@@ -44,7 +44,7 @@ const Chart = (props) => {
       const timeStamps = priceHistory.history.filter(el => el.price !== null).map(el => el.timestamp * 1000);
       setPriceData(prices);
       setTimeData(timeStamps);
-      setCurrentPrice(formatData.formatNumberV2(coinDetails.price));
+      setCurrentPrice(formatNumberV2(coinDetails.price));
       setPercent(priceHistory.change);
 
     }, [priceHistory, coinDetails])

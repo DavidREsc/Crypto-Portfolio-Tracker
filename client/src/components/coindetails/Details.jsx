@@ -1,5 +1,5 @@
 import React from 'react'
-import formatData from '../../utils/formatData';
+import {formatNumberV2} from '../../utils/formatData';
 
 // Coin statistics - beside chart
 const Details = (props) => {
@@ -12,10 +12,10 @@ const Details = (props) => {
             <h2 className='details-title'>Statistics</h2>
             <li>NAME:<div>{coinDetails.name}</div></li>
             <li>RANK:<div>{coinDetails.rank}</div></li>
-            <li>PRICE:<div>{'$' + formatData.formatNumberV2(coinDetails.price)}</div></li>
-            <li>ATH:<div>{'$' + formatData.formatNumberV2(coinDetails.allTimeHigh.price)}</div></li>
-            <li>MARKET CAP:<div>{'$' + formatData.formatNumberV2(coinDetails.marketCap)} </div></li>
-            <li>AVAILABLE SUPPLY:<div>{formatData.formatNumberV2(coinDetails.supply.circulating)}</div></li>
+            <li>PRICE:<div>{'$' + formatNumberV2(coinDetails.price)}</div></li>
+            <li>ATH:<div>{'$' + formatNumberV2(coinDetails.allTimeHigh.price)}</div></li>
+            <li>MARKET CAP:<div>{'$' + formatNumberV2(coinDetails.marketCap)} </div></li>
+            <li>AVAILABLE SUPPLY:<div>{formatNumberV2(coinDetails.supply.circulating)}</div></li>
             <li>24H CHANGE:<div>{coinDetails.change + ' %'}</div></li>
         </ul>
     )

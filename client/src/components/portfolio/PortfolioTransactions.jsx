@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Button1 from "../buttons/Button1";
 import { usePortfolio } from "../../contexts/PortfolioContext";
-import formatData from "../../utils/formatData";
+import {formatNumber, formatPPC} from "../../utils/formatData";
 import AssetStats from "./AssetStats";
 import TransactionsTable from "./TransactionsTable";
 import TransactionsTitle from "./TransactionsTitle";
@@ -67,9 +67,9 @@ const PortfolioTransactions = (props) => {
         averageSell = averageSell / (numOfSellTransactions || 1);
 
         setQuantity(quantity.toFixed(6));
-        setBalance(formatData.formatNumber(balance));
-        setAverageBuy(formatData.formatNumber(averageBuy));
-        setAverageSell(formatData.formatNumber(averageSell));
+        setBalance(formatNumber(balance));
+        setAverageBuy(formatNumber(averageBuy));
+        setAverageSell(formatNumber(averageSell));
         setAssetTransactions(assetTransactions);
       }
       // triggers if you delete all transactions while this component is mounted
@@ -114,7 +114,7 @@ const PortfolioTransactions = (props) => {
     setQueryLoading(true);
     editTransaction(
       quantity,
-      parseFloat(formatData.formatPPC(pricePerCoin)),
+      parseFloat(formatPPC(pricePerCoin)),
       (e) => {
         if (e) toastError("Server error. Please try again later");
         else {

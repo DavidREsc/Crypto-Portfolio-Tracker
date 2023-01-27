@@ -8,7 +8,7 @@ import { toastError } from '../../utils/toasts';
 
 //Sidebar containing portfolios, create portfolio button
 const Sidebar = (props) => {
-    const {active, handleSidebar} = props
+    const {active, handleSidebar, showPortfolioTable} = props
     const {updateCurrentPortfolio, portfolios, currentPortfolio, deletePortfolio, createPortfolio} = usePortfolio()
     const [selectedPortfolio, setSelectedPortfolio] = useState()
     const [deletePortfolioFormDisplay, setDeletePortfolioFormDisplay] = useState(false)
@@ -36,6 +36,7 @@ const Sidebar = (props) => {
     const handleSelectPortfolio = (p) => {
         updateCurrentPortfolio(p)
         handleSidebar()
+        showPortfolioTable()
     }
 
     const showDeletePortfolioForm = (p) => {

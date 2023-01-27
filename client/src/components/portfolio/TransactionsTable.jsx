@@ -1,5 +1,5 @@
 import React from 'react'
-import formatData from '../../utils/formatData'
+import {formatNumber} from '../../utils/formatData'
 import {AiFillEdit} from 'react-icons/ai';
 import {IoMdCloseCircle} from 'react-icons/io';
 
@@ -35,12 +35,12 @@ const TransactionsTable = (props) => {
                     </td>
 
                     {/* Price bought at*/}
-                    <td>{'$' + formatData.formatNumber(t.initial_price)}</td>
+                    <td>{'$' + formatNumber(t.initial_price)}</td>
 
                     {/* Amount bought in dollars and quantity */}
                     <td>
                       <div>
-                        {'$' + formatData.formatNumber(t.asset_amount * t.initial_price)}
+                        {'$' + formatNumber(t.asset_amount * t.initial_price)}
                         <p className='holdings'>{t.asset_amount + " " + t.symbol}</p>
                       </div>
                     </td>

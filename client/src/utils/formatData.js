@@ -1,8 +1,8 @@
 // Calculate profit/loss and holdings for each transaction in current portfolio
 // as well as total profit/loss
-const calculateProfitLossHoldings = (transactions) => {
+export const calculateProfitLossHoldings = (transactions) => {
     let totalProfitLoss = 0
-    const calculated = transactions.map(t => {
+    const calculatedTransactions = transactions.map(t => {
         // unformatted profit/loss. Formatting turns number into a string
         // which will mess up the total profit loss addition
         const profitLossUnf = t.transaction_type === 'buy' ? (t.price - t.initial_price) * (t.asset_amount - (t.amount_sold || 0)) : 0;
@@ -17,35 +17,35 @@ const calculateProfitLossHoldings = (transactions) => {
             initialHoldings
         }
     })
-    return {calculated, totalProfitLoss}
+    return {calculatedTransactions, totalProfitLoss}
 }
 
 // Calculate current total worth and initial total worth of portfolio
-const calculateTotalWorth = (assets) => {
-    let worth = 0
-    let initial = 0
+export const calculateTotalWorth = (assets) => {
+    let currentWorth = 0
+    let initialWorth = 0
     for (let i = 0; i < assets.length; i++) {
         if (assets[i].transaction_type === 'buy') {
             // Format asset price decimal places
             assets[i].price = formatPPC(parseFloat(assets[i].price))
-            worth += (assets[i].asset_amount - (assets[i].amount_sold || 0)) * assets[i].price;
-            initial += (assets[i].asset_amount - (assets[i].amount_sold || 0)) * assets[i].initial_price;
+            currentWorth += (assets[i].asset_amount - (assets[i].amount_sold || 0)) * assets[i].price;
+            initialWorth += (assets[i].asset_amount - (assets[i].amount_sold || 0)) * assets[i].initial_price;
         }
     }
     return {
-        worth,
-        initial
+        currentWorth,
+        initialWorth
     }
 }
 
 // Calculates percent change between current price and initial price 
 // asset was purchased at
-const calculatePercentChange = (current, initial) => {
+export const calculatePercentChange = (current, initial) => {
     if (current === 0) return 0
     return (((current - initial) / initial) * 100).toFixed(2)
 }
 
-const mergeTransactions = (transactions) => {
+export const mergeTransactions = (transactions) => {
     let mergedTransactions = transactions.reduce((accumulator, cur) => {
         let uuid = cur.uuid, found = accumulator.find(elem => {
             return elem.uuid === uuid
@@ -69,13 +69,13 @@ const mergeTransactions = (transactions) => {
     return mergedTransactions;
 }
 
-const sortAssets = (a, b) => {
+export const sortAssets = (a, b) => {
     if (a.holdings < b.holdings) return 1;
     if (a.holdings > b.holdings) return -1;
     return 0;
 }
 
-const formatPPC = (num) => {
+export const formatPPC = (num) => {
 	if (num >= 1) return num.toFixed(2)
 	else if (num < 1 && num > 0.1) return num.toFixed(4)
 	else if (num < 0.1 && num > 0.01) return num.toFixed(5)
@@ -86,7 +86,7 @@ const formatPPC = (num) => {
 	else return num.toFixed(12)
 }
 
-const formatNumber = (num) => {
+export const formatNumber = (num) => {
     num = parseFloat(num)
     if (num >= 1 || num === 0) return num.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2})
 	else if (num < 1 && num > 0.1) return num.toLocaleString(undefined, {maximumFractionDigits: 4, minimumFractionDigits: 4})
@@ -98,13 +98,13 @@ const formatNumber = (num) => {
 	else return num.toLocaleString(undefined, {maximumFractionDigits: 12, minimumFractionDigits: 12})
 }
 
-const formatPercent = (num) => {
+export const formatPercent = (num) => {
     num = parseFloat(num)
     if (num % 1 === 0) return num.toLocaleString(undefined, {maximumFractionDigits: 0})
     else return num.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
 }
 
-const formatNumberV2 = (price) => {
+export const formatNumberV2 = (price) => {
     price = parseFloat(price);
     if (price === null) price = 'Unlimited';
     else if (price > 1 ) price = price.toLocaleString(undefined, {maximumFractionDigits: 2});
@@ -114,7 +114,7 @@ const formatNumberV2 = (price) => {
 }
 
 // merge user transactions with coinranking asset data
-const mergeWithCoinRankingData = (transactions, assets) => {
+export const mergeWithCoinRankingData = (transactions, assets) => {
     let array = transactions.map(transaction => {
         let asset = assets.find(asset => transaction.asset_id === asset.uuid)
         return {
@@ -124,19 +124,3 @@ const mergeWithCoinRankingData = (transactions, assets) => {
     });
     return array
 }
-
-
-const formatData = {
-    calculateProfitLossHoldings,
-    calculatePercentChange,
-    calculateTotalWorth,
-    mergeTransactions,
-    mergeWithCoinRankingData,
-    sortAssets,
-    formatNumber,
-    formatNumberV2,
-    formatPPC,
-    formatPercent
-}
-
-export default formatData

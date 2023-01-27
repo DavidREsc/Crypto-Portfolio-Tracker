@@ -31,14 +31,6 @@ const Portfolio = () => {
         setSidebarActive(prevState => !prevState)
     }
 
-    useEffect(() => {
-        if (!portfolios.length) {
-            createPortfolio('Main', (e) => {
-                if (e) console.log(e)
-            }, true)
-        }
-    }, [portfolios, createPortfolio])
-
     return (
             <div className='portfolio-page'>
                 {portfolios && transactions && currentPortfolio &&
@@ -47,7 +39,7 @@ const Portfolio = () => {
                     {!transactionsDisplay && <button className='mobile-cur-portfolio' onClick={handleSidebar}>
                         {currentPortfolio.portfolio_name} 
                     </button>}
-                    <Sidebar active={sidebarActive} handleSidebar={handleSidebar}/>
+                    <Sidebar active={sidebarActive} handleSidebar={handleSidebar} showPortfolioTable={showPortfolioTable}/>
                     {contentDisplay && <PortfolioAssets
                         showTransactionsTable={showTransactionsTable}
                     />}
