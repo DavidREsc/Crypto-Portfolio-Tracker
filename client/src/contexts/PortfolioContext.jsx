@@ -87,7 +87,6 @@ export const PortfolioProvider = ({children}) => {
 
   // retrieve user portfolios and assets
   useEffect(() => {
-    console.log("Portfolio Context")
     const controller = new AbortController();
     const retrieveData = async () => {
       try {
