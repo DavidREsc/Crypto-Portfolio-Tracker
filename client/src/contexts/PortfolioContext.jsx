@@ -315,6 +315,7 @@ export const PortfolioProvider = ({children}) => {
       setPortfolios((prevState) => prevState.concat(data.rows[0]));
       cb();
     } catch (e) {
+      console.log(e)
       cb(e);
     }
   };
