@@ -8,7 +8,7 @@ PortfolioController.createPortfolio = async (req, res, next) => {
         res.status(200).json(portfolio);
     } catch (error) {
         console.log("error");
-        res.send(500)
+        res.send(error)
     }
 }
 
